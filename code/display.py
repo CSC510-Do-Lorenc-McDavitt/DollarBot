@@ -87,6 +87,7 @@ def display_total(message, bot):
         bot.send_chat_action(chat_id, "typing")
         time.sleep(0.5)
 
+        queryResult = None
         total_text = ""
         if DayWeekMonth == "Day":
             query = datetime.now().today().strftime(helper.getDateFormat())
