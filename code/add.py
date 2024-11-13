@@ -38,51 +38,100 @@ option = {}
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the add feature.
-    It pop ups a menu on the bot asking the user to choose their expense category,
-    after which control is given to post_category_selection(message, bot) for further proccessing.
-    It takes 2 arguments for processing - message which is the message from the user,
-    and bot which is the telegram bot object from the main code.py function.
+    It prompts the user to decide whether to add the expense to a group or a category.
     """
-    helper.read_json()
-    helper.read_category_json()
     chat_id = message.chat.id
-    message = bot.send_message(chat_id, "Select date")
-    calendar, step = DetailedTelegramCalendar().build()
-    bot.send_message(chat_id, f"Select {LSTEP[step]}", reply_markup=calendar)
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    markup.row_width = 2
+    markup.add(types.KeyboardButton("Individual"), types.KeyboardButton("Group"))
 
-    @bot.callback_query_handler(func=DetailedTelegramCalendar.func())
-    def cal(c):
-        chat_id = c.message.chat.id
-        result, key, step = DetailedTelegramCalendar().process(c.data)
+    # Reset the option for the current user when starting a new flow
+    option[chat_id] = {}  # Reset the option for the current user
 
-        if not result and key:
-            bot.edit_message_text(
-                f"Select {LSTEP[step]}",
-                chat_id,
-                c.message.message_id,
-                reply_markup=key,
-            )
-        elif result:
-            data = datetime.today().date()
-            if (result > data):
-                bot.send_message(chat_id,"Cannot select future dates, Please try /add command again with correct dates")
-            else:
-                category_selection(message,bot,result)
+    msg = bot.send_message(chat_id, "Do you want to add this expense to an individual or a group?", reply_markup=markup)
+    bot.register_next_step_handler(msg, handle_group_check, bot)
 
-def category_selection(msg,bot,date):
+def handle_group_check(message, bot):
     """
-    category_selection(msg, bot, date): Handles the selection of expense categories.
-
-    Parameters:
-    - msg (telegram.Message): The message object received from the user.
-    - bot (telegram.Bot): The Telegram bot object.
-    - date (datetime.datetime): The date associated with the expense.
-
-    This function generates a keyboard with available expense categories, prompts the user to select a category,
-    and registers the next step handler to handle the amount input. If no categories are available, it informs
-    the user to add a category first.
+    Handles whether the user wants to add the expense to a group or not based on button selection.
     """
-    
+    chat_id = message.chat.id
+    choice = message.text.lower()
+
+    if choice == "group":
+        msg = bot.send_message(chat_id, "Enter the group name:")
+        bot.register_next_step_handler(msg, handle_group_name, bot)
+    elif choice == "individual":
+        msg = bot.send_message(chat_id, "Select date")
+        calendar, step = DetailedTelegramCalendar().build()
+        bot.send_message(chat_id, f"Select {LSTEP[step]}", reply_markup=calendar)
+
+        @bot.callback_query_handler(func=DetailedTelegramCalendar.func())
+        def cal(c):
+            chat_id = c.message.chat.id
+            result, key, step = DetailedTelegramCalendar().process(c.data)
+
+            if not result and key:
+                bot.edit_message_text(
+                    f"Select {LSTEP[step]}",
+                    chat_id,
+                    c.message.message_id,
+                    reply_markup=key,
+                )
+            elif result:
+                data = datetime.today().date()
+                if result > data:
+                    bot.send_message(chat_id, "Cannot select future dates. Please try /add command again with correct dates.")
+                else:
+                    category_selection(message, bot, result, group_name=None)  # group_name=None means individual flow
+    else:
+        bot.send_message(chat_id, "Invalid choice. Please choose from the buttons.")
+
+def handle_group_name(message, bot):
+    """
+    Handles adding expenses to the specified group.
+    Ensures that the group exists before proceeding to add the expense.
+    """
+    chat_id = message.chat.id
+    group_name = message.text
+
+    groups = helper.load_group_data()
+
+    if group_name in groups:
+        # Store the group name in the option dictionary for the current user
+        option[chat_id]['group_name'] = group_name  # Track group name in option
+
+        # Proceed to ask for date for group expense
+        msg = bot.send_message(chat_id, "Select date")
+        calendar, step = DetailedTelegramCalendar().build()
+        bot.send_message(chat_id, f"Select {LSTEP[step]}", reply_markup=calendar)
+
+        @bot.callback_query_handler(func=DetailedTelegramCalendar.func())
+        def cal(c):
+            chat_id = c.message.chat.id
+            result, key, step = DetailedTelegramCalendar().process(c.data)
+
+            if not result and key:
+                bot.edit_message_text(
+                    f"Select {LSTEP[step]}",
+                    chat_id,
+                    c.message.message_id,
+                    reply_markup=key,
+                )
+            elif result:
+                data = datetime.today().date()
+                if result > data:
+                    bot.send_message(chat_id, "Cannot select future dates. Please try /add command again with correct dates.")
+                else:
+                    category_selection(message, bot, result, group_name)  # Pass group_name for group flow
+    else:
+        bot.send_message(chat_id, f"Group '{group_name}' does not exist. Please create a new group with /group.")
+
+def category_selection(msg, bot, date, group_name=None):
+    """
+    Handles the selection of expense categories for both individuals and groups.
+    If group_name is None, it's an individual expense.
+    """
     try:
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
         markup.row_width = 2
@@ -93,18 +142,14 @@ def category_selection(msg,bot,date):
             for c in categories:
                 markup.add(c)
             msg = bot.reply_to(msg, "Select Category", reply_markup=markup)
-            bot.register_next_step_handler(msg, post_category_selection, bot, date)
+            bot.register_next_step_handler(msg, post_category_selection, bot, date, group_name)
     except Exception as e:
         print(e)
 
-
-def post_category_selection(message, bot, date):
+def post_category_selection(message, bot, date, group_name=None):
     """
-    post_category_selection(message, bot): It takes 3 arguments for processing -
-    message which is the message from the user, and bot which is the telegram bot object
-    from the run(message, bot): function in the add.py file. It requests the user to enter the amount
-    they have spent on the expense category chosen and then passes control to
-    post_amount_input(message, bot): for further processing.
+    Processes the selected category and asks for the expense amount.
+    Handles both individual and group flows based on the presence of group_name.
     """
     try:
         chat_id = message.chat.id
@@ -116,36 +161,30 @@ def post_category_selection(message, bot, date):
             raise Exception(
                 'Sorry, I don\'t recognise this category "{}"!'.format(selected_category)
             )
-        option[chat_id] = selected_category
-        message = bot.send_message(
-            chat_id, "How much did you spend on {}? \n(Numeric values only)".format(str(option[chat_id])),)
-        bot.register_next_step_handler(message, post_amount_input, bot, selected_category, date)
+        
+        # Store the category in the option dictionary
+        option[chat_id]['category'] = selected_category
+
+        msg = bot.send_message(
+            chat_id, "How much did you spend on {}? \n(Numeric values only)".format(str(option[chat_id]['category'])),
+        )
+        bot.register_next_step_handler(msg, post_amount_input, bot, selected_category, date, group_name)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, "Oh no! " + str(e))
-        display_text = ""
-        commands = helper.getCommands()
-        for c in commands:
-            # generate help text out of the commands dictionary defined at the top
-            display_text += "/" + c + ": "
-            display_text += commands[c] + "\n"
-        bot.send_message(chat_id, "Please select a menu option from below:")
-        bot.send_message(chat_id, display_text)
 
-
-def post_amount_input(message, bot, selected_category, date):
+def post_amount_input(message, bot, selected_category, date, group_name=None):
     """
-    post_amount_input(message, bot): It takes 2 arguments for processing -
-    message which is the message from the user, and bot which is the telegram bot
-    object from the post_category_selection(message, bot): function in the add.py file.
-    It takes the amount entered by the user, validates it with helper.validate() and then
-    calls add_user_record to store it.
+    Handles the input of the expense amount and stores it.
+    Works for both individual and group expenses.
     """
     try:
-        print("---------------------------------------------------")
         chat_id = message.chat.id
         amount_entered = message.text
-        amount_value = helper.validate_entered_amount(amount_entered)  # validate
+        
+        # Ensure the amount is converted to a float (will raise ValueError if invalid)
+        amount_value = float(helper.validate_entered_amount(amount_entered))  # validate
+
         if amount_value == 0:  # cannot be $0 spending
             raise Exception("Spent amount has to be a non-zero number.")
 
@@ -155,27 +194,49 @@ def post_amount_input(message, bot, selected_category, date):
             str(selected_category),
             str(amount_value),
         )
-        helper.write_json(
-            add_user_record(
-                chat_id, "{},{},{}".format(date_str, category_str, amount_str)
+
+        if group_name:  # Group flow
+            groups = helper.load_group_data()
+            
+            # Convert amount_value to a float if it isn't already
+            expense_record = {"date": date_str, "category": category_str, "amount": amount_value}
+            groups[group_name]['expenses'].append(expense_record)
+
+            # Make sure 'total_spent' is a float to allow addition
+            groups[group_name]['total_spent'] += amount_value
+
+            # Calculate the per-member share
+            group_size = groups[group_name]['size']
+            per_member_share = groups[group_name]['total_spent'] / group_size
+
+            # Persist the updated group data
+            helper.save_group_data(groups)
+
+            bot.send_message(chat_id, f"Expense of ${amount_value} for '{category_str}' added to group '{group_name}' on {date_str}.")
+            bot.send_message(chat_id, f"Each member now owes: ${per_member_share:.2f}")
+
+        else:  # Individual flow
+            helper.write_json(
+                add_user_record(
+                    chat_id, "{},{},{}".format(date_str, category_str, amount_str)
+                )
             )
-        )
-        bot.send_message(
-            chat_id,
-            "The following expenditure has been recorded: You have spent ${} for {} on {}".format(
-                amount_str, category_str, date_str
-            ),
-        )
-        helper.display_remaining_budget(message, bot)
+            bot.send_message(
+                chat_id,
+                "The following expenditure has been recorded: You have spent ${} for {} on {}".format(
+                    amount_str, category_str, date_str
+                ),
+            )
+            helper.display_remaining_budget(message, bot)
+    except ValueError:
+        bot.send_message(chat_id, "Please enter a valid number for the expense.")
     except Exception as e:
         logging.exception(str(e))
         bot.send_message(chat_id, "Oh no. " + str(e))
 
 def add_user_record(chat_id, record_to_be_added):
     """
-    add_user_record(chat_id, record_to_be_added): Takes 2 arguments -
-    chat_id or the chat_id of the user's chat, and record_to_be_added which
-    is the expense record to be added to the store. It then stores this expense record in the store.
+    Stores the expense record for the user.
     """
     user_list = helper.read_json()
     if str(chat_id) not in user_list:
@@ -183,3 +244,4 @@ def add_user_record(chat_id, record_to_be_added):
 
     user_list[str(chat_id)]["data"].append(record_to_be_added)
     return user_list
+    
