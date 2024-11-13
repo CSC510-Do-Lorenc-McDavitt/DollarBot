@@ -11,6 +11,9 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/tpanati/DollarBot)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/tpanati/DollarBot)
 [![Build Status](https://app.travis-ci.com/usmanwardag/dollar_bot.svg?branch=main)](https://app.travis-ci.com/usmanwardag/dollar_bot)
+[![Flake8](https://img.shields.io/badge/lint-flake8-blue)](https://github.com/KomachiZ/DollarBot/blob/project2/.github/workflows/python-app.yml)
+[![PyLint](https://img.shields.io/badge/pylint-9.5%2F10-orange)](https://github.com/KomachiZ/DollarBot/blob/project2/.github/workflows/python-app.yml)
+[![Bandit](https://img.shields.io/badge/bandit-passing-brightgreen)](https://github.com/KomachiZ/DollarBot/blob/project2/.github/workflows/python-app.yml)
 
 # 💰 Dollar Bot 💰
 
@@ -31,13 +34,13 @@ And the best part? DollarBot is your financial sidekick, available exclusively o
 </p>
 <hr>
 
-## Scorecard
-
-[Score card - Group 13](https://github.com/tpanati/DollarBot/blob/main/proj3/DollarBot_proj3_scorecard.csv)
 
 ## Demo Video
 
 <a href="https://youtu.be/bAio20DZ_-I">https://youtu.be/bAio20DZ_-I</a>
+
+## Our New Feature Demo
+<a href="https://youtu.be/bAio20DZ_-I">[https://www.youtube.com/watch?v=st0KOOYG-kc](https://www.youtube.com/watch?v=st0KOOYG-kc)</a>
 
 
 ## :money_with_wings: About DollarBot
@@ -64,14 +67,11 @@ With simple commands, this bot allows you to:
 
 # :star: What's New?
 
-- **Machine Learning Predictions:** Implemented machine learning techniques for predictive analytics, enhancing the accuracy and efficiency of expense predictions.
-- **Email Notification Command:** Introduced a convenient send email command. When executed, this command automatically sends an email to the user containing detailed expenditure information.
-- **CSV Export Command:** Implemented the csv command to export expenditure details to a CSV file. Users can execute this command to efficiently save and manage their financial data.
-- **Weekly Expense Analysis:** Included a `weekly analysis` command to provide users with a comprehensive analysis of their expenses on a weekly basis.
-- **Monthly Expense Analysis:** Introduced a `monthly analysis` command, enabling users to gain insights into their spending patterns over the course of a month.
-- **Category Management:** Empowered users with the ability to manage expense categories. Users can add, edit, or delete categories according to their preferences.
-- **Recurring Expenses:** Added the functionality for users to track recurring expenses. This feature facilitates the management of regularly occurring financial commitments.
-- **Bug Fixes and Improved Flow:** Addressed numerous bugs and issues to enhance the overall stability and user experience of the application. The latest updates include fixes to issues related to the previous flow of the application, ensuring a smoother and more reliable user interaction. Our commitment to quality assurance and user satisfaction is reflected in these improvements.
+🤖 **NLP Functionality:** Integrated with the ChatGPT API, allowing the dollarbot to respond to casual conversations based on your private data.
+
+👥 **Group Expense:** Integrated a group functionality, users can create (and delete) groups, and are able to add expenses as either individual costs or group costs. 
+
+💲 **Multi-Currency support:** Implemented a currency exchange functionality to allow users to view their cost in currencies other than USD.
 
 Are you a developer? <a href="https://github.com/tpanati/DollarBot/blob/main/README.md">Click here: For Developers and Future Contributors</a>
 
@@ -83,6 +83,7 @@ Since DollarBot is built on top of Telegram, you'll first need:
 1. Download the Telegram Desktop Application <a href="https://desktop.telegram.org/">here.</a>
 ```https://desktop.telegram.org/```
 2. Create a Telegram account or Sign in.
+3. Obtain OpenAI key: <a href="https://platform.openai.com/api-keys">here.</a> You need to generate a GPT API key through the OpenAI website to enable the chat function.
 
 Open up your terminal and let's get started:
 
@@ -90,7 +91,7 @@ Open up your terminal and let's get started:
 
 1. Clone this repository to your local system. 
 ```
-   git clone https://github.com/aditikilledar/dollar_bot_SE23/
+   git clone https://github.com/KomachiZ/DollarBot/tree/project2
 ```
 2. Start a terminal session in the directory where the project has been cloned. Run the following commands and follow the instructions on-screen to complete the installation.
 ```
@@ -257,21 +258,55 @@ This option is to get the monthly analysis report of the expenditure
 <p align="center"><img width="700" src="./docs/workflows/monthly.gif"></p>
 It can be invoked by using `/monthly` command.
 
+## New Features Demo
+## Group
+<p align="center"><img width="700" src="./docs/workflows/group.gif"></p>
+It can be invoked by using `/group` command.
+
+
+## Chat
+<p align="center"><img width="700" src="./docs/workflows/chat.gif"></p>
+It can be invoked by using `/chat` command.
+
+## Currency
+<p align="center"><img width="700" src="./docs/workflows/currency.gif"></p>
+It can be invoked by using `/history` command.  
+
+<p align="center"><img width="700" src="./docs/workflows/currencyother.gif"></p>  
+Here are some other features about currency:  
+
+1. /currency: Lists all supported currencies, allowing users to view available options for conversions.
+
+2. /convert: Converts a specified currency to USD and provides the current exchange rate.
+
+3. /currencycalculator: Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies.
+
+
+
+
 # :construction: Road Map
 
 Our implementation has been tracked in a project board which can be viewed here -
 [DollarBot Developer board](https://github.com/users/tpanati/projects/2)
 
 Some possible future enhancements are as follows:
+<!-- 
 1.	**AI-Driven Financial Insights:** Integrate advanced generative AI algorithms to provide personalized financial insights and recommendations. Leverage machine learning to analyze spending patterns and offer proactive suggestions for optimizing expenses.
 2.	**Expense Sharing and Splitting:** Enable users to share expenses effortlessly with friends, family, or colleagues. Implement a feature that allows users to split bills and track shared expenses, making group financial management seamless.
 3.	**Cross-Platform Compatibility:** Develop setup scripts specifically for Windows users to ensure a smooth and hassle-free installation process on this platform. Expand DollarBot's accessibility to a broader user base by optimizing its performance on Windows operating systems.
-4.	**Natural Language Processing (NLP) Integration:** Enhance DollarBot's user experience by implementing Natural Language Processing (NLP) capabilities. Enable the bot to respond to casual conversation, making interactions more intuitive and user-friendly. Users can engage with DollarBot in a more conversational manner, improving overall usability.
+4.	**LLM Agent Integration:** Integrate more third-party tools to collaborate with the ChatGPT, constructing it into a life assistant agent that retrieves daily activities and billing information from Google Calendar and credit card systems for automatic statistical analysis.
 5.  **Integration with Financial APIs:** Integrate with popular financial APIs to fetch real-time transaction data from bank accounts and credit cards. This enhancement provides users with up-to-the-minute financial information, ensuring accuracy and completeness in their spending records.
 6.  **Multi-Currency Support:** Extend DollarBot's functionality to support multiple currencies, catering to users with diverse financial portfolios. This enhancement ensures accurate tracking and reporting for users dealing with expenses in different currencies.
 7.  **Smart Notifications and Alerts:** Implement intelligent notification features to alert users about budget limits, unusual spending patterns, or upcoming bills. These proactive notifications will empower users to make informed financial decisions in real-time.
 8.  **Secure Cloud Sync and Backup:** Implement a secure cloud sync and backup feature to ensure users' data is protected and accessible across devices. This enhancement provides users with peace of mind, knowing that their financial data is safely stored and can be easily recovered if needed.
-
+-->
+1.	**LLM Agent Integration:** Integrate more third-party tools to collaborate with the ChatGPT, constructing it into a life assistant agent that retrieves daily activities and billing information from Google Calendar and credit card systems for automatic statistical analysis.
+2.	**Multi-Currency Support:** Currency DB with Investment Insights: Collect currency trends, provide investment advice based on fluctuations, and integrate NLP for user interaction.
+3.	**Expense Splitting - further:** Integrate group functionalities into other functionalities, for example, edit expenses, delete expenses, send emails to each person, etc.
+4.	**Cross-Platform Compatibility:** Develop setup scripts specifically for Windows users to ensure a smooth and hassle-free installation process on this platform. Expand DollarBot's accessibility to a broader user base by optimizing its performance on Windows operating systems.
+5.  **Integration with Financial APIs:** Integrate with popular financial APIs to fetch real-time transaction data from bank accounts and credit cards. This enhancement provides users with up-to-the-minute financial information, ensuring accuracy and completeness in their spending records.
+6.  **Smart Notifications and Alerts:** Implement intelligent notification features to alert users about budget limits, unusual spending patterns, or upcoming bills. These proactive notifications will empower users to make informed financial decisions in real-time.
+7.  **Secure Cloud Sync and Backup:** Implement a secure cloud sync and backup feature to ensure users' data is protected and accessible across devices. This enhancement provides users with peace of mind, knowing that their financial data is safely stored and can be easily recovered if needed.
 
 :heart: Acknowledgements
 ---
@@ -285,12 +320,12 @@ This project is licensed under the terms of the MIT license. Please check [LICEN
 ## Contributors
 <table>
   <tr>
-    <td align="center"><img src="https://avatars.githubusercontent.com/u/114872378?v=4" width="75px;" alt=""/><br /><sub><b>Harshavardhan Bandaru</b></sub></a></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/u/35067896?v=4" width="75px;" alt=""/><br /><sub><b>Vyshnavi Adusumeli</b></sub></a><br /></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/u/144171816?s=400&u=e9fb80d2e9acb2fc438881017b49e6d26720a50d&v=4" width="75px;" alt=""/><br /><sub><b>Tejaswini Panati</b></sub></a><br /></td>
+    <td align="center"><img src="https://avatars.githubusercontent.com/u/32158594?s=400&u=3f1cff6877bbb68b411e8854f2d482a36139d766&v=4" width="75px;" alt=""/><br /><sub><b>Haojie Zhou</b></sub></a></td>
+    <td align="center"><img src="https://avatars.githubusercontent.com/u/35067896?v=4" width="75px;" alt=""/><br /><sub><b>Jiewen Liu</b></sub></a><br /></td>
+    <td align="center"><img src="https://avatars.githubusercontent.com/u/118965984?v=4" width="75px;" alt=""/><br /><sub><b>Yumo Shen</b></sub></a><br /></td>
   </tr>
 </table>
 
 # :calling: Support
 
-For any support, email us at `vadusum@ncsu.edu`
+For any support, email us at `jshen23@ncsu.edu`
