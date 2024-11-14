@@ -42,10 +42,12 @@ jobs:
         pylint -r y code/ || true
     - name: Test with pytest
       run: |
-        pip install coverage
-        coverage run -m pytest test/test_group.py
-        coverage run -m pytest test/test_chat.py
-        coverage run -m pytest test/test_currency.py
+        pip install pytest
+        pytest test/
+    - name: Coverage with pytest
+      run: |
+        pip install pytest-cov
+        pytest --cov=code test/
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       with:
