@@ -12,6 +12,7 @@
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/CSC510-Do-Lorenc-McDavitt/DollarBot)
 [![Build Status](https://app.travis-ci.com/usmanwardag/dollar_bot.svg?branch=main)](https://app.travis-ci.com/usmanwardag/dollar_bot)
 [![Flake8](https://img.shields.io/badge/lint-flake8-blue)](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/project2/.github/workflows/python-app.yml)
+[![autopep8](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/actions/workflows/autopep8.yml/badge.svg?branch=main)](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/actions/workflows/autopep8.yml)
 [![PyLint](https://img.shields.io/badge/pylint-9.5%2F10-orange)](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/project2/.github/workflows/python-app.yml)
 [![Bandit](https://img.shields.io/badge/bandit-passing-brightgreen)](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/project2/.github/workflows/python-app.yml)
 
