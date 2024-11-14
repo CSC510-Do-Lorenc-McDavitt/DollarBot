@@ -220,7 +220,7 @@ Keep responses concise and specific to the user's data."""
 
             def get_chatgpt_response():
                 return openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
+                    model="gpt-4o-mini",
                     messages=self.conversations[chat_id],
                     temperature=0.7
                 )
