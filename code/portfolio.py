@@ -11,7 +11,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-def buyStock(stock: str, numShares: int):
+def buyStock(stock: str, numShares: int, pricePerShare: float):
     ticker = yf.Ticker(stock)
     print(ticker.history(period="1mo"))
     return 0
