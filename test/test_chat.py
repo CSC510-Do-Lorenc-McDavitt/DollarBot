@@ -56,7 +56,7 @@ mock_open_patcher.start()
 # Import ChatGPTHandler after applying the mock
 if 'code.chat' in sys.modules:
     importlib.reload(sys.modules['code.chat'])
-from code.chat import ChatGPTHandler
+from chat import ChatGPTHandler
 import json
 
 # Mock data for testing

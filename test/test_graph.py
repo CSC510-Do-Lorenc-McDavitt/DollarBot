@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from code import graphing
+import graphing
 import numpy as np
 
 dummy_total_text_none = ""
