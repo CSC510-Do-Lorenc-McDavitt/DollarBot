@@ -1,0 +1,41 @@
+# This workflow will install Python dependencies, run autopep8
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: autopep8
+
+on:
+  push:
+    branches: [ "main", "feature/autopep8" ]
+  pull_request:
+    branches: [ "main", "feature/autopep8" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+    - name: Static analysis with autopep8
+      run: |
+        pip install --upgrade autopep8
+        autopep8 --in-place --exit-code code/*.py
+        git add .
+        git config --local user.name "auto generate docs"
+        git config --local user.email "actions@github.com"
+        git diff-index --quiet HEAD || git commit -m "CI: Automated build push" -a
+    - name: Push autoformatting
+      if: github.ref == 'refs/heads/main'
+      uses: ad-m/github-push-action@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
