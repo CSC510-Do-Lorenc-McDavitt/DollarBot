@@ -27,7 +27,7 @@ SOFTWARE.
 
 import os
 import json
-from code import delete
+import delete
 from mock import patch
 from mock import MagicMock, patch
 from telebot import types

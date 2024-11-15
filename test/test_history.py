@@ -27,7 +27,7 @@ SOFTWARE.
 
 import os
 import json
-from code import history
+import history
 from mock.mock import patch
 from telebot import types
 

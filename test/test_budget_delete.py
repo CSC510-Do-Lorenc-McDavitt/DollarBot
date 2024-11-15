@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from code import budget_delete
+import budget_delete
 from mock.mock import patch
 from telebot import types
 
