@@ -5,9 +5,9 @@ name: Python application
 
 on:
   push:
-    branches: [ "project2" ]
+    branches: [ main, "feature/*", "*" ]
   pull_request:
-    branches: [ "project2" ]
+    branches: [ main, "feature/*", "*" ]
 
 permissions:
   contents: read
@@ -40,12 +40,12 @@ jobs:
     - name: Run pylint
       run: |
         pylint -r y code/ || true
-    - name: Test with pytest
+    - name: Test with Pytest & Coverage
       run: |
+        pip install pytest
         pip install coverage
-        coverage run -m pytest test/test_group.py
-        coverage run -m pytest test/test_chat.py
-        coverage run -m pytest test/test_currency.py
+        pytest test/
+        coverage run -m pytest test/
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       with:

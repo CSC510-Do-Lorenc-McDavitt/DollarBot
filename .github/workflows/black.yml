@@ -5,9 +5,9 @@ name: Format code
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [ main, "feature/*", "*" ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, "feature/*", "*" ]
 
 jobs:
   format:
