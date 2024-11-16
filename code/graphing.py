@@ -188,3 +188,15 @@ def time_series(cat_spend_dict):
     img_name = "time_series.png"
     plt.savefig(img_name)
     plt.close()
+
+def viewPortfolioGraphWeek():
+    # Tickers.download()
+    return 0
+
+def viewPortfolioGraphMonth():
+    # Tickers.download()
+    return 0
+
+def viewPortfolioGraphYear():
+    # Tickers.download()
+    return 0

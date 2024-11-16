@@ -49,6 +49,7 @@ import sendEmail
 import add_recurring
 import group
 import chat
+import portfolio
 from datetime import datetime
 from jproperties import Properties
 from currency import get_supported_currencies
@@ -377,6 +378,13 @@ def start_currency_calculator(message):
         bot.register_next_step_handler(msg, get_target_currency)
     else:
         bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
+
+@bot.message_handler(commands=['portfolio'])
+def start_portfolio(message):
+    """
+    Initiates the portfolio service by asking the user to choose an action.
+    """
+    portfolio.run(message, bot)
 
 def get_target_currency(message):
     """
