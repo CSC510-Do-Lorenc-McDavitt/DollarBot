@@ -31,6 +31,7 @@ SOFTWARE.
 import logging
 import telebot
 import time
+import credit_view
 import helper
 import edit
 import history
@@ -291,9 +292,19 @@ def command_delete(message):
     """
     command_delete(message): Takes 1 argument message which contains the message from the user
     along with the chat ID of the user chat. It then calls delete.py to run to execute the add functionality.
-    Commands used to run this: commands=['display']
+    Commands used to run this: commands=['delete']
     """
     delete.run(message, bot)
+
+# handles "/view_credit" command
+@bot.message_handler(commands=["view_credit"])
+def command_view_credit(message):
+    """
+    command_view_credit(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls credit_view.py to run to view the credit record
+    Commands used to run this: commands=['view_credit']
+    """
+    credit_view.run(message, bot)
 
 # handles budget command
 @bot.message_handler(commands=["budget"])

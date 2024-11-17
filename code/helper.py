@@ -117,7 +117,7 @@ def write_json(user_list):
 
 def read_category_json():
     """
-    read_json(): Function to load .json expense record data
+    read_category_json(): Function to load .json category data
     """
     try:
         if not os.path.exists("categories.json"):
@@ -134,13 +134,41 @@ def read_category_json():
 
 def write_category_json(category_list):
     """
-    write_json(category_list): Stores data into the datastore of the bot.
+    write_category_json(category_list): Stores data into the datastore of the bot.
     """
     try:
         with open("categories.json", "w", encoding="utf-8") as json_file:
             json.dump(category_list, json_file, ensure_ascii=False, indent=4)
     except FileNotFoundError:
         print("Sorry, the data file could not be found.")
+
+def read_credit_json():
+    """
+    read_credit_json(): Function to load .json credit record data
+    """
+    try:
+        if not os.path.exists("credit_record.json"):
+            with open("credit_record.json", "w+", encoding="utf-8") as json_file:
+                json_file.write("{}")
+            return {}
+        elif os.stat("credit_record.json").st_size != 0:
+            with open("credit_record.json", encoding="utf-8") as credit_record:
+                credit_record_data = json.load(credit_record)
+            return credit_record_data
+
+    except FileNotFoundError:
+        print("---------NO CREDIT RECORDS FOUND---------")
+
+def write_credit_json(credit_list):
+    """
+    write_credit_json(credit_list): Stores credit data into the datastore of the bot.
+    """
+    try:
+        with open("credit_record.json", "w+", encoding="utf-8") as json_file:
+            json.dump(credit_list, json_file, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        print("Sorry, the data file could not be found.")
+
 
 def validate_entered_amount(amount_entered):
     """
