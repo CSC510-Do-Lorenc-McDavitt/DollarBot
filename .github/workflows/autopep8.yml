@@ -5,9 +5,9 @@ name: autopep8
 
 on:
   push:
-    branches: [ "main", "feature/autopep8" ]
+    branches: [ "main", "feature/", "" ]
   pull_request:
-    branches: [ "main", "feature/autopep8" ]
+    branches: [ "main", "feature/", "" ]
 
 jobs:
   build:
