@@ -49,8 +49,8 @@ def post_operation_selection(message, bot):
             raise Exception('Sorry I don\'t recognise this operation "{}"!'.format(op))
         if op == options["buy"]:
             portfolio_buy.run(message, bot)
-        # elif op == options["sell"]:
-        #     portfolio_sell.run(message, bot)
+        elif op == options["sell"]:
+            portfolio_sell.run(message, bot)
 
         # elif op == options["viewTable"]:
         #     budget_delete.run(message, bot)
