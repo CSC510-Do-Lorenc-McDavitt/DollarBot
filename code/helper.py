@@ -41,6 +41,7 @@ data_format = {"data": [], "budget": {"overall": "0", "category": None}}
 analytics_options = {"overall": "Overall budget split by Category", "spend": "Split of current month expenditure", "remaining": "Remaining value", "history": "Time series graph of spend history"}
 portfolio_options = {"buy": "Buy a Stock", "sell": "Sell a Stock", "viewTable": "View Portfolio Table", "viewGraphWeek": "View Graph: Week", "viewGraphMonth": "View Graph: Month",
                      "viewGraphYear": "View Graph: Year"}
+portfolio_format = {"stocks": []}
 
 # set of implemented commands and their description
 commands = {
@@ -145,6 +146,33 @@ def write_category_json(category_list):
     except FileNotFoundError:
         print("Sorry, the data file could not be found.")
 
+def read_portfolio_json():
+    """
+    read_json(): Function to load .json portfolio data
+    """
+    try:
+        if not os.path.exists("portfolio.json"):
+            with open("portfolio.json", "w", encoding="utf-8") as json_file:
+                json_file.write("{}")
+            return json.dumps("{}")
+        elif os.stat("portfolio.json").st_size != 0:
+            with open("portfolio.json", encoding="utf-8") as portfolio:
+                portfolio_data = json.load(portfolio)
+            return portfolio_data
+
+    except FileNotFoundError:
+        print("---------NO PORTFOLIO FOUND---------")
+
+def write_portfolio_json(user_list):
+    """
+    write_json(user_list): Stores data into the datastore of the bot.
+    """
+    try:
+        with open("portfolio.json", "w", encoding="utf-8") as json_file:
+            json.dump(user_list, json_file, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        print("Sorry, the data file could not be found.")
+
 def validate_entered_amount(amount_entered):
     """
     validate_entered_amount(amount_entered): Takes 1 argument, amount_entered.
@@ -216,6 +244,9 @@ def throw_exception(e, message, bot, logging):
 
 def createNewUserRecord():
     return data_format
+
+def createNewPortfolioUserRecord():
+    return portfolio_format
 
 def getOverallBudget(chatId):
     data = getUserData(chatId)

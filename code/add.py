@@ -239,6 +239,8 @@ def add_user_record(chat_id, record_to_be_added):
     Stores the expense record for the user.
     """
     user_list = helper.read_json()
+    if user_list is None:
+        user_list = {}
     if str(chat_id) not in user_list:
         user_list[str(chat_id)] = helper.createNewUserRecord()
 

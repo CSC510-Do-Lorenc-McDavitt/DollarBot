@@ -34,11 +34,29 @@ def handle_stock_buy(message, bot, ticker, stock):
     chat_id = message.chat.id
     shares = int(message.text)
     price = stock.info['currentPrice']
-    print("" + ticker + " " + str(shares) + " " + str(price))
-    # user_list = helper.read_portfolio_json()
-    # print(user_list)
-    # if str(chat_id) in user_list:
-    #     user_list[str(chat_id)][ticker]["shares"] += shares
-    #     user_list[str(chat_id)][ticker]["price"] = price
-    #     helper.write_portfolio_json(user_list)
-    bot.send_message(chat_id, "Stock bought!")
+    helper.write_portfolio_json(
+        add_user_record(
+            chat_id, "{},{},{}".format(ticker, shares, price)
+        )
+    )
+    bot.send_message(
+        chat_id, 
+        """
+        You have bought {} shares of {} for ${} per share
+        """.format(
+            shares, ticker, price
+        ),
+    )
+
+def add_user_record(chat_id, record_to_be_added):
+    """
+    Stores the stock purchase for the user.
+    """
+    user_list = helper.read_portfolio_json()
+    if user_list is None:
+        user_list = {}
+    if str(chat_id) not in user_list:
+        user_list[str(chat_id)] = helper.createNewPortfolioUserRecord()
+
+    user_list[str(chat_id)]["stocks"].append(record_to_be_added)
+    return user_list
