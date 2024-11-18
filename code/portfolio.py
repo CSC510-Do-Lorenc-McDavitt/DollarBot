@@ -55,12 +55,6 @@ def post_operation_selection(message, bot):
             portfolio_sell.run(message, bot)
         elif op == options["viewTable"]:
             viewPortfolioTable(message, bot)
-        # elif op == options["viewGraphWeek"]:
-        #     budget_delete.run(message, bot)
-        # elif op == options["viewGraphMonth"]:
-        #     budget_delete.run(message, bot)
-        # elif op == options["viewGraphYear"]:
-        #     budget_delete.run(message, bot)
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
@@ -71,14 +65,17 @@ def viewPortfolioTable(message, bot):
         bot.send_message(chat_id, "You don't own any stocks")
     else:
         portfolio = user_list[str(chat_id)]["stocks"]
-        table = [["Stock", "Shares", "Buy Price", "Current Price"]]
+        table = [["Stock", "Shares", "Buy Price", "Current Price", "Percent Change"]]
         portfolio_csv = csv.reader(portfolio)
         portfolio_worth = 0
         for stock in portfolio_csv:
             ticker = yf.Ticker(stock[0])
             curr_price = ticker.info['currentPrice']
+            percent_change = (curr_price / float(stock[2])) - 1.0
+            percent_change = round(percent_change, 2)
             portfolio_worth += int(stock[1]) * curr_price
-            table.append([stock[0], stock[1], "$ " + stock[2], "$ " + str(curr_price)])
+            table.append([stock[0], stock[1], "$ " + stock[2], 
+                          "$ " + str(curr_price), str(percent_change) + "%"])
         bot.send_message(chat_id, "Your portfolio is worth ${}".format(portfolio_worth))
         portfolio_table = "<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
         bot.send_message(chat_id, portfolio_table, parse_mode="HTML")

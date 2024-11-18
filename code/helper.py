@@ -39,8 +39,7 @@ budget_options = {"update": "Add/Update", "view": "View", "delete": "Delete"}
 budget_types = {"overall": "Overall Budget", "category": "Category-Wise Budget"}
 data_format = {"data": [], "budget": {"overall": "0", "category": None}}
 analytics_options = {"overall": "Overall budget split by Category", "spend": "Split of current month expenditure", "remaining": "Remaining value", "history": "Time series graph of spend history"}
-portfolio_options = {"buy": "Buy a Stock", "sell": "Sell a Stock", "viewTable": "View Portfolio Table", "viewGraphWeek": "View Graph: Week", "viewGraphMonth": "View Graph: Month",
-                     "viewGraphYear": "View Graph: Year"}
+portfolio_options = {"buy": "Buy a Stock", "sell": "Sell a Stock", "viewTable": "View Portfolio Table"}
 portfolio_format = {"stocks": []}
 
 # set of implemented commands and their description

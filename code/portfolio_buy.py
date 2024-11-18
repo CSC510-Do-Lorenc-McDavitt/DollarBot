@@ -1,6 +1,7 @@
 import helper
 import logging
 import yfinance as yf
+import csv
 from telebot import types
 
 # === Documentation of portfolio_buy.py ===
@@ -36,7 +37,7 @@ def handle_stock_buy(message, bot, ticker, stock):
     price = stock.info['currentPrice']
     helper.write_portfolio_json(
         add_user_record(
-            chat_id, "{},{},{}".format(ticker, shares, price)
+            chat_id, ticker, shares, price
         )
     )
     bot.send_message(
@@ -48,7 +49,7 @@ def handle_stock_buy(message, bot, ticker, stock):
         ),
     )
 
-def add_user_record(chat_id, record_to_be_added):
+def add_user_record(chat_id, ticker, shares, price):
     """
     Stores the stock purchase for the user.
     """
@@ -58,5 +59,27 @@ def add_user_record(chat_id, record_to_be_added):
     if str(chat_id) not in user_list:
         user_list[str(chat_id)] = helper.createNewPortfolioUserRecord()
 
-    user_list[str(chat_id)]["stocks"].append(record_to_be_added)
+    curr_portfolio = user_list[str(chat_id)]["stocks"]
+    csv_portfolio = csv.reader(curr_portfolio)
+    found = False
+    for stock in csv_portfolio:
+        if not found and stock[0] == ticker:
+            avg_price = ((shares * price) + (int(stock[1]) * float(stock[2]))) / (shares + int(stock[1]))
+            avg_price = round(avg_price, 2)
+            prevStock = stock
+            rem_stock = "{},{},{}".format(stock[0], stock[1], stock[2])
+            curr_portfolio.remove(rem_stock)
+            prevStock[1] = int(prevStock[1])
+            prevStock[1] += shares
+            prevStock[2] = str(avg_price)
+            prevStockString = "{},{},{}".format(prevStock[0], prevStock[1], prevStock[2])
+            curr_portfolio.append(prevStockString)
+            found = True
+            break
+    
+    if not found:
+        stock_string = "{},{},{}".format(ticker, shares, price)
+        curr_portfolio.append(stock_string)
+
+    user_list[str(chat_id)]["stocks"] = curr_portfolio
     return user_list
