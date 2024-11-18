@@ -8,14 +8,16 @@ from datetime import datetime
 
 def run(message, bot):
     """
-    run(message, bot): This is the main function used to implement the add feature.
-    It prompts the user to decide whether to add the expense to a group or a category.
+    run(message, bot): This is the main function used to implement the view credit feature.
     """
     chat_id = message.chat.id
 
     bot.send_message(chat_id, display_credit(chat_id))
 
 def display_credit(chat_id):
+    """
+    Handles reading from the credit_record.json file and then sending back a displayable message
+    """
     credit_list = helper.read_credit_json()
     if(not credit_list or len(credit_list) == 0 or str(chat_id) not in credit_list):
         return "You currently have no credit records."
