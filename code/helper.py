@@ -93,7 +93,7 @@ def read_json():
     read_json(): Function to load .json expense record data
     """
     try:
-        if not os.path.exists("expense_record.json"):
+        if not os.path.exists("expense_record.json") or os.stat("expense_record.json").st_size == 0:
             with open("expense_record.json", "w", encoding="utf-8") as json_file:
                 json_file.write("{}")
             return json.dumps("{}")
