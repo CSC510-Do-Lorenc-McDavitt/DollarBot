@@ -33,6 +33,7 @@ import telebot
 import time
 import credit_view
 import credit_setup
+import credit_pay
 import helper
 import edit
 import history
@@ -316,6 +317,17 @@ def command_setup_credit(message):
     Commands used to run this: commands=['view_credit']
     """
     credit_setup.run(message, bot)
+
+# handles "/pay_credit" command
+@bot.message_handler(commands=["pay_credit"])
+def command_pay_credit(message):
+    """
+    command_pay_credit(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls credit_pay.py to run to pay off a credit
+    account
+    Commands used to run this: commands=['pay_credit']
+    """
+    credit_pay.run(message, bot)
 
 # handles budget command
 @bot.message_handler(commands=["budget"])

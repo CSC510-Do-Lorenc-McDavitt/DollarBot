@@ -7,7 +7,7 @@ def run(message, bot):
     run(message, bot): This is the main function used to implement the setup credit feature.
     """
     chat_id = message.chat.id
-    account_names[chat_id] = {}  # Reset the option for the current user
+    account_names[chat_id] = {}  # Reset the current account name for the current user
     msg = bot.send_message(chat_id, "What's the name of the account you want to add?")
     bot.register_next_step_handler(msg, handle_account_name, bot)
 
@@ -61,3 +61,4 @@ def handle_due_date(message, bot):
     credit_list[str(chat_id)][account_name]["due date"] = int(message.text)
     helper.write_credit_json(credit_list)
     bot.send_message(chat_id, "Successfully created a credit account with the name " + account_names[chat_id])
+  
