@@ -14,6 +14,8 @@ import yfinance as yf
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+from tabulate import tabulate
+import csv
 
 def run(message, bot):
     """
@@ -51,9 +53,8 @@ def post_operation_selection(message, bot):
             portfolio_buy.run(message, bot)
         elif op == options["sell"]:
             portfolio_sell.run(message, bot)
-
-        # elif op == options["viewTable"]:
-        #     budget_delete.run(message, bot)
+        elif op == options["viewTable"]:
+            viewPortfolioTable(message, bot)
         # elif op == options["viewGraphWeek"]:
         #     budget_delete.run(message, bot)
         # elif op == options["viewGraphMonth"]:
@@ -63,14 +64,21 @@ def post_operation_selection(message, bot):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
-
-def buyStock(stock: str, numShares: int, pricePerShare: float):
-    ticker = yf.Ticker(stock)
-    print(ticker.history(period="1mo"))
-    return 0
-
-def sellStock(stock: str, numShares: int):
-    return 0
-
-def viewPortfolioTable():
-    return 0
+def viewPortfolioTable(message, bot):
+    chat_id = message.chat.id
+    user_list = helper.read_portfolio_json()
+    if user_list is None:
+        bot.send_message(chat_id, "You don't own any stocks")
+    else:
+        portfolio = user_list[str(chat_id)]["stocks"]
+        table = [["Stock", "Shares", "Buy Price", "Current Price"]]
+        portfolio_csv = csv.reader(portfolio)
+        portfolio_worth = 0
+        for stock in portfolio_csv:
+            ticker = yf.Ticker(stock[0])
+            curr_price = ticker.info['currentPrice']
+            portfolio_worth += int(stock[1]) * curr_price
+            table.append([stock[0], stock[1], "$ " + stock[2], "$ " + str(curr_price)])
+        bot.send_message(chat_id, "Your portfolio is worth ${}".format(portfolio_worth))
+        portfolio_table = "<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
+        bot.send_message(chat_id, portfolio_table, parse_mode="HTML")
