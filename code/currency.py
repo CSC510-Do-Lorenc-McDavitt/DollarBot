@@ -96,7 +96,7 @@ def get_conversion_rate(base_currency, target_currency):
         print(f"Error fetching conversion rate: {e}")
     return None
 
-def get_historical_trend(base_currency, years=5):
+def get_historical_trend(base_currency, years=5, test_end=None):
     """
     Fetches the historical data from a specific currency types
     conversion rate compared to the USD
@@ -107,7 +107,20 @@ def get_historical_trend(base_currency, years=5):
     if not base_currency in HISTORICAL_EXCHANGE_CODES.keys():
         return None
     
-    end = datetime.date.today()
+    if type(years) is not int:
+        return None
+    
+    if years < 1:
+        return None
+    
+    if years > 10:
+        return None
+
+    
+    if not test_end:
+        end = datetime.date.today()
+    else:
+        end = test_end
     start = end - datetime.timedelta(days=365*years)
 
     

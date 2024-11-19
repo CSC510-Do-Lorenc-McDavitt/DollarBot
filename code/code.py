@@ -380,7 +380,7 @@ def start_currency_calculator(message):
 @bot.message_handler(commands=['historicaltrends'])
 def currency_historical_trends(message):
     """
-
+    Initiates the historical plots by asking users what currency they would like to use
     """
     chat_id = message.chat.id
     supported_currencies = get_supported_historical_currencies()
@@ -421,7 +421,7 @@ def get_target_currency(message):
 
 def get_target_historical_currency(message):
     """
-
+    Gets the type of currency user would like to use
     """
     chat_id = message.chat.id
     selected_currency = message.text.upper()
@@ -446,7 +446,7 @@ def get_target_historical_currency(message):
     
 def get_years_to_go_back(message):
     """
-    Asks the user to input the amount to convert.
+    Asks the user to input the amount of years to go back
     """
     chat_id = message.chat.id
     selected_currency = message.text.upper()
@@ -463,7 +463,8 @@ def get_years_to_go_back(message):
 
 def create_historical_plots(message):
     """
-
+    Creates the historical plots from the two currencies selected
+    and posts them to user
     """
     chat_id = message.chat.id
     years = int(message.text)
@@ -480,6 +481,7 @@ def create_historical_plots(message):
 
     plt.plot(trend1, color='blue')
     plt.plot(trend2, color='green', linestyle="--")
+    plt.locator_params(axis='x', nbins=10) 
     plt.xlabel("Time")
     plt.ylabel("to 1 USD Exchange Rate")
     plt.legend([selected_currency_1, selected_currency_2])
