@@ -29,7 +29,7 @@ import sys
 import os
 import unittest
 from unittest import mock
-from code.currency import get_supported_currencies, get_conversion_rate
+from currency import get_supported_currencies, get_conversion_rate
 
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

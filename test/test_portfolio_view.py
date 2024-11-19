@@ -1,21 +1,21 @@
 import os
 import json
-# from code import portfolio_view
-# from mock.mock import patch
-# from telebot import types
+import portfolio_view
+from mock.mock import patch
+from telebot import types
 
-# def test_view_portfolio_passing(mock_telebot, mocker):
-#     mc = mock_telebot.return_value
-#     mc.send_message.return_value = True
-#     mocker.patch.object(portfolio_view, "helper")
+def test_view_portfolio_passing(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(portfolio_view, "helper")
 
-#     assert False
+    assert False
 
-# def test_view_portfolio_empty(mock_telebot, mocker):
-#     assert False
+def test_view_portfolio_empty(mock_telebot, mocker):
+    assert False
 
-# def test_view_portfolio_nonexistent(mock_telebot, mocker):
-#     assert False
+def test_view_portfolio_nonexistent(mock_telebot, mocker):
+    assert False
 
 def test_read_portfolio_json():
     try:

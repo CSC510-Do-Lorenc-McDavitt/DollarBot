@@ -1,7 +1,7 @@
 import mock
 from mock.mock import patch
 from telebot import types
-from code import portfolio
+import portfolio
 
 @patch("telebot.telebot")
 def test_run(mock_telebot, mocker):
