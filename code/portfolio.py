@@ -8,14 +8,9 @@ stock portfolio prices for the user.
 import helper
 import portfolio_buy
 import portfolio_sell
+import portfolio_view
 import logging
 from telebot import types
-import yfinance as yf
-import matplotlib
-import matplotlib.pyplot as plt
-import numpy as np
-from tabulate import tabulate
-import csv
 
 def run(message, bot):
     """
@@ -54,28 +49,6 @@ def post_operation_selection(message, bot):
         elif op == options["sell"]:
             portfolio_sell.run(message, bot)
         elif op == options["view"]:
-            viewPortfolioTable(message, bot)
+            portfolio_view.run(message, bot)
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
-
-def viewPortfolioTable(message, bot):
-    chat_id = message.chat.id
-    user_list = helper.read_portfolio_json()
-    if user_list is None:
-        bot.send_message(chat_id, "You don't own any stocks")
-    else:
-        portfolio = user_list[str(chat_id)]["stocks"]
-        table = [["Stock", "Shares", "Buy Price", "Current Price", "Percent Change"]]
-        portfolio_csv = csv.reader(portfolio)
-        portfolio_worth = 0
-        for stock in portfolio_csv:
-            ticker = yf.Ticker(stock[0])
-            curr_price = ticker.info['currentPrice']
-            percent_change = (curr_price / float(stock[2])) - 1.0
-            percent_change = round(percent_change, 2)
-            portfolio_worth += int(stock[1]) * curr_price
-            table.append([stock[0], stock[1], "$ " + stock[2], 
-                          "$ " + str(curr_price), str(percent_change) + "%"])
-        bot.send_message(chat_id, "Your portfolio is worth ${}".format(portfolio_worth))
-        portfolio_table = "<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
-        bot.send_message(chat_id, portfolio_table, parse_mode="HTML")
