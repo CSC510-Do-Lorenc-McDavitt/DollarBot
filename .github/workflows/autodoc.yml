@@ -1,0 +1,46 @@
+name: autodoc
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10"]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        sudo pip install pycodestyle
+        pip install pdoc3
+    - name: Add folders to Python Path
+      run: |
+          echo "PYTHONPATH=code" >> $GITHUB_ENV
+    - name: Auto Generate Documentation
+      run: |
+        echo "PYTHONPATH=./code" >> $GITHUB_ENV
+        pdoc --html code --force --output-dir docs
+        echo "Github reference"
+        echo ${{ github.ref }}
+        git add .
+        git config --local user.name "autodoc"
+        git config --local user.email "actions@github.com"
+        git diff-index --quiet HEAD || git commit -m "CI: Automated build push" -a
+    - name: Push Documentation
+      if: github.ref == 'refs/heads/main'
+      uses: ad-m/github-push-action@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: CodeCov
+      uses: codecov/codecov-action@v3
