@@ -22,6 +22,11 @@ def viewPortfolioTable(message, bot):
     user_list = helper.read_portfolio_json()
     if user_list is None:
         bot.send_message(chat_id, "You don't own any stocks")
+        return False
+    elif user_list.get(str(chat_id), None) is None:
+        return False
+    elif not user_list[str(chat_id)]["stocks"]:
+        return False
     else:
         portfolio = user_list[str(chat_id)]["stocks"]
         table = [["Stock", "Shares", "Buy Price", "Current Price", "Percent Change"]]
@@ -39,4 +44,4 @@ def viewPortfolioTable(message, bot):
         bot.send_message(chat_id, "Your portfolio is worth ${:.2f}".format(portfolio_worth))
         portfolio_table = "<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
         bot.send_message(chat_id, portfolio_table, parse_mode="HTML")
-
+        return True
