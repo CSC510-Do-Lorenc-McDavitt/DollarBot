@@ -2,7 +2,9 @@ name: autodoc
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "feature/*", "*" ]
+  pull_request:
+    branches: [ "main", "feature/*", "*" ]
 
 jobs:
   test:
@@ -19,11 +21,16 @@ jobs:
       with:
         python-version: '3.x'
     - name: Install dependencies
+      env:
+        API_TOKEN: ${{ secrets.API_TOKEN }}
+        OPENAI_TOKEN: ${{ secrets.OPENAI_KEY }}
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         sudo pip install pycodestyle
         pip install pdoc3
+        echo api_token=$API_TOKEN >> user.properties
+        echo openai_key=$OPENAI_TOKEN >> user.properties
     - name: Add folders to Python Path
       run: |
           echo "PYTHONPATH=code" >> $GITHUB_ENV
@@ -42,5 +49,3 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: CodeCov
-      uses: codecov/codecov-action@v3
