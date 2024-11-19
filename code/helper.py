@@ -78,7 +78,8 @@ commands = {
     "chat": "Start a conversation with ChatGPT",
     "currency": "Lists all supported currencies, allowing users to view available options for conversions.",
     "convert": "Converts a specified currency to USD and provides the current exchange rate.",
-    "currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies."
+    "currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies.",
+    "historicaltrends": "Guides users to select two types of currency and shows a comparative historical trend between the two"
 }
 
 dateFormat = "%d-%b-%Y"

@@ -28,6 +28,7 @@ SOFTWARE.
 
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import matplotlib.pyplot as plt
 import logging
 import telebot
 import time
@@ -51,7 +52,7 @@ import group
 import chat
 from datetime import datetime
 from jproperties import Properties
-from currency import get_supported_currencies
+from currency import get_supported_currencies, get_supported_historical_currencies, get_conversion_rate, get_historical_trend
 from telebot import types
 from tabulate import tabulate
 from history import run as history_run
@@ -332,8 +333,6 @@ def show_supported_currencies(message):
     else:
         bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
 
-from currency import get_supported_currencies, get_conversion_rate
-
 @bot.message_handler(commands=['convert'])
 def convert_currency(message):
     """
@@ -384,7 +383,14 @@ def currency_historical_trends(message):
 
     """
     chat_id = message.chat.id
-    supported_currencies = 
+    supported_currencies = get_supported_historical_currencies()
+
+    currencies = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    for currency in supported_currencies:
+        currencies.add(currency)
+    msg = bot.reply_to(message, "Select the first currency you want to collect historical data from", reply_markup=currencies)
+    bot.register_next_step_handler(msg, get_target_historical_currency)
+
 def get_target_currency(message):
     """
     Asks the user to select the target currency for conversion.
@@ -412,6 +418,82 @@ def get_target_currency(message):
         bot.register_next_step_handler(msg, get_amount_to_convert)
     else:
         bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
+
+def get_target_historical_currency(message):
+    """
+
+    """
+    chat_id = message.chat.id
+    selected_currency = message.text.upper()
+
+    # Store the base currency in user context
+    user_data = helper.read_json()
+    if str(chat_id) not in user_data:
+        user_data[str(chat_id)] = helper.createNewUserRecord()
+    user_data[str(chat_id)]['selected_currency_1'] = selected_currency
+    helper.write_json(user_data)
+
+    # Fetch supported currencies again to display the options for the target currency
+    supported_currencies = get_supported_historical_currencies()
+    currencies = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    for currency in supported_currencies:
+        # Ensure the target currency is not the same as the base currency
+        if currency != selected_currency:
+            currencies.add(currency)
+
+    msg = bot.reply_to(message, "Select the currency you want to compare to", reply_markup=currencies)
+    bot.register_next_step_handler(msg, get_years_to_go_back)
+    
+def get_years_to_go_back(message):
+    """
+    Asks the user to input the amount to convert.
+    """
+    chat_id = message.chat.id
+    selected_currency = message.text.upper()
+
+    # Save the target currency in user context
+    user_data = helper.read_json()
+    user_data[str(chat_id)]['selected_currency_2'] = selected_currency
+    helper.write_json(user_data)
+    years = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    for i in range(1, 11):
+        years.add(str(i))
+    msg = bot.send_message(chat_id, "How many years would you like the data to go back: ", reply_markup=years)
+    bot.register_next_step_handler(msg, create_historical_plots)
+
+def create_historical_plots(message):
+    """
+
+    """
+    chat_id = message.chat.id
+    years = int(message.text)
+    user_data = helper.read_json()
+    selected_currency_1 = user_data.get(str(chat_id), {}).get('selected_currency_1', None)
+    selected_currency_2 = user_data.get(str(chat_id), {}).get('selected_currency_2', None)
+
+    if not selected_currency_1 or not selected_currency_2:
+        bot.send_message(chat_id, "Error when creating plots")
+        return
+    
+    trend1 = get_historical_trend(selected_currency_1, years)
+    trend2 = get_historical_trend(selected_currency_2, years)
+
+    plt.plot(trend1, color='blue')
+    plt.plot(trend2, color='green', linestyle="--")
+    plt.xlabel("Time")
+    plt.ylabel("to 1 USD Exchange Rate")
+    plt.legend([selected_currency_1, selected_currency_2])
+
+
+    plt.savefig("plot.png")
+    plt.close()
+
+    with open('plot.png', 'rb') as photo:
+        bot.send_photo(chat_id=chat_id, photo=photo)
+
+
+    
+
 
 def get_amount_to_convert(message):
     """
