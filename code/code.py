@@ -35,6 +35,7 @@ import credit_view
 import credit_setup
 import credit_pay
 import credit_clear
+import credit_delete
 import helper
 import edit
 import history
@@ -340,6 +341,17 @@ def command_clear_credit(message):
     Commands used to run this: commands=['clear_credit']
     """
     credit_clear.run(message, bot)
+
+# handles "/delete_credit" command
+@bot.message_handler(commands=["delete_credit"])
+def command_delete_credit(message):
+    """
+    command_delete_credit(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls credit_delete.py to run to delete a credit
+    account.
+    Commands used to run this: commands=['delete_credit']
+    """
+    credit_delete.run(message, bot)
 
 # handles budget command
 @bot.message_handler(commands=["budget"])

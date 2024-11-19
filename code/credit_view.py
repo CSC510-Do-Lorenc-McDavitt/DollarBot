@@ -30,6 +30,6 @@ def display_credit(chat_id):
         output.append("  Currently Owing: " + str(credit_list[str(chat_id)][account]["owe"]))
         output.append(("  Calendar is currently set up for this event" 
                        if credit_list[str(chat_id)][account]["calendar"] 
-                       else "  No Calendar currently set up"))
+                       else "  No calendar currently set up"))
         output.append("------------------------------------------------------")
     return "\n".join(output)

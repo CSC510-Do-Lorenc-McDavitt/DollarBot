@@ -52,7 +52,9 @@ commands = {
     "add": "This option is for adding your expenses \
        \n 1. It will give you the list of categories to choose from. \
        \n 2. You will be prompted to enter the amount corresponding to your spending \
-       \n 3.The message will be prompted to notify the addition of your expense with the amount,date, time and category ",
+       \n 3. The message will be prompted to notify the addition of your expense with the amount,date, time and category \
+       \n 4. The message will ask if you would like to add your expense to your credit account to track what you owe \
+       \n 5. You will be prompted to add in the name of your account, please create this with /setup_credit",
     "add_recurring": "This option is to add a recurring expense for future months",
     "analytics": "This option gives user a graphical representation of their expenditures \
         \n You will get an option to choose the type of data you want to see.",
@@ -78,7 +80,12 @@ commands = {
     "chat": "Start a conversation with ChatGPT",
     "currency": "Lists all supported currencies, allowing users to view available options for conversions.",
     "convert": "Converts a specified currency to USD and provides the current exchange rate.",
-    "currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies."
+    "currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies.",
+    "view_credit": "Lists the credit accounts the user has with corresponding expenses and due dates.",
+    "setup_credit": "Sets up a credit account for the user.",
+    "pay_credit": "Pays off certain amount of the credit account the user has. Can be used to adjust what you owe for discrepancies.",
+    "clear_credit": "Remove the expenses for an account",
+    "delete_credit": "Remove a credit account"
 }
 
 dateFormat = "%d-%b-%Y"
@@ -154,6 +161,7 @@ def read_credit_json():
         elif os.stat("credit_record.json").st_size != 0:
             with open("credit_record.json", encoding="utf-8") as credit_record:
                 credit_record_data = json.load(credit_record)
+                return credit_record_data
             return credit_record_data
 
     except FileNotFoundError:
