@@ -36,7 +36,7 @@ def viewPortfolioTable(message, bot):
             ticker = yf.Ticker(stock[0])
             curr_price = ticker.info['currentPrice']
             curr_price = round(curr_price, 2)
-            percent_change = (curr_price / float(stock[2])) - 1.0
+            percent_change = ((curr_price / float(stock[2])) - 1.0) * 100
             percent_change = round(percent_change, 2)
             portfolio_worth += int(stock[1]) * curr_price
             table.append([stock[0], stock[1], "$ " + stock[2], 

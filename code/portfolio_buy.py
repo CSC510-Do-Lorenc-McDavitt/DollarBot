@@ -32,22 +32,26 @@ def handle_stock_name(message, bot):
         bot.send_message(chat_id, "Invalid Stock")
 
 def handle_stock_buy(message, bot, ticker, stock):
-    chat_id = message.chat.id
-    shares = int(message.text)
-    price = stock.info['currentPrice']
-    helper.write_portfolio_json(
-        add_user_record(
-            chat_id, ticker, shares, price
+    try:
+        chat_id = message.chat.id
+        shares = int(message.text)
+        price = stock.info['currentPrice']
+        helper.write_portfolio_json(
+            add_user_record(
+                chat_id, ticker, shares, price
+            )
         )
-    )
-    bot.send_message(
-        chat_id, 
-        """
-        You have bought {} shares of {} for ${} per share
-        """.format(
-            shares, ticker, price
-        ),
-    )
+        bot.send_message(
+            chat_id, 
+            """
+            You have bought {} shares of {} for ${} per share
+            """.format(
+                shares, ticker, price
+            ),
+        )
+    except Exception as e:
+        bot.send_message(chat_id, "Oh no!")
+        print(e)
 
 def add_user_record(chat_id, ticker, shares, price):
     """

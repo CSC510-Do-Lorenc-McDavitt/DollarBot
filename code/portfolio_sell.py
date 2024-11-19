@@ -32,14 +32,18 @@ def handle_stock_name(message, bot):
         bot.send_message(chat_id, "Invalid Stock")
 
 def handle_stock_sell(message, bot, ticker, stock):
-    chat_id = message.chat.id
-    shares = int(message.text)
-    price = stock.info['currentPrice']
-    record = edit_user_record(chat_id, bot, ticker, shares, price)
-    if record is None:
-        return False
-    helper.write_portfolio_json(record)
-    return True
+    try:
+        chat_id = message.chat.id
+        shares = int(message.text)
+        price = stock.info['currentPrice']
+        record = edit_user_record(chat_id, bot, ticker, shares, price)
+        if record is None:
+            return False
+        helper.write_portfolio_json(record)
+        return True
+    except Exception as e:
+        bot.send_message(chat_id, "Oh no!")
+        print(e)
 
 def edit_user_record(chat_id, bot, ticker, shares, price):
     """
@@ -90,7 +94,7 @@ def edit_user_record(chat_id, bot, ticker, shares, price):
                 shares, ticker, price
             ),
         )
-        bot.send_message(chat_id, "You have made a profit of ${}".format(profit))
+        bot.send_message(chat_id, "You have made a profit of ${:.2f}".format(profit))
         user_list[str(chat_id)]["stocks"] = curr_portfolio
         return user_list
     else:
