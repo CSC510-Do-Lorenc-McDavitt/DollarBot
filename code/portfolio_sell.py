@@ -35,9 +35,11 @@ def handle_stock_sell(message, bot, ticker, stock):
     chat_id = message.chat.id
     shares = int(message.text)
     price = stock.info['currentPrice']
-    helper.write_portfolio_json(
-        edit_user_record(chat_id, bot, ticker, shares, price)
-    )
+    record = edit_user_record(chat_id, bot, ticker, shares, price)
+    if record is None:
+        return False
+    helper.write_portfolio_json(record)
+    return True
 
 def edit_user_record(chat_id, bot, ticker, shares, price):
     """
@@ -89,8 +91,8 @@ def edit_user_record(chat_id, bot, ticker, shares, price):
             ),
         )
         bot.send_message(chat_id, "You have made a profit of ${}".format(profit))
+        user_list[str(chat_id)]["stocks"] = curr_portfolio
+        return user_list
     else:
         bot.send_message(chat_id, "You don't have enough shares to make this sale")
-
-    user_list[str(chat_id)]["stocks"] = curr_portfolio
-    return user_list
+        return None
