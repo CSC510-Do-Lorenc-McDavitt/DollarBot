@@ -33,7 +33,7 @@ def handle_account_name(message, bot):
     account_names[chat_id] = str(message.text)
     account_name = account_names[chat_id]
     if(account_name not in credit_list[str(chat_id)].keys()):
-        bot.send_message(chat_id, "That account name is doesn't exist!")
+        bot.send_message(chat_id, "That account name doesn't exist!")
         return
     bot.send_message(chat_id, "This account currently owes " + str(credit_list[str(chat_id)][account_name]["owe"]))
     msg = bot.send_message(chat_id, "How much do you want to pay for this account?")

@@ -34,6 +34,7 @@ import time
 import credit_view
 import credit_setup
 import credit_pay
+import credit_clear
 import helper
 import edit
 import history
@@ -328,6 +329,17 @@ def command_pay_credit(message):
     Commands used to run this: commands=['pay_credit']
     """
     credit_pay.run(message, bot)
+
+# handles "/clear_credit" command
+@bot.message_handler(commands=["clear_credit"])
+def command_clear_credit(message):
+    """
+    command_clear_credit(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls credit_clear.py to run to clear expenses
+    for a credit account
+    Commands used to run this: commands=['clear_credit']
+    """
+    credit_clear.run(message, bot)
 
 # handles budget command
 @bot.message_handler(commands=["budget"])
