@@ -53,7 +53,7 @@ def post_operation_selection(message, bot):
             portfolio_buy.run(message, bot)
         elif op == options["sell"]:
             portfolio_sell.run(message, bot)
-        elif op == options["viewTable"]:
+        elif op == options["view"]:
             viewPortfolioTable(message, bot)
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
