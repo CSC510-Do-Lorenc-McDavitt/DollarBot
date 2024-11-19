@@ -378,6 +378,13 @@ def start_currency_calculator(message):
     else:
         bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
 
+@bot.message_handler(commands=['historicaltrends'])
+def currency_historical_trends(message):
+    """
+
+    """
+    chat_id = message.chat.id
+    supported_currencies = 
 def get_target_currency(message):
     """
     Asks the user to select the target currency for conversion.

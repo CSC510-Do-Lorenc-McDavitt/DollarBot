@@ -26,9 +26,27 @@ SOFTWARE.
 """
 
 import requests
+import datetime
+from pandas_datareader import data
 
 API_URL = "https://v6.exchangerate-api.com/v6"
 API_KEY = "6b3e6f09c28d0a24ba44ac29"
+
+"""
+Exchange codes for historical data from: 
+https://fred.stlouisfed.org/categories/95
+Here we are looking for currencies they provide
+that convert into USD
+"""
+HISTORICAL_EXCHANGE_CODES = {
+    "JPY": "EXJPUS",
+    "CNY": "EXCHUS",
+    "CAD": "EXCAUS",
+    "KRW": "EXKOUS",
+    "MXN": "EXMXUS",
+    "INR": "EXINUS",
+    "HKD": "EXHKUS"
+}
 
 def get_supported_currencies():
     """
@@ -49,6 +67,12 @@ def get_supported_currencies():
     except Exception as e:
         print(f"Error fetching supported currencies: {e}")
     return None
+
+def get_supported_historical_currencies():
+    """
+    Returns the list of currencies supported for historical trends
+    """
+    return HISTORICAL_EXCHANGE_CODES.keys()
 
 def get_conversion_rate(base_currency, target_currency):
     """
@@ -71,3 +95,25 @@ def get_conversion_rate(base_currency, target_currency):
     except Exception as e:
         print(f"Error fetching conversion rate: {e}")
     return None
+
+def get_historical_trend(base_currency, years=5):
+    """
+    Fetches the historical data from a specific currency types
+    conversion rate compared to the USD
+
+    :param base_currency: The currency code you want to get data
+    :return: List of values over the past 10 years
+    """
+    if not base_currency in HISTORICAL_EXCHANGE_CODES.keys():
+        return None
+    
+    end = datetime.date.today()
+    start = end - datetime.timedelta(days=365*years)
+
+    
+    try:
+       historical_data = data.DataReader(HISTORICAL_EXCHANGE_CODES[base_currency], 'fred', start=start, end=end)
+
+       return historical_data
+    except Exception as e:
+        print(f"Error fetcching historical data: {e}")

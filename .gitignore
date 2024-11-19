@@ -134,5 +134,6 @@ dmypy.json
 
 # Generated files
 expense_record.json
+plot.png
 user.properties
 data/
