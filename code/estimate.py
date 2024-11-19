@@ -32,6 +32,7 @@ from telebot import types
 
 # === Documentation of estimate.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the estimate feature.
@@ -55,6 +56,7 @@ def run(message, bot):
         )
         bot.register_next_step_handler(msg, estimate_total, bot)
 
+
 def estimate_total(message, bot):
     """
     estimate_total(message, bot): It takes 2 arguments for processing - message which is the message
@@ -70,12 +72,14 @@ def estimate_total(message, bot):
 
         if DayWeekMonth not in helper.getSpendEstimateOptions():
             raise Exception(
-                'Sorry I can\'t show an estimate for "{}"!'.format(DayWeekMonth)
+                'Sorry I can\'t show an estimate for "{}"!'.format(
+                    DayWeekMonth)
             )
 
         history = helper.getUserHistory(chat_id)
         if history is None:
-            raise Exception("Oops! Looks like you do not have any spending records!")
+            raise Exception(
+                "Oops! Looks like you do not have any spending records!")
 
         bot.send_message(chat_id, "Hold on! Calculating...")
         # show the bot "typing" (max. 5 secs)
@@ -106,6 +110,7 @@ def estimate_total(message, bot):
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, str(e))
+
 
 def calculate_estimate(queryResult, days_to_estimate):
     """

@@ -31,6 +31,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 matplotlib.use('agg')
 
+
 def run(message, bot):
     """
     Displays Weekly user expenditure line chart with and without category wise grouping.
@@ -51,7 +52,9 @@ def run(message, bot):
                     bot.send_photo(chat_id, f)
         except Exception as e:
             print("Exception occurred : " + e)
-            bot.reply_to(message, "Oops! Could not create weekly analysis chart")
+            bot.reply_to(
+                message, "Oops! Could not create weekly analysis chart")
+
 
 def create_chart_for_weekly_analysis(user_history, userid):
     result = []
@@ -71,38 +74,43 @@ def create_chart_for_weekly_analysis(user_history, userid):
     df['Month'] = df['Date'].dt.month_name()
 
     # Group by year and week, calculate the total cost for each group
-    grouped_data = df.groupby(['Year', 'Week']).agg({'Cost': 'sum'}).reset_index()
+    grouped_data = df.groupby(['Year', 'Week']).agg(
+        {'Cost': 'sum'}).reset_index()
 
     # Plotting the line chart for total expenses
     plt.figure(figsize=(10, 6))
     plt.plot(grouped_data.index, grouped_data['Cost'], marker='o')
-    plt.xticks(grouped_data.index, grouped_data['Year'].astype(str) + '-' + grouped_data['Week'])
+    plt.xticks(grouped_data.index, grouped_data['Year'].astype(
+        str) + '-' + grouped_data['Week'])
     plt.xlabel('Year-Week')
     plt.ylabel('Total Cost')
     plt.title('Total Cost Over Time')
     plt.grid(True)
     fig_name = "data/{}_weekly_analysis.png".format(userid)
-    plt.savefig(fig_name,bbox_inches="tight")
+    plt.savefig(fig_name, bbox_inches="tight")
     result.append(fig_name)
 
     # Group by year, week, and category, calculate the total cost for each group
-    grouped_data = df.groupby(['Year', 'Week', 'Category']).agg({'Cost': 'sum'}).reset_index()
+    grouped_data = df.groupby(['Year', 'Week', 'Category']).agg(
+        {'Cost': 'sum'}).reset_index()
 
     # Plotting the line chart for each category
     plt.figure(figsize=(12, 6))
 
     for category in df['Category'].unique():
         category_data = grouped_data[grouped_data['Category'] == category]
-        plt.plot(category_data.index, category_data['Cost'], marker='o', label=category)
+        plt.plot(category_data.index,
+                 category_data['Cost'], marker='o', label=category)
 
-    plt.xticks(grouped_data.index, grouped_data['Year'].astype(str) + '-' + grouped_data['Week'])
+    plt.xticks(grouped_data.index, grouped_data['Year'].astype(
+        str) + '-' + grouped_data['Week'])
     plt.xlabel('Year-Week')
     plt.ylabel('Total Cost')
     plt.title('Total Cost Over Time by Category')
     plt.legend()
     plt.grid(True)
-    fig_name="data/{}_weekly_analysis_by_category.png".format(userid)
-    plt.savefig(fig_name,bbox_inches="tight")
+    fig_name = "data/{}_weekly_analysis_by_category.png".format(userid)
+    plt.savefig(fig_name, bbox_inches="tight")
     result.append(fig_name)
 
     return result

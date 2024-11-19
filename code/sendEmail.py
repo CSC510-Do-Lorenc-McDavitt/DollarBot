@@ -56,16 +56,17 @@ def run(message, bot):
             raise Exception("Sorry! No spending records found!")
         else:
             category = bot.send_message(message.chat.id, "Enter your email id")
-            bot.register_next_step_handler(category, acceptEmailId, bot)   
+            bot.register_next_step_handler(category, acceptEmailId, bot)
 
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, "Oops! " + str(e))
 
+
 def acceptEmailId(message, bot):
     email = message.text
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    if(re.fullmatch(regex, email)):
+    if (re.fullmatch(regex, email)):
         try:
             chat_id = message.chat.id
             user_history = helper.getUserHistory(chat_id)
@@ -82,7 +83,7 @@ def acceptEmailId(message, bot):
                     date, category, amount = values
                     table.append([date, category, "$ " + amount])
 
-                with open('history.csv', 'w', newline = '', encoding="utf-8") as file:
+                with open('history.csv', 'w', newline='', encoding="utf-8") as file:
                     writer = csv.writer(file)
                     writer.writerows(table)
 
@@ -90,31 +91,34 @@ def acceptEmailId(message, bot):
                 This email has an attached copy of your expenditure history.
                 Thank you!
                 '''
-                #The mail addresses and password
+                # The mail addresses and password
                 sender_address = 'secheaper@gmail.com'
-                #sender_pass = 'csc510se'
+                # sender_pass = 'csc510se'
                 sender_pass = 'lrmd uazh dshu xcxi'
                 receiver_address = email
-                #Setup the MIME
+                # Setup the MIME
                 message = MIMEMultipart()
                 message['From'] = sender_address
                 message['To'] = receiver_address
                 message['Subject'] = 'Spending History document'
-                #The subject line
-                #The body and the attachments for the mail
+                # The subject line
+                # The body and the attachments for the mail
                 message.attach(MIMEText(mail_content, 'plain'))
                 attach_file_name = "history.csv"
                 attach_file = open(attach_file_name, 'rb')
                 payload = MIMEBase('application', 'octet-stream')
                 payload.set_payload((attach_file).read())
-                encoders.encode_base64(payload) #encode the attachment
-                #add payload header with filename
-                payload.add_header('Content-Disposition', f'attachment; filename={attach_file_name}')
+                encoders.encode_base64(payload)  # encode the attachment
+                # add payload header with filename
+                payload.add_header('Content-Disposition',
+                                   f'attachment; filename={attach_file_name}')
                 message.attach(payload)
-                #Create SMTP session for sending the mail
-                session = smtplib.SMTP('smtp.gmail.com', 587) #use gmail with port
-                session.starttls() #enable security
-                session.login(sender_address, sender_pass) #login with mail_id and password
+                # Create SMTP session for sending the mail
+                # use gmail with port
+                session = smtplib.SMTP('smtp.gmail.com', 587)
+                session.starttls()  # enable security
+                # login with mail_id and password
+                session.login(sender_address, sender_pass)
                 text = message.as_string()
                 session.sendmail(sender_address, receiver_address, text)
                 session.quit()

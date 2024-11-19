@@ -30,6 +30,7 @@ from notifier import TelegramNotifier
 
 configs = Properties()
 
+
 def notify(chat_id, cat, amount):
     """
     Sends a notification to a Telegram chat about a budget exceeding.
