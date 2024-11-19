@@ -2,9 +2,9 @@ name: autodoc
 
 on:
   push:
-    branches: [ "main", "feature/", "*" ]
+    branches: [ "main", "feature/*", "*" ]
   pull_request:
-    branches: [ "main", "feature/", "*" ]
+    branches: [ "main", "feature/*", "*" ]
 
 jobs:
   test:
@@ -21,6 +21,9 @@ jobs:
       with:
         python-version: '3.x'
     - name: Install dependencies
+      env:
+        API_TOKEN: ${{ secrets.API_TOKEN }}
+        OPENAI_TOKEN: ${{ secrets.OPENAI_KEY }}
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
