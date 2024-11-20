@@ -560,6 +560,9 @@ def getUpdateOptions():
 def getAnalyticsOptions():
     return analytics_options
 
+def getPortfolioOptions():
+    return portfolio_options
+
 def save_group_data(groups):
     with open("groups.json", "w") as file:
         json.dump(groups, file, indent=4)
