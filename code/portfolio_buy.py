@@ -6,6 +6,7 @@ from telebot import types
 
 # === Documentation of portfolio_buy.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the budget delete feature.
@@ -19,6 +20,7 @@ def run(message, bot):
     msg = bot.send_message(chat_id, "Enter a Stock Ticker")
     bot.register_next_step_handler(msg, handle_stock_name, bot)
 
+
 def handle_stock_name(message, bot):
     """
     Handles ensuring that the stock name is for a valid stock.
@@ -30,9 +32,11 @@ def handle_stock_name(message, bot):
     stock = yf.Ticker(ticker)
     if stock is not None:
         msg = bot.send_message(chat_id, "Enter Number of Shares")
-        bot.register_next_step_handler(msg, handle_stock_buy, bot, ticker, stock)
+        bot.register_next_step_handler(
+            msg, handle_stock_buy, bot, ticker, stock)
     else:
         bot.send_message(chat_id, "Invalid Stock")
+
 
 def handle_stock_buy(message, bot, ticker, stock):
     """
@@ -48,7 +52,7 @@ def handle_stock_buy(message, bot, ticker, stock):
             )
         )
         bot.send_message(
-            chat_id, 
+            chat_id,
             """
             You have bought {} shares of {} for ${} per share
             """.format(
@@ -58,6 +62,7 @@ def handle_stock_buy(message, bot, ticker, stock):
     except Exception as e:
         bot.send_message(chat_id, "Oh no!")
         print(e)
+
 
 def add_user_record(chat_id, ticker, shares, price):
     """
@@ -74,7 +79,8 @@ def add_user_record(chat_id, ticker, shares, price):
     found = False
     for stock in csv_portfolio:
         if not found and stock[0] == ticker:
-            avg_price = ((shares * price) + (int(stock[1]) * float(stock[2]))) / (shares + int(stock[1]))
+            avg_price = (
+                (shares * price) + (int(stock[1]) * float(stock[2]))) / (shares + int(stock[1]))
             avg_price = round(avg_price, 2)
             prevStock = stock
             rem_stock = "{},{},{}".format(stock[0], stock[1], stock[2])
@@ -82,11 +88,12 @@ def add_user_record(chat_id, ticker, shares, price):
             prevStock[1] = int(prevStock[1])
             prevStock[1] += shares
             prevStock[2] = str(avg_price)
-            prevStockString = "{},{},{}".format(prevStock[0], prevStock[1], prevStock[2])
+            prevStockString = "{},{},{}".format(
+                prevStock[0], prevStock[1], prevStock[2])
             curr_portfolio.append(prevStockString)
             found = True
             break
-    
+
     if not found:
         stock_string = "{},{},{}".format(ticker, shares, price)
         curr_portfolio.append(stock_string)

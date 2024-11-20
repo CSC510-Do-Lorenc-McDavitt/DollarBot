@@ -3,6 +3,7 @@ import yfinance as yf
 from tabulate import tabulate
 import csv
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the budget delete feature.
@@ -15,7 +16,7 @@ def run(message, bot):
     chat_id = message.chat.id
     bot.send_message(chat_id, "Here is your Portfolio:")
     viewPortfolioTable(message, bot)
-    
+
 
 def viewPortfolioTable(message, bot):
     """
@@ -32,7 +33,8 @@ def viewPortfolioTable(message, bot):
         return False
     else:
         portfolio = user_list[str(chat_id)]["stocks"]
-        table = [["Stock", "Shares", "Buy Price", "Current Price", "Percent Change"]]
+        table = [["Stock", "Shares", "Buy Price",
+                  "Current Price", "Percent Change"]]
         portfolio_csv = csv.reader(portfolio)
         portfolio_worth = 0
         for stock in portfolio_csv:
@@ -42,9 +44,11 @@ def viewPortfolioTable(message, bot):
             percent_change = ((curr_price / float(stock[2])) - 1.0) * 100
             percent_change = round(percent_change, 2)
             portfolio_worth += int(stock[1]) * curr_price
-            table.append([stock[0], stock[1], "$ " + stock[2], 
+            table.append([stock[0], stock[1], "$ " + stock[2],
                           "$ " + str(curr_price), str(percent_change) + "%"])
-        bot.send_message(chat_id, "Your portfolio is worth ${:.2f}".format(portfolio_worth))
-        portfolio_table = "<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
+        bot.send_message(
+            chat_id, "Your portfolio is worth ${:.2f}".format(portfolio_worth))
+        portfolio_table = "<pre>" + \
+            tabulate(table, headers='firstrow')+"</pre>"
         bot.send_message(chat_id, portfolio_table, parse_mode="HTML")
         return True

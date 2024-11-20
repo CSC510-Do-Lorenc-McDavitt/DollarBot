@@ -6,6 +6,7 @@ from telebot import types
 
 # === Documentation of portfolio_buy.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the budget delete feature.
@@ -19,6 +20,7 @@ def run(message, bot):
     msg = bot.send_message(chat_id, "Enter a Stock Ticker")
     bot.register_next_step_handler(msg, handle_stock_name, bot)
 
+
 def handle_stock_name(message, bot):
     """
     Handles ensuring that the stock name is for a valid stock.
@@ -30,9 +32,11 @@ def handle_stock_name(message, bot):
     stock = yf.Ticker(ticker)
     if stock is not None:
         msg = bot.send_message(chat_id, "Enter Number of Shares")
-        bot.register_next_step_handler(msg, handle_stock_sell, bot, ticker, stock)
+        bot.register_next_step_handler(
+            msg, handle_stock_sell, bot, ticker, stock)
     else:
         bot.send_message(chat_id, "Invalid Stock")
+
 
 def handle_stock_sell(message, bot, ticker, stock):
     """
@@ -51,6 +55,7 @@ def handle_stock_sell(message, bot, ticker, stock):
         bot.send_message(chat_id, "Oh no!")
         print(e)
 
+
 def edit_user_record(chat_id, bot, ticker, shares, price):
     """
     Stores the stock purchase for the user.
@@ -60,7 +65,7 @@ def edit_user_record(chat_id, bot, ticker, shares, price):
         return None
     if str(chat_id) not in user_list:
         return None
-    
+
     curr_portfolio = user_list[str(chat_id)]["stocks"]
     found = False
     saleSuccess = False
@@ -84,7 +89,8 @@ def edit_user_record(chat_id, bot, ticker, shares, price):
                 curr_portfolio.remove(rem_stock)
                 prevStock[1] = int(prevStock[1])
                 prevStock[1] -= shares
-                prevStockString = "{},{},{}".format(prevStock[0], prevStock[1], prevStock[2])
+                prevStockString = "{},{},{}".format(
+                    prevStock[0], prevStock[1], prevStock[2])
                 curr_portfolio.append(prevStockString)
                 found = True
                 saleSuccess = True
@@ -93,16 +99,18 @@ def edit_user_record(chat_id, bot, ticker, shares, price):
     if saleSuccess:
         profit = (price - float(prevStock[2])) * shares
         bot.send_message(
-            chat_id, 
+            chat_id,
             """
             You have sold {} shares of {} for ${} per share
             """.format(
                 shares, ticker, price
             ),
         )
-        bot.send_message(chat_id, "You have made a profit of ${:.2f}".format(profit))
+        bot.send_message(
+            chat_id, "You have made a profit of ${:.2f}".format(profit))
         user_list[str(chat_id)]["stocks"] = curr_portfolio
         return user_list
     else:
-        bot.send_message(chat_id, "You don't have enough shares to make this sale")
+        bot.send_message(
+            chat_id, "You don't have enough shares to make this sale")
         return None

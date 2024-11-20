@@ -12,6 +12,7 @@ import portfolio_view
 import logging
 from telebot import types
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the portfolio feature.
@@ -28,6 +29,7 @@ def run(message, bot):
     msg = bot.reply_to(message, "Select Operation", reply_markup=markup)
     bot.register_next_step_handler(msg, post_operation_selection, bot)
 
+
 def post_operation_selection(message, bot):
     """
     post_operation_selection(message, bot): It takes 2 arguments for processing - message which
@@ -43,7 +45,8 @@ def post_operation_selection(message, bot):
             bot.send_message(
                 chat_id, "Invalid", reply_markup=types.ReplyKeyboardRemove()
             )
-            raise Exception('Sorry I don\'t recognise this operation "{}"!'.format(op))
+            raise Exception(
+                'Sorry I don\'t recognise this operation "{}"!'.format(op))
         if op == options["buy"]:
             portfolio_buy.run(message, bot)
         elif op == options["sell"]:

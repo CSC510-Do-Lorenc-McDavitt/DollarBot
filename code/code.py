@@ -437,12 +437,14 @@ def start_portfolio(message):
     """
     portfolio.run(message, bot)
 
+
 @bot.message_handler(commands=['portfolio'])
 def start_portfolio(message):
     """
     Initiates the portfolio service by asking the user to choose an action.
     """
     portfolio.run(message, bot)
+
 
 def get_target_currency(message):
     """
