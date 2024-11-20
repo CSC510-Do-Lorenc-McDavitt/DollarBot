@@ -51,6 +51,7 @@ jobs:
         echo openai_key=$OPENAI_TOKEN >> user.properties
         pytest test/
         coverage run -m pytest test/
+        coverage xml
     - name: Upload coverage reports to Codecov
       if: always()
       uses: codecov/codecov-action@v3
