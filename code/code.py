@@ -178,11 +178,11 @@ def start_and_menu_command(m):
          "DollarBot can track all your expenses with simple and easy to use commands :) \n"
          "Here is the complete menu. \n\n")
     )
-    
+
     bot.send_message(chat_id, text_intro)
     commands = helper.getCommands()
-    for c in commands: 
-        command_txt = "" 
+    for c in commands:
+        command_txt = ""
         # generate help text out of the commands dictionary defined at the top
         command_txt += "/" + c + ": "
         command_txt += commands[c] + "\n\n"
