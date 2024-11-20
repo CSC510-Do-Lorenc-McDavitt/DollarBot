@@ -184,7 +184,7 @@ def post_category_selection(message, bot, date, group_name=None):
 
         # Store the category in the option dictionary
         option[chat_id]['category'] = selected_category
-        
+
         msg = bot.send_message(
             chat_id, "How much did you spend on {}? \n(Numeric values only)".format(
                 str(option[chat_id]['category'])),
@@ -262,8 +262,8 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
             markup.add("Yes")
             markup.add("No")
             msg = bot.send_message(
-            chat_id, "Do you want to add this expense to your credit account for tracking?",
-            reply_markup=markup)
+                chat_id, "Do you want to add this expense to your credit account for tracking?",
+                reply_markup=markup)
             bot.register_next_step_handler(msg, credit_option, bot, record)
     except ValueError:
         bot.send_message(
@@ -283,10 +283,10 @@ def credit_option(message, bot, record):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     markup.row_width = 2
     if str(message.text).lower() == "yes":
-        
-        if (not credit_list 
-            or str(chat_id) not in credit_list 
-            or len(credit_list[str(chat_id)].keys()) == 0):
+
+        if (not credit_list
+            or str(chat_id) not in credit_list
+                or len(credit_list[str(chat_id)].keys()) == 0):
             msg = bot.send_message(
                 chat_id, "You currently don't have any credit accounts.",
             )
@@ -321,23 +321,24 @@ def credit_name_input(message, bot, record):
     try:
         credit_list = helper.read_credit_json()
         account_name = str(message.text)
-        if(account_name not in credit_list[str(chat_id)].keys()):
+        if (account_name not in credit_list[str(chat_id)].keys()):
             bot.send_message(chat_id, "That account name doesn't exist!")
             return
         credit_list[str(chat_id)][account_name]["expenses"].append(record)
         bot.send_message(
-                chat_id, "Expenditure added to credit account: " + account_name)
+            chat_id, "Expenditure added to credit account: " + account_name)
         owe_pre = credit_list[str(chat_id)][account_name]["owe"]
         amount = float(record.split(",")[-1])
         credit_list[str(chat_id)][account_name]["owe"] += amount
         owe_now = credit_list[str(chat_id)][account_name]["owe"]
         helper.write_credit_json(credit_list)
         bot.send_message(
-            chat_id, 
-            "What you owe for the account now $" + 
+            chat_id,
+            "What you owe for the account now $" +
             "{:.2f}".format(owe_pre) + " --> $" + "{:.2f}".format(owe_now))
     except ValueError:
-        bot.send_message(chat_id, "Please enter a valid number for the expense.")
+        bot.send_message(
+            chat_id, "Please enter a valid number for the expense.")
     except Exception as e:
         bot.send_message(chat_id, "Oh no. " + str(e))
 
@@ -348,7 +349,7 @@ def add_user_record(chat_id, record_to_be_added):
     """
     user_list = helper.read_json()
     if user_list is None:
-            user_list = {}
+        user_list = {}
 
     if str(chat_id) not in user_list:
         user_list[str(chat_id)] = helper.createNewUserRecord()

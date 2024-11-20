@@ -212,6 +212,7 @@ def read_credit_json():
     except FileNotFoundError:
         print("---------NO CREDIT RECORDS FOUND---------")
 
+
 def write_credit_json(credit_list):
     """
     write_credit_json(credit_list): Stores credit data into the datastore of the bot.

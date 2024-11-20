@@ -338,6 +338,8 @@ def command_delete(message):
     delete.run(message, bot)
 
 # handles "/view_credit" command
+
+
 @bot.message_handler(commands=["view_credit"])
 def command_view_credit(message):
     """
@@ -348,6 +350,8 @@ def command_view_credit(message):
     credit_view.run(message, bot)
 
 # handles "/setup_credit" command
+
+
 @bot.message_handler(commands=["setup_credit"])
 def command_setup_credit(message):
     """
@@ -358,6 +362,8 @@ def command_setup_credit(message):
     credit_setup.run(message, bot)
 
 # handles "/pay_credit" command
+
+
 @bot.message_handler(commands=["pay_credit"])
 def command_pay_credit(message):
     """
@@ -369,6 +375,8 @@ def command_pay_credit(message):
     credit_pay.run(message, bot)
 
 # handles "/clear_credit" command
+
+
 @bot.message_handler(commands=["clear_credit"])
 def command_clear_credit(message):
     """
@@ -380,6 +388,8 @@ def command_clear_credit(message):
     credit_clear.run(message, bot)
 
 # handles "/delete_credit" command
+
+
 @bot.message_handler(commands=["delete_credit"])
 def command_delete_credit(message):
     """
