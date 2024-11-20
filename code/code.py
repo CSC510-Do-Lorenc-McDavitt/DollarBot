@@ -59,7 +59,7 @@ import credit_delete
 import credit_calendar
 import threading
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 from jproperties import Properties
 from currency import get_supported_currencies, get_supported_historical_currencies, get_conversion_rate, get_historical_trend
 from telebot import types
@@ -754,7 +754,8 @@ def oauth2callback():
         oauth_record = helper.read_oauth_json()
         oauth_record[chat_id] = {}
         oauth_record[chat_id]["access_token"] = token_info['access_token']
-        oauth_record[chat_id]["expires"] = token_info.get('expires_in')
+        expiration_time = datetime.utcnow() + timedelta(seconds=token_info['expires_in'])
+        oauth_record[chat_id]["expires"] = expiration_time.timestamp()
         helper.write_oauth_json(oauth_record)
         return jsonify({"message":"Successfully created your token, please return to the app."}), 200
     except Exception as e:
