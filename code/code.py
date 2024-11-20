@@ -422,13 +422,13 @@ def command_delete_credit(message):
     credit_delete.run(message, bot)
 
 
-@bot.message_handler(commands=["calendar"])
-def command_calendar(message):
+@bot.message_handler(commands=["setup_credit_calendar"])
+def command_setup_credit_calendar(message):
     """
-    command_delete_credit(message): Takes 1 argument message which contains the message from the user
-    along with the chat ID of the user chat. It then calls credit_delete.py to run to delete a credit
-    account.
-    Commands used to run this: commands=['delete_credit']
+    command_setup_credit_calendar(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls creddit_calendar.py to run to add a due date
+    to a credit account for a users google calendar
+    Commands used to run this: commands=['setup_credit_calendar']
     """
     credit_calendar.run(message, bot)
 
@@ -734,6 +734,10 @@ def home():
 
 @app.route('/oauth2callback')
 def oauth2callback():
+    """
+    Route for setting up the oauth token. Downloads it into
+    oauth_record.json
+    """
     # Extract the authorization code and chat_id
     try:
         auth_code = request.args.get('code')
@@ -766,6 +770,7 @@ def run_flask():
     """
     Runs the flask application for handling oauth and calendar setup.
     This allows for future implementations of google api items.
+    This process is on an alternate thread
     """
     app.run(debug=False, use_reloader=False, threaded=True)
 

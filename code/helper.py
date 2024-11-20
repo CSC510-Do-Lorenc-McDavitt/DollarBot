@@ -95,7 +95,8 @@ commands = {
     "setup_credit": "Sets up a credit account for the user.",
     "pay_credit": "Pays off certain amount of the credit account the user has. Can be used to adjust what you owe for discrepancies.",
     "clear_credit": "Remove the expenses for an account",
-    "delete_credit": "Remove a credit account"
+    "delete_credit": "Remove a credit account",
+    "setup_credit_calendar": "Add a credit account due date onto your google calendar and make it recurring"
 
 }
 
