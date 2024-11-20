@@ -157,7 +157,7 @@ class TestCurrency(unittest.TestCase):
         assert output['EXINUS'].get('2022-10-01', None) is None
 
     def test_three_year_inr(self):
-        '""" Test for 3 years of Data for INR """
+        """ Test for 3 years of Data for INR """
         test_end = datetime.datetime(2024, 11, 1)
         output = get_historical_trend(base_currency="INR", years=3, test_end=test_end)
         assert len(output) == 36
