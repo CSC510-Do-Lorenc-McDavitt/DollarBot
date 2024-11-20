@@ -41,7 +41,18 @@
    Follow the on-screen instructions to name your bot and assign a unique username ending with “bot” (e.g., `dollarbot_<your_nickname>`).  
    Save the token BotFather provides for later use.
 
-2. **Start DollarBot**  
+2. **Create a Google Cloud API account for Oauth2**
+   * Create a google api account
+   * Search and enable the service for Google Calendar API
+   * Go to api and services
+   * Click credentials
+   * Create new credentials
+   * Select oauth client key
+   * Select application type to webpage
+   * For the redirect URI put in http://localhost:5000/oauth2callback
+   * Put credentials in .env by copying the .env.example
+
+3. **Start DollarBot**  
    In the project directory, give permission and execute the script:
    ```bash
    chmod a+x run.sh
@@ -49,8 +60,8 @@
    ./run.sh          # for Windows
    ```
    When prompted, paste your API token. A successful launch will display "TeleBot: Started polling."
-
-3. **Start Interacting**  
+   
+4. **Start Interacting**  
    In Telegram, search for your bot using its unique username. Type `/start` or `menu` to begin using DollarBot!
 
 ---
