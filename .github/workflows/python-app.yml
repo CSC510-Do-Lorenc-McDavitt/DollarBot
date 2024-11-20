@@ -41,9 +41,14 @@ jobs:
       run: |
         pylint -r y code/ || true
     - name: Test with Pytest & Coverage
+      env:
+        API_TOKEN: ${{ secrets.API_TOKEN }}
+        OPENAI_TOKEN: ${{ secrets.OPENAI_KEY }}
       run: |
         pip install pytest
         pip install coverage
+        echo api_token=$API_TOKEN >> user.properties
+        echo openai_key=$OPENAI_TOKEN >> user.properties
         pytest test/
         coverage run -m pytest test/
     - name: Upload coverage reports to Codecov

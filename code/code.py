@@ -377,6 +377,21 @@ def start_currency_calculator(message):
     else:
         bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
 
+@bot.message_handler(commands=['portfolio'])
+def start_portfolio(message):
+    """
+    Initiates the portfolio service by asking the user to choose an action.
+    """
+    portfolio.run(message, bot)
+
+
+@bot.message_handler(commands=['portfolio'])
+def start_portfolio(message):
+    """
+    Initiates the portfolio service by asking the user to choose an action.
+    """
+    portfolio.run(message, bot)
+
 @bot.message_handler(commands=['historicaltrends'])
 def currency_historical_trends(message):
     """

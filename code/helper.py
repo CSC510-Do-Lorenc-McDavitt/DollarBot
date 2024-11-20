@@ -29,6 +29,8 @@ import re
 import json
 import os
 from datetime import datetime
+from tabulate import tabulate
+import yfinance as yf
 
 spend_categories = []
 choices = ["Date", "Category", "Cost"]
@@ -79,6 +81,7 @@ commands = {
     "currency": "Lists all supported currencies, allowing users to view available options for conversions.",
     "convert": "Converts a specified currency to USD and provides the current exchange rate.",
     "currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies.",
+    "portfolio": "Buy/sell stock and view your portfolio.",
     "historicaltrends": "Guides users to select two types of currency and shows a comparative historical trend between the two"
 }
 
@@ -166,6 +169,38 @@ def validate_entered_duration(duration_entered):
         if duration > 0:
             return str(duration)
     return 0
+
+def getPortfolioData(chat_id):
+    """
+    Returns a string output of the user's portfolio
+    """
+    user_list = read_portfolio_json()
+    if user_list is None:
+        return ""
+    elif user_list.get(str(chat_id), None) is None:
+        return ""
+    elif not user_list[str(chat_id)]["stocks"]:
+        return ""
+    else:
+        portfolio = user_list[str(chat_id)]["stocks"]
+        table = [["Stock", "Shares", "Buy Price",
+                  "Current Price", "Percent Change"]]
+        portfolio_csv = csv.reader(portfolio)
+        portfolio_worth = 0
+        for stock in portfolio_csv:
+            ticker = yf.Ticker(stock[0])
+            curr_price = ticker.info['currentPrice']
+            curr_price = round(curr_price, 2)
+            percent_change = ((curr_price / float(stock[2])) - 1.0) * 100
+            percent_change = round(percent_change, 2)
+            portfolio_worth += int(stock[1]) * curr_price
+            table.append([stock[0], stock[1], "$ " + stock[2],
+                          "$ " + str(curr_price), str(percent_change) + "%"])
+        output = "Your portfolio is worth ${:.2f}".format(portfolio_worth)
+        portfolio_table = "<pre>" + \
+            tabulate(table, headers='firstrow')+"</pre>"
+        output += "\n" + portfolio_table
+        return output
 
 def getUserHistory(chat_id):
     """

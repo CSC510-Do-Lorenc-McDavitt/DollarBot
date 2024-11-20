@@ -34,6 +34,7 @@ import os
 
 # === Documentation of pdf.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the pdf save feature.
@@ -82,13 +83,15 @@ def run(message, bot):
                 categories = helper.getSpendCategories()
                 for cat in categories:
                     if helper.isCategoryBudgetByCategoryAvailable(chat_id, cat):
-                        category_budget[cat] = helper.getCategoryBudgetByCategory(chat_id, cat)
+                        category_budget[cat] = helper.getCategoryBudgetByCategory(
+                            chat_id, cat)
                 graphing.overall_split(category_budget)
 
             category_spend = {}
             categories = helper.getSpendCategories()
             for cat in categories:
-                spend = helper.calculate_total_spendings_for_category_chat_id(chat_id,cat)
+                spend = helper.calculate_total_spendings_for_category_chat_id(
+                    chat_id, cat)
                 if spend != 0:
                     category_spend[cat] = spend
             if category_spend != {}:
@@ -99,21 +102,23 @@ def run(message, bot):
                 categories = helper.getSpendCategories()
                 for cat in categories:
                     if helper.isCategoryBudgetByCategoryAvailable(chat_id, cat):
-                        percent = helper.calculateRemainingCategoryBudgetPercent(chat_id, cat)
+                        percent = helper.calculateRemainingCategoryBudgetPercent(
+                            chat_id, cat)
                         category_spend_percent[cat] = percent
                 graphing.remaining(category_spend_percent)
 
             if helper.getUserHistory(chat_id):
                 cat_spend_dict = helper.getUserHistoryDateExpense(chat_id)
                 graphing.time_series(cat_spend_dict)
-            
-            list_of_images = ["overall_split.png","remaining.png","time_series.png"]
+
+            list_of_images = ["overall_split.png",
+                              "remaining.png", "time_series.png"]
             pdf = FPDF()
             pdf.add_page()
             x_coord = 20
             y_coord = 30
             for image in list_of_images:
-                pdf.image(image,x=x_coord,y=y_coord,w=70,h=50)
+                pdf.image(image, x=x_coord, y=y_coord, w=70, h=50)
                 x_coord += 80
                 if x_coord > 100:
                     x_coord = 20
@@ -123,7 +128,8 @@ def run(message, bot):
             for image in list_of_images:
                 os.remove(image)
         else:
-            bot.send_message(chat_id, "Oh no! Set your corresponding category wise budgets using the /budget command to generate the expense report")
+            bot.send_message(
+                chat_id, "Oh no! Set your corresponding category wise budgets using the /budget command to generate the expense report")
 
     except Exception as e:
         logging.exception(str(e))

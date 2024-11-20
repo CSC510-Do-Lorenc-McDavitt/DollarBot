@@ -30,6 +30,7 @@ import helper
 import logging
 from datetime import datetime
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the predict feature.
@@ -48,7 +49,8 @@ def run(message, bot):
             chat_id, "Sorry, you do not have sufficient spending records to predict a future budget"
         )
     else:
-        predict_total(message,bot)
+        predict_total(message, bot)
+
 
 def predict_total(message, bot):
     """
@@ -63,21 +65,26 @@ def predict_total(message, bot):
         chat_id = message.chat.id
         history = helper.getUserHistory(chat_id)
         available_categories = helper.getAvailableCategories(history)
-        category_wise_history = helper.getCategoryWiseSpendings(available_categories,history)
+        category_wise_history = helper.getCategoryWiseSpendings(
+            available_categories, history)
         bot.send_message(chat_id, "Hold on! Calculating...")
         # show the bot "typing" (max. 5 secs)
         bot.send_chat_action(chat_id, "typing")
         time.sleep(0.5)
         category_spendings = {}
         for category in available_categories:
-            category_spendings[category] = predict_category_spending(category_wise_history[category])
-        overall_spending = predict_overall_spending(chat_id,category_spendings)
-        bot.send_message(chat_id, "Your overall budget for next month can be: ${}".format(overall_spending))
+            category_spendings[category] = predict_category_spending(
+                category_wise_history[category])
+        overall_spending = predict_overall_spending(
+            chat_id, category_spendings)
+        bot.send_message(
+            chat_id, "Your overall budget for next month can be: ${}".format(overall_spending))
         category_budgets = helper.getFormattedPredictions(category_spendings)
-        bot.send_message(chat_id,category_budgets)
+        bot.send_message(chat_id, category_budgets)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, str(e))
+
 
 def predict_category_spending(category_history):
     """
@@ -91,14 +98,16 @@ def predict_category_spending(category_history):
     recorded_days = []
     for record in category_history:
         total_spent += float(record.split(',')[2])
-        date = datetime.strptime(record.split(',')[0].split(' ')[0], helper.getDateFormat())
+        date = datetime.strptime(record.split(',')[0].split(' ')[
+                                 0], helper.getDateFormat())
         recorded_days.append(date)
     first = min(recorded_days)
     last = max(recorded_days)
     day_difference = abs(int((last - first).days)) + 1
     avg_per_day = total_spent/day_difference
     predicted_spending = avg_per_day * 30
-    return round(predicted_spending,2)
+    return round(predicted_spending, 2)
+
 
 def predict_overall_spending(chat_id, category_wise_spending):
     """

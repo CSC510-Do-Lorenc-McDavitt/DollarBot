@@ -32,6 +32,8 @@ from telebot import types
 
 # === Documentation of delete.py ===
 # pylint: disable=W0601
+
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the delete feature.
@@ -52,15 +54,17 @@ def run(message, bot):
             prompt = "Enter the corresponding date in the given format or Enter All to delete the entire history\n"
             prompt += f"\n\tExample day: {curr_day.strftime(dateFormat)}\n"
             reply_message = bot.reply_to(message, prompt)
-            bot.register_next_step_handler(reply_message, process_delete_argument, bot)
+            bot.register_next_step_handler(
+                reply_message, process_delete_argument, bot)
         else:
             delete_history_text = "No records there to be deleted. Start adding your expenses to keep track of your spendings!"
             bot.send_message(chat_id, delete_history_text)
-    
+
     except Exception as ex:
         print("Exception occurred : ")
         logging.error(str(ex), exc_info=True)
         bot.reply_to(message, "Processing Failed - \nError : " + str(ex))
+
 
 def process_delete_argument(message, bot):
     """
@@ -98,7 +102,9 @@ def process_delete_argument(message, bot):
             markup.add("No")
             response_str += "\nReply Yes or No"
             response = bot.reply_to(message, response_str, reply_markup=markup)
-            bot.register_next_step_handler(response, handle_confirmation, bot, records_to_delete)
+            bot.register_next_step_handler(
+                response, handle_confirmation, bot, records_to_delete)
+
 
 def handle_confirmation(message, bot, records_to_delete):
     """
@@ -116,7 +122,8 @@ def handle_confirmation(message, bot, records_to_delete):
             # Get the user's data
             user_data = user_list.get(str(chat_id), {}).get('data', [])
             # Remove the specified records
-            user_data = [record for record in user_data if record not in records_to_delete]
+            user_data = [
+                record for record in user_data if record not in records_to_delete]
             # Update the userlist with the modified data
             user_list[str(chat_id)]['data'] = user_data
         helper.write_json(user_list)
@@ -125,6 +132,8 @@ def handle_confirmation(message, bot, records_to_delete):
         bot.send_message(message.chat.id, "No records deleted")
 
 # function to delete a record
+
+
 def deleteHistory(chat_id):
     """
     deleteHistory(chat_id): It takes 1 argument for processing - chat_id which is the
