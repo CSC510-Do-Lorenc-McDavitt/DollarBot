@@ -32,6 +32,8 @@ from pandas_datareader import data
 API_URL = "https://v6.exchangerate-api.com/v6"
 API_KEY = "6b3e6f09c28d0a24ba44ac29"
 
+DAYS_IN_A_YEAR = 365.24
+
 """
 Exchange codes for historical data from: 
 https://fred.stlouisfed.org/categories/95
@@ -116,14 +118,13 @@ def get_historical_trend(base_currency, years=5, test_end=None):
     if years > 10:
         return None
 
-    
     if not test_end:
-        end = datetime.date.today()
+        today = datetime.date.today()
+        end = datetime.date(today.year, today.month, 1)
     else:
         end = test_end
-    start = end - datetime.timedelta(days=365*years)
+    start = datetime.date(end.year - years, end.month, 1)
 
-    
     try:
        historical_data = data.DataReader(HISTORICAL_EXCHANGE_CODES[base_currency], 'fred', start=start, end=end)
 
