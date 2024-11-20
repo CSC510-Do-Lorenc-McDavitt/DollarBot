@@ -104,6 +104,12 @@ SOFTWARE.</p>
 <dd>
 <div class="desc"></div>
 </dd>
+<dt id="code.helper.createNewPortfolioUserRecord"><code class="name flex">
+<span>def <span class="ident">createNewPortfolioUserRecord</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt id="code.helper.createNewUserRecord"><code class="name flex">
 <span>def <span class="ident">createNewUserRecord</span></span>(<span>)</span>
 </code></dt>
@@ -208,6 +214,12 @@ SOFTWARE.</p>
 </dd>
 <dt id="code.helper.getOverallBudget"><code class="name flex">
 <span>def <span class="ident">getOverallBudget</span></span>(<span>chatId)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="code.helper.getPortfolioOptions"><code class="name flex">
+<span>def <span class="ident">getPortfolioOptions</span></span>(<span>)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -320,6 +332,12 @@ SOFTWARE.</p>
 <dd>
 <div class="desc"><p>read_json(): Function to load .json expense record data</p></div>
 </dd>
+<dt id="code.helper.read_portfolio_json"><code class="name flex">
+<span>def <span class="ident">read_portfolio_json</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>read_json(): Function to load .json portfolio data</p></div>
+</dd>
 <dt id="code.helper.save_group_data"><code class="name flex">
 <span>def <span class="ident">save_group_data</span></span>(<span>groups)</span>
 </code></dt>
@@ -363,6 +381,12 @@ It validates this amount's format to see if it has been correctly entered by the
 <dd>
 <div class="desc"><p>write_json(user_list): Stores data into the datastore of the bot.</p></div>
 </dd>
+<dt id="code.helper.write_portfolio_json"><code class="name flex">
+<span>def <span class="ident">write_portfolio_json</span></span>(<span>user_list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>write_json(user_list): Stores data into the datastore of the bot.</p></div>
+</dd>
 </dl>
 </section>
 <section>
@@ -388,6 +412,7 @@ It validates this amount's format to see if it has been correctly entered by the
 <li><code><a title="code.helper.calculate_total_spendings_for_category" href="#code.helper.calculate_total_spendings_for_category">calculate_total_spendings_for_category</a></code></li>
 <li><code><a title="code.helper.calculate_total_spendings_for_category_chat_id" href="#code.helper.calculate_total_spendings_for_category_chat_id">calculate_total_spendings_for_category_chat_id</a></code></li>
 <li><code><a title="code.helper.canAddBudget" href="#code.helper.canAddBudget">canAddBudget</a></code></li>
+<li><code><a title="code.helper.createNewPortfolioUserRecord" href="#code.helper.createNewPortfolioUserRecord">createNewPortfolioUserRecord</a></code></li>
 <li><code><a title="code.helper.createNewUserRecord" href="#code.helper.createNewUserRecord">createNewUserRecord</a></code></li>
 <li><code><a title="code.helper.deleteBudgetCategory" href="#code.helper.deleteBudgetCategory">deleteBudgetCategory</a></code></li>
 <li><code><a title="code.helper.deleteSpendCategories" href="#code.helper.deleteSpendCategories">deleteSpendCategories</a></code></li>
@@ -406,6 +431,7 @@ It validates this amount's format to see if it has been correctly entered by the
 <li><code><a title="code.helper.getFormattedPredictions" href="#code.helper.getFormattedPredictions">getFormattedPredictions</a></code></li>
 <li><code><a title="code.helper.getMonthFormat" href="#code.helper.getMonthFormat">getMonthFormat</a></code></li>
 <li><code><a title="code.helper.getOverallBudget" href="#code.helper.getOverallBudget">getOverallBudget</a></code></li>
+<li><code><a title="code.helper.getPortfolioOptions" href="#code.helper.getPortfolioOptions">getPortfolioOptions</a></code></li>
 <li><code><a title="code.helper.getSpendCategories" href="#code.helper.getSpendCategories">getSpendCategories</a></code></li>
 <li><code><a title="code.helper.getSpendDisplayOptions" href="#code.helper.getSpendDisplayOptions">getSpendDisplayOptions</a></code></li>
 <li><code><a title="code.helper.getSpendEstimateOptions" href="#code.helper.getSpendEstimateOptions">getSpendEstimateOptions</a></code></li>
@@ -424,6 +450,7 @@ It validates this amount's format to see if it has been correctly entered by the
 <li><code><a title="code.helper.load_group_data" href="#code.helper.load_group_data">load_group_data</a></code></li>
 <li><code><a title="code.helper.read_category_json" href="#code.helper.read_category_json">read_category_json</a></code></li>
 <li><code><a title="code.helper.read_json" href="#code.helper.read_json">read_json</a></code></li>
+<li><code><a title="code.helper.read_portfolio_json" href="#code.helper.read_portfolio_json">read_portfolio_json</a></code></li>
 <li><code><a title="code.helper.save_group_data" href="#code.helper.save_group_data">save_group_data</a></code></li>
 <li><code><a title="code.helper.throw_exception" href="#code.helper.throw_exception">throw_exception</a></code></li>
 <li><code><a title="code.helper.updateBudgetCategory" href="#code.helper.updateBudgetCategory">updateBudgetCategory</a></code></li>
@@ -431,6 +458,7 @@ It validates this amount's format to see if it has been correctly entered by the
 <li><code><a title="code.helper.validate_entered_duration" href="#code.helper.validate_entered_duration">validate_entered_duration</a></code></li>
 <li><code><a title="code.helper.write_category_json" href="#code.helper.write_category_json">write_category_json</a></code></li>
 <li><code><a title="code.helper.write_json" href="#code.helper.write_json">write_json</a></code></li>
+<li><code><a title="code.helper.write_portfolio_json" href="#code.helper.write_portfolio_json">write_portfolio_json</a></code></li>
 </ul>
 </li>
 </ul>
