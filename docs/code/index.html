@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>code API documentation</title>
+<meta name="description" content="File: __init__.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Package <code>code</code></h1>
+</header>
+<section id="section-intro">
+<p>File: <strong>init</strong>.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot message handlers and their associated functions.</p>
+<p>Copyright (c) 2023</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="code.add" href="add.html">code.add</a></code></dt>
+<dd>
+<div class="desc"><p>File: add.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.add_recurring" href="add_recurring.html">code.add_recurring</a></code></dt>
+<dd>
+<div class="desc"><p>File: add_recurring.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram …</p></div>
+</dd>
+<dt><code class="name"><a title="code.analytics" href="analytics.html">code.analytics</a></code></dt>
+<dd>
+<div class="desc"><p>File: analytics.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.budget" href="budget.html">code.budget</a></code></dt>
+<dd>
+<div class="desc"><p>File: budget.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.budget_delete" href="budget_delete.html">code.budget_delete</a></code></dt>
+<dd>
+<div class="desc"><p>File: budget_delete.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram …</p></div>
+</dd>
+<dt><code class="name"><a title="code.budget_update" href="budget_update.html">code.budget_update</a></code></dt>
+<dd>
+<div class="desc"><p>File: budget_update.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram …</p></div>
+</dd>
+<dt><code class="name"><a title="code.budget_view" href="budget_view.html">code.budget_view</a></code></dt>
+<dd>
+<div class="desc"><p>File: budget_view.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram …</p></div>
+</dd>
+<dt><code class="name"><a title="code.chat" href="chat.html">code.chat</a></code></dt>
+<dd>
+<div class="desc"><p>File: chat.py
+Author: Haojie Zhou
+Date: Oct 27 2024
+Description: ChatGPT integration module for DollarBot with financial advisory capabilities</p></div>
+</dd>
+<dt><code class="name"><a title="code.code" href="code.html">code.code</a></code></dt>
+<dd>
+<div class="desc"><p>File: code.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.currency" href="currency.html">code.currency</a></code></dt>
+<dd>
+<div class="desc"><p>File: currency.py
+Author: Jiewen Liu
+Date: October, 2024
+Description: File contains Telegram bot message handlers and their associated functions …</p></div>
+</dd>
+<dt><code class="name"><a title="code.delete" href="delete.html">code.delete</a></code></dt>
+<dd>
+<div class="desc"><p>File: delete.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.display" href="display.html">code.display</a></code></dt>
+<dd>
+<div class="desc"><p>File: display.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.edit" href="edit.html">code.edit</a></code></dt>
+<dd>
+<div class="desc"><p>File: edit.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.estimate" href="estimate.html">code.estimate</a></code></dt>
+<dd>
+<div class="desc"><p>File: estimate.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.get_analysis" href="get_analysis.html">code.get_analysis</a></code></dt>
+<dd>
+<div class="desc"><p>File: get_analysis.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram …</p></div>
+</dd>
+<dt><code class="name"><a title="code.graphing" href="graphing.html">code.graphing</a></code></dt>
+<dd>
+<div class="desc"><p>File: graphing.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.group" href="group.html">code.group</a></code></dt>
+<dd>
+<div class="desc"><p>File: group.py
+Author: Yumo Shen
+Date: October, 2024
+Description: File contains Telegram bot message handlers and their associated functions …</p></div>
+</dd>
+<dt><code class="name"><a title="code.helper" href="helper.html">code.helper</a></code></dt>
+<dd>
+<div class="desc"><p>File: helper.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.history" href="history.html">code.history</a></code></dt>
+<dd>
+<div class="desc"><p>File: history.py
+Author: Yumo Shen, Jiewen Liu, Haojie Zhou
+Date: October, 2024
+Description: File contains Telegram bot message handlers and their …</p></div>
+</dd>
+<dt><code class="name"><a title="code.monthly" href="monthly.html">code.monthly</a></code></dt>
+<dd>
+<div class="desc"><p>File: monthly.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.notifier" href="notifier.html">code.notifier</a></code></dt>
+<dd>
+<div class="desc"><p>File: notifier.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.notify" href="notify.html">code.notify</a></code></dt>
+<dd>
+<div class="desc"><p>File: notify.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.pdf" href="pdf.html">code.pdf</a></code></dt>
+<dd>
+<div class="desc"><p>File: pdf.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.portfolio" href="portfolio.html">code.portfolio</a></code></dt>
+<dd>
+<div class="desc"><p>File: portfolio.py
+Author: Nathan Lorenc
+Date: November 13, 2024
+Description: File contains functionality for retrieving
+stock portfolio prices for …</p></div>
+</dd>
+<dt><code class="name"><a title="code.portfolio_buy" href="portfolio_buy.html">code.portfolio_buy</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="code.portfolio_sell" href="portfolio_sell.html">code.portfolio_sell</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="code.portfolio_view" href="portfolio_view.html">code.portfolio_view</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="code.predict" href="predict.html">code.predict</a></code></dt>
+<dd>
+<div class="desc"><p>File: predict.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.sendEmail" href="sendEmail.html">code.sendEmail</a></code></dt>
+<dd>
+<div class="desc"><p>File: sendEmail.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+<dt><code class="name"><a title="code.updateCategory" href="updateCategory.html">code.updateCategory</a></code></dt>
+<dd>
+<div class="desc"><p>File: updateCategory.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains …</p></div>
+</dd>
+<dt><code class="name"><a title="code.weekly" href="weekly.html">code.weekly</a></code></dt>
+<dd>
+<div class="desc"><p>File: weekly.py
+Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
+Date: October 01, 2023
+Description: File contains Telegram bot …</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="code.add" href="add.html">code.add</a></code></li>
+<li><code><a title="code.add_recurring" href="add_recurring.html">code.add_recurring</a></code></li>
+<li><code><a title="code.analytics" href="analytics.html">code.analytics</a></code></li>
+<li><code><a title="code.budget" href="budget.html">code.budget</a></code></li>
+<li><code><a title="code.budget_delete" href="budget_delete.html">code.budget_delete</a></code></li>
+<li><code><a title="code.budget_update" href="budget_update.html">code.budget_update</a></code></li>
+<li><code><a title="code.budget_view" href="budget_view.html">code.budget_view</a></code></li>
+<li><code><a title="code.chat" href="chat.html">code.chat</a></code></li>
+<li><code><a title="code.code" href="code.html">code.code</a></code></li>
+<li><code><a title="code.currency" href="currency.html">code.currency</a></code></li>
+<li><code><a title="code.delete" href="delete.html">code.delete</a></code></li>
+<li><code><a title="code.display" href="display.html">code.display</a></code></li>
+<li><code><a title="code.edit" href="edit.html">code.edit</a></code></li>
+<li><code><a title="code.estimate" href="estimate.html">code.estimate</a></code></li>
+<li><code><a title="code.get_analysis" href="get_analysis.html">code.get_analysis</a></code></li>
+<li><code><a title="code.graphing" href="graphing.html">code.graphing</a></code></li>
+<li><code><a title="code.group" href="group.html">code.group</a></code></li>
+<li><code><a title="code.helper" href="helper.html">code.helper</a></code></li>
+<li><code><a title="code.history" href="history.html">code.history</a></code></li>
+<li><code><a title="code.monthly" href="monthly.html">code.monthly</a></code></li>
+<li><code><a title="code.notifier" href="notifier.html">code.notifier</a></code></li>
+<li><code><a title="code.notify" href="notify.html">code.notify</a></code></li>
+<li><code><a title="code.pdf" href="pdf.html">code.pdf</a></code></li>
+<li><code><a title="code.portfolio" href="portfolio.html">code.portfolio</a></code></li>
+<li><code><a title="code.portfolio_buy" href="portfolio_buy.html">code.portfolio_buy</a></code></li>
+<li><code><a title="code.portfolio_sell" href="portfolio_sell.html">code.portfolio_sell</a></code></li>
+<li><code><a title="code.portfolio_view" href="portfolio_view.html">code.portfolio_view</a></code></li>
+<li><code><a title="code.predict" href="predict.html">code.predict</a></code></li>
+<li><code><a title="code.sendEmail" href="sendEmail.html">code.sendEmail</a></code></li>
+<li><code><a title="code.updateCategory" href="updateCategory.html">code.updateCategory</a></code></li>
+<li><code><a title="code.weekly" href="weekly.html">code.weekly</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

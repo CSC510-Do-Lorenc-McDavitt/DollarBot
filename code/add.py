@@ -35,21 +35,26 @@ option = {}
 
 # === Documentation of add.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the add feature.
     It prompts the user to decide whether to add the expense to a group or a category.
     """
     chat_id = message.chat.id
-    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(
+        one_time_keyboard=True, resize_keyboard=True)
     markup.row_width = 2
-    markup.add(types.KeyboardButton("Individual"), types.KeyboardButton("Group"))
+    markup.add(types.KeyboardButton("Individual"),
+               types.KeyboardButton("Group"))
 
     # Reset the option for the current user when starting a new flow
     option[chat_id] = {}  # Reset the option for the current user
 
-    msg = bot.send_message(chat_id, "Do you want to add this expense to an individual or a group?", reply_markup=markup)
+    msg = bot.send_message(
+        chat_id, "Do you want to add this expense to an individual or a group?", reply_markup=markup)
     bot.register_next_step_handler(msg, handle_group_check, bot)
+
 
 def handle_group_check(message, bot):
     """
@@ -64,7 +69,8 @@ def handle_group_check(message, bot):
     elif choice == "individual":
         msg = bot.send_message(chat_id, "Select date")
         calendar, step = DetailedTelegramCalendar().build()
-        bot.send_message(chat_id, f"Select {LSTEP[step]}", reply_markup=calendar)
+        bot.send_message(
+            chat_id, f"Select {LSTEP[step]}", reply_markup=calendar)
 
         @bot.callback_query_handler(func=DetailedTelegramCalendar.func())
         def cal(c):
@@ -81,11 +87,15 @@ def handle_group_check(message, bot):
             elif result:
                 data = datetime.today().date()
                 if result > data:
-                    bot.send_message(chat_id, "Cannot select future dates. Please try /add command again with correct dates.")
+                    bot.send_message(
+                        chat_id, "Cannot select future dates. Please try /add command again with correct dates.")
                 else:
-                    category_selection(message, bot, result, group_name=None)  # group_name=None means individual flow
+                    # group_name=None means individual flow
+                    category_selection(message, bot, result, group_name=None)
     else:
-        bot.send_message(chat_id, "Invalid choice. Please choose from the buttons.")
+        bot.send_message(
+            chat_id, "Invalid choice. Please choose from the buttons.")
+
 
 def handle_group_name(message, bot):
     """
@@ -99,12 +109,14 @@ def handle_group_name(message, bot):
 
     if group_name in groups:
         # Store the group name in the option dictionary for the current user
-        option[chat_id]['group_name'] = group_name  # Track group name in option
+        # Track group name in option
+        option[chat_id]['group_name'] = group_name
 
         # Proceed to ask for date for group expense
         msg = bot.send_message(chat_id, "Select date")
         calendar, step = DetailedTelegramCalendar().build()
-        bot.send_message(chat_id, f"Select {LSTEP[step]}", reply_markup=calendar)
+        bot.send_message(
+            chat_id, f"Select {LSTEP[step]}", reply_markup=calendar)
 
         @bot.callback_query_handler(func=DetailedTelegramCalendar.func())
         def cal(c):
@@ -121,11 +133,15 @@ def handle_group_name(message, bot):
             elif result:
                 data = datetime.today().date()
                 if result > data:
-                    bot.send_message(chat_id, "Cannot select future dates. Please try /add command again with correct dates.")
+                    bot.send_message(
+                        chat_id, "Cannot select future dates. Please try /add command again with correct dates.")
                 else:
-                    category_selection(message, bot, result, group_name)  # Pass group_name for group flow
+                    # Pass group_name for group flow
+                    category_selection(message, bot, result, group_name)
     else:
-        bot.send_message(chat_id, f"Group '{group_name}' does not exist. Please create a new group with /group.")
+        bot.send_message(
+            chat_id, f"Group '{group_name}' does not exist. Please create a new group with /group.")
+
 
 def category_selection(msg, bot, date, group_name=None):
     """
@@ -137,14 +153,17 @@ def category_selection(msg, bot, date, group_name=None):
         markup.row_width = 2
         categories = helper.getSpendCategories()
         if not categories:
-            bot.reply_to(msg, "You don't have any categories. Please add a category!!")
+            bot.reply_to(
+                msg, "You don't have any categories. Please add a category!!")
         else:
             for c in categories:
                 markup.add(c)
             msg = bot.reply_to(msg, "Select Category", reply_markup=markup)
-            bot.register_next_step_handler(msg, post_category_selection, bot, date, group_name)
+            bot.register_next_step_handler(
+                msg, post_category_selection, bot, date, group_name)
     except Exception as e:
         print(e)
+
 
 def post_category_selection(message, bot, date, group_name=None):
     """
@@ -159,17 +178,19 @@ def post_category_selection(message, bot, date, group_name=None):
                 chat_id, "Invalid", reply_markup=types.ReplyKeyboardRemove()
             )
             raise Exception(
-                'Sorry, I don\'t recognise this category "{}"!'.format(selected_category)
+                'Sorry, I don\'t recognise this category "{}"!'.format(
+                    selected_category)
             )
-        
+
         # Store the category in the option dictionary
         option[chat_id]['category'] = selected_category
         
         msg = bot.send_message(
-            chat_id, "How much did you spend on {}? \n(Numeric values only)".format(str(option[chat_id]['category'])),
+            chat_id, "How much did you spend on {}? \n(Numeric values only)".format(
+                str(option[chat_id]['category'])),
         )
-        bot.register_next_step_handler(msg, post_amount_input, bot, selected_category, date, group_name)
-        
+        bot.register_next_step_handler(
+            msg, post_amount_input, bot, selected_category, date, group_name)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, "Oh no! " + str(e))
@@ -183,9 +204,10 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
     try:
         chat_id = message.chat.id
         amount_entered = message.text
-        
+
         # Ensure the amount is converted to a float (will raise ValueError if invalid)
-        amount_value = float(helper.validate_entered_amount(amount_entered))  # validate
+        amount_value = float(helper.validate_entered_amount(
+            amount_entered))  # validate
 
         if amount_value == 0:  # cannot be $0 spending
             raise Exception("Spent amount has to be a non-zero number.")
@@ -199,9 +221,10 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
 
         if group_name:  # Group flow
             groups = helper.load_group_data()
-            
+
             # Convert amount_value to a float if it isn't already
-            expense_record = {"date": date_str, "category": category_str, "amount": amount_value}
+            expense_record = {"date": date_str,
+                              "category": category_str, "amount": amount_value}
             groups[group_name]['expenses'].append(expense_record)
 
             # Make sure 'total_spent' is a float to allow addition
@@ -214,13 +237,16 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
             # Persist the updated group data
             helper.save_group_data(groups)
 
-            bot.send_message(chat_id, f"Expense of ${amount_value} for '{category_str}' added to group '{group_name}' on {date_str}.")
-            bot.send_message(chat_id, f"Each member now owes: ${per_member_share:.2f}")
+            bot.send_message(
+                chat_id, f"Expense of ${amount_value} for '{category_str}' added to group '{group_name}' on {date_str}.")
+            bot.send_message(
+                chat_id, f"Each member now owes: ${per_member_share:.2f}")
 
         else:  # Individual flow
             helper.write_json(
                 add_user_record(
-                    chat_id, "{},{},{}".format(date_str, category_str, amount_str)
+                    chat_id, "{},{},{}".format(
+                        date_str, category_str, amount_str)
                 )
             )
             bot.send_message(
@@ -240,7 +266,8 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
             reply_markup=markup)
             bot.register_next_step_handler(msg, credit_option, bot, record)
     except ValueError:
-        bot.send_message(chat_id, "Please enter a valid number for the expense.")
+        bot.send_message(
+            chat_id, "Please enter a valid number for the expense.")
     except Exception as e:
         logging.exception(str(e))
         bot.send_message(chat_id, "Oh no. " + str(e))
@@ -325,4 +352,3 @@ def add_user_record(chat_id, record_to_be_added):
 
     user_list[str(chat_id)]["data"].append(record_to_be_added)
     return user_list
-    

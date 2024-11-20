@@ -30,6 +30,7 @@ import requests
 API_URL = "https://v6.exchangerate-api.com/v6"
 API_KEY = "6b3e6f09c28d0a24ba44ac29"
 
+
 def get_supported_currencies():
     """
     Fetches all the supported currencies from ExchangeRate-API.
@@ -49,6 +50,7 @@ def get_supported_currencies():
     except Exception as e:
         print(f"Error fetching supported currencies: {e}")
     return None
+
 
 def get_conversion_rate(base_currency, target_currency):
     """

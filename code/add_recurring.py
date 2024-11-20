@@ -38,7 +38,7 @@ option = {}
 def run(message, bot):
     """
     run(message, bot): Initializes the expense recording process by presenting the user with a list of spend categories.
-    
+
     Parameters:
     - message (telegram.Message): The message object received from the user.
     - bot (telegram.Bot): The Telegram bot object.
@@ -56,7 +56,6 @@ def run(message, bot):
 
 
 def post_category_selection(message, bot):
-
     """
     post_category_selection(message, bot): Processes the user's selected expense category and prompts for the expense amount.
 
@@ -72,12 +71,16 @@ def post_category_selection(message, bot):
         chat_id = message.chat.id
         selected_category = message.text
         if selected_category not in helper.getSpendCategories():
-            bot.send_message(chat_id, 'Invalid', reply_markup=types.ReplyKeyboardRemove())
-            raise Exception("Sorry I don't recognise this category \"{}\"!".format(selected_category))
+            bot.send_message(chat_id, 'Invalid',
+                             reply_markup=types.ReplyKeyboardRemove())
+            raise Exception(
+                "Sorry I don't recognise this category \"{}\"!".format(selected_category))
 
         option[chat_id] = selected_category
-        message = bot.send_message(chat_id, 'How much did you spend on {}? \n(Enter numeric values only)'.format(str(option[chat_id])))
-        bot.register_next_step_handler(message, post_amount_input, bot, selected_category)
+        message = bot.send_message(
+            chat_id, 'How much did you spend on {}? \n(Enter numeric values only)'.format(str(option[chat_id])))
+        bot.register_next_step_handler(
+            message, post_amount_input, bot, selected_category)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no! ' + str(e))
@@ -105,19 +108,21 @@ def post_amount_input(message, bot, selected_category):
     try:
         chat_id = message.chat.id
         amount_entered = message.text
-        amount_value = helper.validate_entered_amount(amount_entered)  # validate
+        amount_value = helper.validate_entered_amount(
+            amount_entered)  # validate
         if amount_value == 0:  # cannot be $0 spending
             raise Exception("Spent amount has to be a non-zero number.")
 
-        message = bot.send_message(chat_id, 'For how many months in the future will the expense be there? \n(Enter integer values only)')
-        bot.register_next_step_handler(message, post_duration_input, bot, selected_category, amount_value)
+        message = bot.send_message(
+            chat_id, 'For how many months in the future will the expense be there? \n(Enter integer values only)')
+        bot.register_next_step_handler(
+            message, post_duration_input, bot, selected_category, amount_value)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no. ' + str(e))
 
 
 def post_duration_input(message, bot, selected_category, amount_value):
-    
     """
     post_duration_input(message, bot, selected_category, amount_value): Processes the user's entered duration and records the expense.
 
@@ -136,20 +141,24 @@ def post_duration_input(message, bot, selected_category, amount_value):
         duration_value = helper.validate_entered_duration(duration_entered)
         if duration_value == 0:
             raise Exception("Duration has to be a non-zero integer.")
-                
+
         for i in range(int(duration_value)):
-            date_of_entry = (datetime.today().date() + relativedelta(months=+i)).strftime(helper.getDateFormat())
-            date_str, category_str, amount_str = str(date_of_entry), str(selected_category), str(amount_value)
-            helper.write_json(add_user_record(chat_id, "{},{},{}".format(date_str, category_str, amount_str)))
-        
-        bot.send_message(chat_id, 'The following expenditure has been recorded: You have spent ${} for {} for the next {} months'.format(amount_str, category_str, duration_value))
-    
+            date_of_entry = (datetime.today().date(
+            ) + relativedelta(months=+i)).strftime(helper.getDateFormat())
+            date_str, category_str, amount_str = str(
+                date_of_entry), str(selected_category), str(amount_value)
+            helper.write_json(add_user_record(
+                chat_id, "{},{},{}".format(date_str, category_str, amount_str)))
+
+        bot.send_message(chat_id, 'The following expenditure has been recorded: You have spent ${} for {} for the next {} months'.format(
+            amount_str, category_str, duration_value))
+
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no. ' + str(e))
 
-def add_user_record(chat_id, record_to_be_added):
 
+def add_user_record(chat_id, record_to_be_added):
     """
     add_user_record(chat_id, record_to_be_added): Adds a new expense record to the user's data.
 

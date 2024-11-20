@@ -33,19 +33,22 @@ matplotlib.use("Agg")
 
 # === Documentation of graphing.py ===
 
+
 def viewBudget(data):
 
-    sorted_data = {k: v for k, v in sorted(data.items(), key=lambda item: item[1])}
-    values = [float(v) for v in sorted_data.values()]  # Convert values to float
+    sorted_data = {k: v for k, v in sorted(
+        data.items(), key=lambda item: item[1])}
+    # Convert values to float
+    values = [float(v) for v in sorted_data.values()]
     labels = list(sorted_data.keys())
-    print(values,"values")
-    print(labels,"labels")
+    print(values, "values")
+    print(labels, "labels")
     check = False
     for value in values:
         if int(value) != 0:
             check = True
             break
-    
+
     if check:
         plt.pie(values, labels=labels, counterclock=False, shadow=True)
         plt.title("Category Wise Budget")
@@ -56,6 +59,7 @@ def viewBudget(data):
     else:
         return False
 
+
 def addlabels(x, y):
     """
     addlabels(x, y): This function is used to add the labels to the graph.
@@ -63,6 +67,7 @@ def addlabels(x, y):
     """
     for i in range(len(x)):
         plt.text(i, y[i] // 2, y[i], ha="center")
+
 
 def visualize(total_text, monthly_budget):
     """
@@ -75,7 +80,8 @@ def visualize(total_text, monthly_budget):
     print(n1)
     print(r1)
     width = 0.45
-    total_text_split = [line for line in total_text.split("\n") if line.strip() != ""]
+    total_text_split = [line for line in total_text.split(
+        "\n") if line.strip() != ""]
     monthly_budget_str = ""
     for key, value in monthly_budget.items():
         monthly_budget_str += str(key) + " $" + str(value) + "\n"
@@ -112,13 +118,16 @@ def visualize(total_text, monthly_budget):
     plt.savefig("expenditure.png", bbox_inches="tight")
     plt.close()
 
+
 def overall_split(category_budget):
     _, ax = plt.subplots()
-    ax.pie(category_budget.values(), labels=category_budget.keys(), autopct='%1.1f%%')
+    ax.pie(category_budget.values(),
+           labels=category_budget.keys(), autopct='%1.1f%%')
     ax.set_title("Budget split")
     img_name = "overall_split.png"
     plt.savefig(img_name)
     plt.close()
+
 
 def spend_wise_split(category_spend):
     """
@@ -131,11 +140,13 @@ def spend_wise_split(category_spend):
     across different spending categories and saves the chart as an image file.
     """
     _, ax = plt.subplots()
-    ax.pie(category_spend.values(), labels=category_spend.keys(), autopct='%1.1f%%')
+    ax.pie(category_spend.values(),
+           labels=category_spend.keys(), autopct='%1.1f%%')
     ax.set_title("Category-wise spend")
     img_name = "spend_wise.png"
     plt.savefig(img_name)
     plt.close()
+
 
 def remaining(category_spend_percent):
     """
@@ -148,7 +159,8 @@ def remaining(category_spend_percent):
     for different spending categories and saves the chart as an image file.
     """
     labels = tuple(category_spend_percent.keys())
-    remaining_val_list = [100 - x for x in list(category_spend_percent.values())]
+    remaining_val_list = [
+        100 - x for x in list(category_spend_percent.values())]
 
     weight_counts = {
         "Used": list(category_spend_percent.values()),
@@ -170,6 +182,7 @@ def remaining(category_spend_percent):
     img_name = "remaining.png"
     plt.savefig(img_name)
     plt.close()
+
 
 def time_series(cat_spend_dict):
     """

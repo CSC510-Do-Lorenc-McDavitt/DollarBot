@@ -61,10 +61,12 @@ Keep responses concise and specific to the user's data."""
             history = helper.getUserHistory(chat_id)
             budget = helper.getCategoryBudget(chat_id)
             overall_budget = helper.getOverallBudget(chat_id)
+            portfolio = helper.getPortfolioData(chat_id)
 
             logger.debug(f"Retrieved history: {history}")
             logger.debug(f"Retrieved budget: {budget}")
             logger.debug(f"Retrieved overall budget: {overall_budget}")
+            logger.debug(f"Retrieved portfolio: {portfolio}")
 
             # Initialize data structure with default values
             financial_data = {
@@ -72,7 +74,8 @@ Keep responses concise and specific to the user's data."""
                 "transactions": [],
                 "category_totals": {},
                 "budget_info": budget if budget else {},
-                "overall_budget": overall_budget if overall_budget else "0"
+                "overall_budget": overall_budget if overall_budget else "0",
+                "portfolio": portfolio
             }
 
             # Process history if available
@@ -174,6 +177,10 @@ Keep responses concise and specific to the user's data."""
                     f"  Remaining: ${category_remaining:.2f}\n"
                     f"  Budget Usage: {percentage:.1f}%"
                 )
+
+        # Add Portfolio information
+        if data.get("portfolio"):
+            status_lines.append(data["portfolio"])
 
         return "\n".join(status_lines)
 
