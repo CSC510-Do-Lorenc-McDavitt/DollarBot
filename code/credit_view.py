@@ -27,7 +27,7 @@ def display_credit(chat_id):
         if len(credit_list[str(chat_id)][account]["expenses"]) == 0:
             output.append("    " + "None")
         output.append("  Monthly Due Date: " + str(credit_list[str(chat_id)][account]["due date"]))
-        output.append("  Currently Owing: " + str(credit_list[str(chat_id)][account]["owe"]))
+        output.append("  Currently Owing: $" + str("{:.2f}".format(credit_list[str(chat_id)][account]["owe"])))
         output.append(("  Calendar is currently set up for this event" 
                        if credit_list[str(chat_id)][account]["calendar"] 
                        else "  No calendar currently set up"))

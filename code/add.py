@@ -334,8 +334,8 @@ def credit_name_input(message, bot, record):
         helper.write_credit_json(credit_list)
         bot.send_message(
             chat_id, 
-            "What you owe for the account now " + 
-            str(owe_pre) + " --> " + str(owe_now))
+            "What you owe for the account now $" + 
+            "{:.2f}".format(owe_pre) + " --> $" + "{:.2f}".format(owe_now))
     except ValueError:
         bot.send_message(chat_id, "Please enter a valid number for the expense.")
     except Exception as e:
@@ -347,6 +347,9 @@ def add_user_record(chat_id, record_to_be_added):
     Stores the expense record for the user.
     """
     user_list = helper.read_json()
+    if user_list is None:
+            user_list = {}
+
     if str(chat_id) not in user_list:
         user_list[str(chat_id)] = helper.createNewUserRecord()
 

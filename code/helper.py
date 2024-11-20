@@ -29,9 +29,9 @@ import re
 import json
 import os
 import csv
+import yfinance as yf
 from datetime import datetime
 from tabulate import tabulate
-import yfinance as yf
 
 spend_categories = []
 choices = ["Date", "Category", "Cost"]

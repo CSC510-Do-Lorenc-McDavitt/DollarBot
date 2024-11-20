@@ -60,4 +60,4 @@ def handle_payment(message, bot):
         return
     
     helper.write_credit_json(credit_list)
-    bot.send_message(chat_id, "You now owe " + str(credit_list[str(chat_id)][account_name]["owe"]))
+    bot.send_message(chat_id, "You now owe $" + str("{:.2f}".format(credit_list[str(chat_id)][account_name]["owe"])))

@@ -1,27 +1,41 @@
 {
-  "7549460587": {
-      "account 1": {
-        "expenses": [
-          "21-Aug-2024,Food,200.0",
-          "17-Nov-2024,Food,10.0",
-          "17-Dec-2024,Food,10.0",
-          "17-Jan-2025,Food,10.0",
-          "17-Feb-2025,Food,10.0",
-          "17-Mar-2025,Food,10.0"
-        ],
-        "due date": 5,
-        "owe": 250.0,
-        "calendar": false
-      },
-      "account 2": {
-        "expenses": [
-          "17-Nov-2024,Food,10.0",
-          "17-Dec-2024,Food,10.0",
-          "17-Jan-2025,Food,10.0"
-        ],
-        "due date": 10,
-        "owe": 30.0,
-        "calendar": false
-      }
-  }
+    "7549460587": {
+        "account 1": {
+            "expenses": [
+                "21-Aug-2024,Food,200.0",
+                "17-Nov-2024,Food,10.0",
+                "17-Dec-2024,Food,10.0",
+                "17-Jan-2025,Food,10.0",
+                "17-Feb-2025,Food,10.0",
+                "17-Mar-2025,Food,10.0"
+            ],
+            "due date": 5,
+            "owe": 250.0,
+            "calendar": false
+        },
+        "account 2": {
+            "expenses": [
+                "17-Nov-2024,Food,10.0",
+                "17-Dec-2024,Food,10.0",
+                "17-Jan-2025,Food,10.0"
+            ],
+            "due date": 10,
+            "owe": 30.0,
+            "calendar": false
+        },
+        "american express": {
+            "expenses": [],
+            "owe": 0.0,
+            "calendar": false,
+            "due date": 27
+        },
+        "Nathan's bank account": {
+            "expenses": [
+                "31-Jul-2024,Transport,30.0"
+            ],
+            "owe": 10010.0,
+            "calendar": false,
+            "due date": 23
+        }
+    }
 }
