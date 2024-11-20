@@ -52,7 +52,7 @@ def test_view_credit(mock_telebot, mocker):
     message = create_message("sample")
     message.chat.id = 12345
     credit_view.run(message, mc)
-    assert mc.send_message.call_args_list[0] == call(12345, "Showing Accounts and Credit Expenses:\n------------------------------------------------------\naccount 1\n  Expenses\n    21-Aug-2024,Food,200.0\n    17-Nov-2024,Food,10.0\n    17-Dec-2024,Food,10.0\n    17-Jan-2025,Food,10.0\n    17-Feb-2025,Food,10.0\n    17-Mar-2025,Food,10.0\n    16-Jul-2024,Groceries,40.0\n  Monthly Due Date: 5\n  Currently Owing: 900.0\n  No calendar currently set up\n------------------------------------------------------")
+    assert mc.send_message.call_args_list[0] == call(12345, "Showing Accounts and Credit Expenses:\n------------------------------------------------------\naccount 1\n  Expenses\n    21-Aug-2024,Food,200.0\n    17-Nov-2024,Food,10.0\n    17-Dec-2024,Food,10.0\n    17-Jan-2025,Food,10.0\n    17-Feb-2025,Food,10.0\n    17-Mar-2025,Food,10.0\n    16-Jul-2024,Groceries,40.0\n  Monthly Due Date: 5\n  Currently Owing: $900.00\n  No calendar currently set up\n------------------------------------------------------")
 
 @patch("telebot.telebot")
 def test_view_credit_no_records(mock_telebot, mocker):
