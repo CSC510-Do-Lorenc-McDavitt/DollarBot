@@ -158,7 +158,7 @@ def test_add_expense_with_credit_name(mock_telebot, mocker):
     message.text = "account 1"
     message.chat.id = 12345
     add.credit_name_input(message, mc, "21-Aug-2024,Food,200.0")
-    assert mc.send_message.call_args_list[1] == call(12345, "What you owe for the account now 900.0 --> 1100.0")
+    assert mc.send_message.call_args_list[1] == call(12345, "What you owe for the account now $900.00 --> $1100.00")
 
 
 @patch("telebot.telebot")

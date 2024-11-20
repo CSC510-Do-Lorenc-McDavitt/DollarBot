@@ -219,7 +219,7 @@ def test_pay_credit(mock_telebot, mocker):
     message.text = "20"
     message.chat.id = 12345
     credit_pay.handle_payment(message, mc)
-    assert mc.send_message.call_args_list[0] == call(12345, "You now owe 880.0")
+    assert mc.send_message.call_args_list[0] == call(12345, "You now owe $880.00")
 
 @patch("telebot.telebot")
 def test_clear_credit(mock_telebot, mocker):
