@@ -256,6 +256,15 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
                 ),
             )
             helper.display_remaining_budget(message, bot)
+            record = "{},{},{}".format(date_str, category_str, amount_str)
+            markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+            markup.row_width = 2
+            markup.add("Yes")
+            markup.add("No")
+            msg = bot.send_message(
+                chat_id, "Do you want to add this expense to your credit account for tracking?",
+                reply_markup=markup)
+            bot.register_next_step_handler(msg, credit_option, bot, record)
     except ValueError:
         bot.send_message(
             chat_id, "Please enter a valid number for the expense.")
@@ -264,11 +273,84 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
         bot.send_message(chat_id, "Oh no. " + str(e))
 
 
+def credit_option(message, bot, record):
+    """
+    This function handles if the user wants to put the
+    expense under their credit account to track it
+    """
+    chat_id = message.chat.id
+    credit_list = helper.read_credit_json()
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+    markup.row_width = 2
+    if str(message.text).lower() == "yes":
+
+        if (not credit_list
+            or str(chat_id) not in credit_list
+                or len(credit_list[str(chat_id)].keys()) == 0):
+            msg = bot.send_message(
+                chat_id, "You currently don't have any credit accounts.",
+            )
+            return
+        for c in credit_list[str(chat_id)].keys():
+            markup.add(c)
+        else:
+            msg = bot.send_message(
+                chat_id, "Which account do you want to add it to?", reply_markup=markup
+            )
+            bot.register_next_step_handler(msg, credit_name_input, bot, record)
+    elif str(message.text).lower() == "no":
+        msg = bot.send_message(
+            chat_id, "Alright, thank you!"
+        )
+        return
+    else:
+        markup.add("Yes")
+        markup.add("No")
+        msg = bot.send_message(
+            chat_id, "Do you want to add this expense to your credit account for tracking?",
+            reply_markup=markup)
+        bot.register_next_step_handler(msg, credit_option, bot, record)
+
+
+def credit_name_input(message, bot, record):
+    """
+    This function handles putting the expense
+    under the credit account depending on the name.
+    """
+    chat_id = message.chat.id
+    try:
+        credit_list = helper.read_credit_json()
+        account_name = str(message.text)
+        if (account_name not in credit_list[str(chat_id)].keys()):
+            bot.send_message(chat_id, "That account name doesn't exist!")
+            return
+        credit_list[str(chat_id)][account_name]["expenses"].append(record)
+        bot.send_message(
+            chat_id, "Expenditure added to credit account: " + account_name)
+        owe_pre = credit_list[str(chat_id)][account_name]["owe"]
+        amount = float(record.split(",")[-1])
+        credit_list[str(chat_id)][account_name]["owe"] += amount
+        owe_now = credit_list[str(chat_id)][account_name]["owe"]
+        helper.write_credit_json(credit_list)
+        bot.send_message(
+            chat_id,
+            "What you owe for the account now $" +
+            "{:.2f}".format(owe_pre) + " --> $" + "{:.2f}".format(owe_now))
+    except ValueError:
+        bot.send_message(
+            chat_id, "Please enter a valid number for the expense.")
+    except Exception as e:
+        bot.send_message(chat_id, "Oh no. " + str(e))
+
+
 def add_user_record(chat_id, record_to_be_added):
     """
     Stores the expense record for the user.
     """
     user_list = helper.read_json()
+    if user_list is None:
+        user_list = {}
+
     if str(chat_id) not in user_list:
         user_list[str(chat_id)] = helper.createNewUserRecord()
 

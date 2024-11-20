@@ -28,9 +28,10 @@ SOFTWARE.
 import re
 import json
 import os
+import csv
+import yfinance as yf
 from datetime import datetime
 from tabulate import tabulate
-import yfinance as yf
 
 spend_categories = []
 choices = ["Date", "Category", "Cost"]
@@ -54,7 +55,9 @@ commands = {
     "add": "This option is for adding your expenses \
        \n 1. It will give you the list of categories to choose from. \
        \n 2. You will be prompted to enter the amount corresponding to your spending \
-       \n 3.The message will be prompted to notify the addition of your expense with the amount,date, time and category ",
+       \n 3. The message will be prompted to notify the addition of your expense with the amount,date, time and category \
+       \n 4. The message will ask if you would like to add your expense to your credit account to track what you owe \
+       \n 5. You will be prompted to add in the name of your account, please create this with /setup_credit",
     "add_recurring": "This option is to add a recurring expense for future months",
     "analytics": "This option gives user a graphical representation of their expenditures \
         \n You will get an option to choose the type of data you want to see.",
@@ -82,7 +85,13 @@ commands = {
     "convert": "Converts a specified currency to USD and provides the current exchange rate.",
     "currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies.",
     "portfolio": "Buy/sell stock and view your portfolio.",
-    "historicaltrends": "Guides users to select two types of currency and shows a comparative historical trend between the two"
+    "historicaltrends": "Guides users to select two types of currency and shows a comparative historical trend between the two",
+    "view_credit": "Lists the credit accounts the user has with corresponding expenses and due dates.",
+    "setup_credit": "Sets up a credit account for the user.",
+    "pay_credit": "Pays off certain amount of the credit account the user has. Can be used to adjust what you owe for discrepancies.",
+    "clear_credit": "Remove the expenses for an account",
+    "delete_credit": "Remove a credit account"
+
 }
 
 dateFormat = "%d-%b-%Y"
@@ -121,7 +130,7 @@ def write_json(user_list):
 
 def read_category_json():
     """
-    read_json(): Function to load .json expense record data
+    read_category_json(): Function to load .json category data
     """
     try:
         if not os.path.exists("categories.json"):
@@ -138,13 +147,72 @@ def read_category_json():
 
 def write_category_json(category_list):
     """
-    write_json(category_list): Stores data into the datastore of the bot.
+    write_category_json(category_list): Stores data into the datastore of the bot.
     """
     try:
         with open("categories.json", "w", encoding="utf-8") as json_file:
             json.dump(category_list, json_file, ensure_ascii=False, indent=4)
     except FileNotFoundError:
         print("Sorry, the data file could not be found.")
+
+def read_portfolio_json():
+    """
+    read_json(): Function to load .json portfolio data
+    """
+    try:
+        if not os.path.exists("portfolio.json"):
+            with open("portfolio.json", "w", encoding="utf-8") as json_file:
+                json_file.write("{}")
+            return json.dumps("{}")
+        elif os.stat("portfolio.json").st_size != 0:
+            with open("portfolio.json", encoding="utf-8") as portfolio:
+                portfolio_data = json.load(portfolio)
+            return portfolio_data
+
+    except FileNotFoundError:
+        print("---------NO PORTFOLIO FOUND---------")
+
+
+def write_portfolio_json(user_list):
+    """
+    write_json(user_list): Stores data into the datastore of the bot.
+    """
+    try:
+        with open("portfolio.json", "w", encoding="utf-8") as json_file:
+            json.dump(user_list, json_file, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        print("Sorry, the data file could not be found.")
+
+
+def read_credit_json():
+    """
+    read_credit_json(): Function to load .json credit record data
+    """
+    try:
+        if not os.path.exists("credit_record.json"):
+            with open("credit_record.json", "w+", encoding="utf-8") as json_file:
+                json_file.write("{}")
+            return {}
+        elif os.stat("credit_record.json").st_size != 0:
+            with open("credit_record.json", encoding="utf-8") as credit_record:
+                credit_record_data = json.load(credit_record)
+                return credit_record_data
+            return credit_record_data
+
+    except FileNotFoundError:
+        print("---------NO CREDIT RECORDS FOUND---------")
+
+
+def write_credit_json(credit_list):
+    """
+    write_credit_json(credit_list): Stores credit data into the datastore of the bot.
+    """
+    try:
+        with open("credit_record.json", "w+", encoding="utf-8") as json_file:
+            json.dump(credit_list, json_file, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        print("Sorry, the data file could not be found.")
+
 
 def validate_entered_amount(amount_entered):
     """
