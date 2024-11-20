@@ -30,7 +30,7 @@ import json
 from mock.mock import patch
 from telebot import types
 import add
-from mock import ANY
+from mock import ANY, call
 from datetime import datetime
 
 
@@ -38,6 +38,25 @@ dateFormat = "%d-%b-%Y"
 timeFormat = "%H:%M"
 monthFormat = "%b-%Y"
 date = datetime.today().date()
+
+sample_data = {
+    "12345":{
+        "account 1": {
+            "expenses": [
+                "21-Aug-2024,Food,200.0",
+                "17-Nov-2024,Food,10.0",
+                "17-Dec-2024,Food,10.0",
+                "17-Jan-2025,Food,10.0",
+                "17-Feb-2025,Food,10.0",
+                "17-Mar-2025,Food,10.0",
+                "16-Jul-2024,Groceries,40.0"
+            ],
+            "due date": 5,
+            "owe": 900.0,
+            "calendar": False
+        }
+    }
+}
 
 @patch("telebot.telebot")
 def test_run(mock_telebot, mocker):
@@ -81,6 +100,92 @@ def test_post_amount_input_working(mock_telebot, mocker):
     message = create_message("120")
     add.post_amount_input(message, mc, "Food", date)
     assert mc.send_message.called
+
+
+@patch("telebot.telebot")
+def test_add_expense_with_credit(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(add, "helper")
+    add.helper.read_credit_json.return_value = sample_data
+
+    message = create_message("sample")
+    message.text = "Yes"
+    message.chat.id = 12345
+    add.credit_option(message, mc, "21-Aug-2024,Food,200.0")
+    assert mc.send_message.called
+    mc.send_message.assert_called_once_with(12345, "Which account do you want to add it to?", reply_markup=ANY)
+
+
+@patch("telebot.telebot")
+def test_add_expense_with_credit_no(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(add, "helper")
+    add.helper.read_credit_json.return_value = sample_data
+
+    message = create_message("sample")
+    message.text = "No"
+    message.chat.id = 12345
+    add.credit_option(message, mc, "21-Aug-2024,Food,200.0")
+    assert mc.send_message.called
+    mc.send_message.assert_called_once_with(12345, "Alright, thank you!")
+
+
+@patch("telebot.telebot")
+def test_add_expense_with_credit_random_input(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(add, "helper")
+    add.helper.read_credit_json.return_value = sample_data
+
+    message = create_message("sample")
+    message.text = "ooga booga"
+    message.chat.id = 12345
+    add.credit_option(message, mc, "21-Aug-2024,Food,200.0")
+    assert mc.send_message.called
+    mc.send_message.assert_called_once_with(12345, "Do you want to add this expense to your credit account for tracking?", reply_markup=ANY)
+
+
+@patch("telebot.telebot")
+def test_add_expense_with_credit_name(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(add, "helper")
+    add.helper.read_credit_json.return_value = sample_data
+
+    message = create_message("sample")
+    message.text = "account 1"
+    message.chat.id = 12345
+    add.credit_name_input(message, mc, "21-Aug-2024,Food,200.0")
+    assert mc.send_message.call_args_list[1] == call(12345, "What you owe for the account now 900.0 --> 1100.0")
+
+
+@patch("telebot.telebot")
+def test_add_expense_with_credit_name_invalid_name(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(add, "helper")
+    add.helper.read_credit_json.return_value = sample_data
+
+    message = create_message("sample")
+    message.text = "account"
+    message.chat.id = 12345
+    add.credit_name_input(message, mc, "21-Aug-2024,Food,200.0")
+    assert mc.send_message.call_args_list[0] == call(12345, "That account name doesn't exist!")
+
+@patch("telebot.telebot")
+def test_add_expense_with_credit_name_invalid_number(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(add, "helper")
+    add.helper.read_credit_json.return_value = sample_data
+
+    message = create_message("sample")
+    message.text = "account 1"
+    message.chat.id = 12345
+    add.credit_name_input(message, mc, "21-Aug-2024,Food,ooga")
+    assert mc.send_message.call_args_list[1] == call(12345, "Please enter a valid number for the expense.")
 
 
 @patch("telebot.telebot")

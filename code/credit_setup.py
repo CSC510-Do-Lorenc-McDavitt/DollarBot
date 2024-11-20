@@ -18,12 +18,16 @@ def handle_account_name(message, bot):
     """
     chat_id = message.chat.id
     credit_list = helper.read_credit_json()
-    if(not credit_list or len(credit_list) == 0 or str(chat_id) not in credit_list):
+    if not credit_list or len(credit_list) == 0:
         helper.write_credit_json({str(chat_id) : {}})
+    credit_list = helper.read_credit_json()
+    if str(chat_id) not in credit_list:
+        credit_list[str(chat_id)] = {}
+        helper.write_credit_json(credit_list)
     credit_list = helper.read_credit_json()
     account_names[chat_id] = str(message.text)
     account_name = account_names[chat_id]
-    if(account_name in credit_list[str(chat_id)].keys()):
+    if account_name in credit_list[str(chat_id)].keys():
         bot.send_message(chat_id, "That account name is already taken!")
         return
     credit_list[str(chat_id)][account_name] = {"expenses":[],
