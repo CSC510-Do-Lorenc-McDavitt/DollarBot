@@ -51,6 +51,11 @@ import add_recurring
 import group
 import chat
 import portfolio
+import credit_view
+import credit_setup
+import credit_pay
+import credit_clear
+import credit_delete
 from datetime import datetime
 from jproperties import Properties
 from currency import get_supported_currencies
@@ -328,9 +333,62 @@ def command_delete(message):
     """
     command_delete(message): Takes 1 argument message which contains the message from the user
     along with the chat ID of the user chat. It then calls delete.py to run to execute the add functionality.
-    Commands used to run this: commands=['display']
+    Commands used to run this: commands=['delete']
     """
     delete.run(message, bot)
+
+# handles "/view_credit" command
+@bot.message_handler(commands=["view_credit"])
+def command_view_credit(message):
+    """
+    command_view_credit(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls credit_view.py to run to view the credit record
+    Commands used to run this: commands=['view_credit']
+    """
+    credit_view.run(message, bot)
+
+# handles "/setup_credit" command
+@bot.message_handler(commands=["setup_credit"])
+def command_setup_credit(message):
+    """
+    command_setup_credit(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls credit_setup.py to run to add a new credit account
+    Commands used to run this: commands=['view_credit']
+    """
+    credit_setup.run(message, bot)
+
+# handles "/pay_credit" command
+@bot.message_handler(commands=["pay_credit"])
+def command_pay_credit(message):
+    """
+    command_pay_credit(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls credit_pay.py to run to pay off a credit
+    account
+    Commands used to run this: commands=['pay_credit']
+    """
+    credit_pay.run(message, bot)
+
+# handles "/clear_credit" command
+@bot.message_handler(commands=["clear_credit"])
+def command_clear_credit(message):
+    """
+    command_clear_credit(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls credit_clear.py to run to clear expenses
+    for a credit account
+    Commands used to run this: commands=['clear_credit']
+    """
+    credit_clear.run(message, bot)
+
+# handles "/delete_credit" command
+@bot.message_handler(commands=["delete_credit"])
+def command_delete_credit(message):
+    """
+    command_delete_credit(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls credit_delete.py to run to delete a credit
+    account.
+    Commands used to run this: commands=['delete_credit']
+    """
+    credit_delete.run(message, bot)
 
 # handles budget command
 
