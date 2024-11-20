@@ -18,6 +18,9 @@ def run(message, bot):
     
 
 def viewPortfolioTable(message, bot):
+    """
+    Display portfolio in a tabular format for the user.
+    """
     chat_id = message.chat.id
     user_list = helper.read_portfolio_json()
     if user_list is None:

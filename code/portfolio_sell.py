@@ -20,6 +20,9 @@ def run(message, bot):
     bot.register_next_step_handler(msg, handle_stock_name, bot)
 
 def handle_stock_name(message, bot):
+    """
+    Handles ensuring that the stock name is for a valid stock.
+    """
     chat_id = message.chat.id
     ticker = message.text.upper()
 
@@ -32,6 +35,9 @@ def handle_stock_name(message, bot):
         bot.send_message(chat_id, "Invalid Stock")
 
 def handle_stock_sell(message, bot, ticker, stock):
+    """
+    Performs the stock sale and retrieves the current stock price.
+    """
     try:
         chat_id = message.chat.id
         shares = int(message.text)
