@@ -177,7 +177,7 @@ Keep responses concise and specific to the user's data."""
                     f"  Remaining: ${category_remaining:.2f}\n"
                     f"  Budget Usage: {percentage:.1f}%"
                 )
-        
+
         # Add Portfolio information
         if data.get("portfolio"):
             status_lines.append(data["portfolio"])

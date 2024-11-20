@@ -240,7 +240,8 @@ def getPortfolioData(chat_id):
             table.append([stock[0], stock[1], "$ " + stock[2],
                           "$ " + str(curr_price), str(percent_change) + "%"])
         output = "Your portfolio is worth ${:.2f}".format(portfolio_worth)
-        portfolio_table = "<pre>" + tabulate(table, headers='firstrow')+"</pre>"
+        portfolio_table = "<pre>" + \
+            tabulate(table, headers='firstrow')+"</pre>"
         output += "\n" + portfolio_table
         return output
 
