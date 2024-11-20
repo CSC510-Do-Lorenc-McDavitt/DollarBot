@@ -14,3 +14,4 @@ tabulate
 openai==0.28.0
 pandas
 yfinance
+pandas_datareader
