@@ -104,7 +104,6 @@ celerybeat.pid
 # Environments
 .env
 .venv
-.penv
 env/
 venv/
 ENV/
@@ -134,5 +133,6 @@ dmypy.json
 
 # Generated files
 expense_record.json
+portfolio.json
 user.properties
 data/

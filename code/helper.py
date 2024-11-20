@@ -41,6 +41,8 @@ budget_types = {"overall": "Overall Budget",
 data_format = {"data": [], "budget": {"overall": "0", "category": None}}
 analytics_options = {"overall": "Overall budget split by Category", "spend": "Split of current month expenditure",
                      "remaining": "Remaining value", "history": "Time series graph of spend history"}
+portfolio_options = {"buy": "Buy a Stock", "sell": "Sell a Stock", "view": "View Portfolio"}
+portfolio_format = {"stocks": []}
 
 # set of implemented commands and their description
 commands = {
@@ -80,7 +82,8 @@ commands = {
     "chat": "Start a conversation with ChatGPT",
     "currency": "Lists all supported currencies, allowing users to view available options for conversions.",
     "convert": "Converts a specified currency to USD and provides the current exchange rate.",
-    "currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies."
+    "currencycalculator": "Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies.",
+    "portfolio": "Buy/sell stock and view your portfolio."
 }
 
 dateFormat = "%d-%b-%Y"
@@ -147,6 +150,33 @@ def write_category_json(category_list):
     try:
         with open("categories.json", "w", encoding="utf-8") as json_file:
             json.dump(category_list, json_file, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        print("Sorry, the data file could not be found.")
+
+def read_portfolio_json():
+    """
+    read_json(): Function to load .json portfolio data
+    """
+    try:
+        if not os.path.exists("portfolio.json"):
+            with open("portfolio.json", "w", encoding="utf-8") as json_file:
+                json_file.write("{}")
+            return json.dumps("{}")
+        elif os.stat("portfolio.json").st_size != 0:
+            with open("portfolio.json", encoding="utf-8") as portfolio:
+                portfolio_data = json.load(portfolio)
+            return portfolio_data
+
+    except FileNotFoundError:
+        print("---------NO PORTFOLIO FOUND---------")
+
+def write_portfolio_json(user_list):
+    """
+    write_json(user_list): Stores data into the datastore of the bot.
+    """
+    try:
+        with open("portfolio.json", "w", encoding="utf-8") as json_file:
+            json.dump(user_list, json_file, ensure_ascii=False, indent=4)
     except FileNotFoundError:
         print("Sorry, the data file could not be found.")
 
@@ -230,6 +260,9 @@ def throw_exception(e, message, bot, logging):
 
 def createNewUserRecord():
     return data_format
+
+def createNewPortfolioUserRecord():
+    return portfolio_format
 
 
 def getOverallBudget(chatId):
@@ -514,6 +547,9 @@ def getUpdateOptions():
 
 def getAnalyticsOptions():
     return analytics_options
+
+def getPortfolioOptions():
+    return portfolio_options
 
 
 def save_group_data(groups):
