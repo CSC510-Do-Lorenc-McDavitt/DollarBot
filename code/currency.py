@@ -32,8 +32,6 @@ from pandas_datareader import data
 API_URL = "https://v6.exchangerate-api.com/v6"
 API_KEY = "6b3e6f09c28d0a24ba44ac29"
 
-DAYS_IN_A_YEAR = 365.24
-
 """
 Exchange codes for historical data from: 
 https://fred.stlouisfed.org/categories/95

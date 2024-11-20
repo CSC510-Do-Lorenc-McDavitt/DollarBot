@@ -493,10 +493,6 @@ def create_historical_plots(message):
     with open('plot.png', 'rb') as photo:
         bot.send_photo(chat_id=chat_id, photo=photo)
 
-
-    
-
-
 def get_amount_to_convert(message):
     """
     Asks the user to input the amount to convert.
