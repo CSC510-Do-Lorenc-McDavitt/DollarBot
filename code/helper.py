@@ -339,6 +339,8 @@ def throw_exception(e, message, bot, logging):
 def createNewUserRecord():
     return data_format
 
+def createNewPortfolioUserRecord():
+    return portfolio_format
 
 def getOverallBudget(chatId):
     data = getUserData(chatId)

@@ -178,13 +178,15 @@ def start_and_menu_command(m):
          "DollarBot can track all your expenses with simple and easy to use commands :) \n"
          "Here is the complete menu. \n\n")
     )
-
-    commands = helper.getCommands()
-    for c in commands:
-        # generate help text out of the commands dictionary defined at the top
-        text_intro += "/" + c + ": "
-        text_intro += commands[c] + "\n\n"
+    
     bot.send_message(chat_id, text_intro)
+    commands = helper.getCommands()
+    for c in commands: 
+        command_txt = "" 
+        # generate help text out of the commands dictionary defined at the top
+        command_txt += "/" + c + ": "
+        command_txt += commands[c] + "\n\n"
+        bot.send_message(chat_id, command_txt)
     return True
 
 # defines how the /add command has to be handled/processed
@@ -642,7 +644,7 @@ def create_historical_plots(message):
 
     plt.plot(trend1, color='blue')
     plt.plot(trend2, color='green', linestyle="--")
-    plt.locator_params(axis='x', nbins=10)
+    plt.xticks(fontsize=8)
     plt.xlabel("Time")
     plt.ylabel("to 1 USD Exchange Rate")
     plt.legend([selected_currency_1, selected_currency_2])

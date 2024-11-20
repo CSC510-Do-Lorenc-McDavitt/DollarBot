@@ -134,6 +134,7 @@ dmypy.json
 
 # Generated files
 expense_record.json
+credit_record.json
 plot.png
 portfolio.json
 user.properties
