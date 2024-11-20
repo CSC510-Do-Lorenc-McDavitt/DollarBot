@@ -30,6 +30,7 @@ from jproperties import Properties
 
 configs = Properties()
 
+
 class TelegramNotifier:
     """
     A class for sending messages using the Telegram Bot API.
@@ -43,6 +44,7 @@ class TelegramNotifier:
     - _get_chat_id(): Private method to retrieve the chat ID if not provided.
     - send(msg: str): Sends a message to the specified chat ID using the Telegram Bot API.
     """
+
     def __init__(self, token: str, parse_mode: str = None, chat_id: str = None):
         """
         Initializes a TelegramNotifier object.
@@ -76,7 +78,8 @@ class TelegramNotifier:
                 timeout=10,
             )
             if response.status_code == 200:
-                self._chat_id = response.json()["result"][-1]["message"]["chat"]["id"]
+                self._chat_id = response.json(
+                )["result"][-1]["message"]["chat"]["id"]
         except Exception as e:
             self._chat_id = None
             print("Couldn't get chat_id!\n\t", e)

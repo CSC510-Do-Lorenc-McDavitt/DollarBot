@@ -27,4 +27,4 @@ SOFTWARE.
 import os
 import sys
 
-sys.path.insert(0, os.getcwd() + "/code")
+sys.path.append(os.getcwd() + "/backend")

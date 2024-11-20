@@ -30,6 +30,7 @@ import logging
 from telebot import types
 import get_analysis
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the analytics feature.
@@ -43,8 +44,10 @@ def run(message, bot):
     markup.row_width = 2
     for c in options.values():
         markup.add(c)
-    msg = bot.reply_to(message, "Select the type of analysis (grouped by category):", reply_markup=markup)
+    msg = bot.reply_to(
+        message, "Select the type of analysis (grouped by category):", reply_markup=markup)
     bot.register_next_step_handler(msg, post_operation_selection, bot)
+
 
 def post_operation_selection(message, bot):
     """
@@ -61,7 +64,8 @@ def post_operation_selection(message, bot):
             bot.send_message(
                 chat_id, "Invalid", reply_markup=types.ReplyKeyboardRemove()
             )
-            raise Exception('Sorry I don\'t recognise this operation "{}"!'.format(op))
+            raise Exception(
+                'Sorry I don\'t recognise this operation "{}"!'.format(op))
         if op == options["overall"]:
             get_analysis.viewOverallBudget(chat_id, bot)
         elif op == options["spend"]:

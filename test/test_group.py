@@ -31,8 +31,8 @@ from unittest.mock import patch, MagicMock
 from datetime import datetime
 from telebot import types
 
-code_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'code'))
-sys.path.insert(0, code_directory)
+backend_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'backend'))
+sys.path.insert(0, backend_directory)
 import group
 import add
 import history

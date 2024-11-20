@@ -35,6 +35,7 @@ from datetime import datetime
 
 # === Documentation of display.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the delete feature.
@@ -60,6 +61,7 @@ def run(message, bot):
         )
         bot.register_next_step_handler(msg, display_total, bot)
 
+
 def display_total(message, bot):
     """
     display_total(message, bot): It takes 2 arguments for processing - message which is
@@ -80,7 +82,8 @@ def display_total(message, bot):
 
         history = helper.getUserHistory(chat_id)
         if history is None:
-            raise Exception("Oops! Looks like you do not have any spending records!")
+            raise Exception(
+                "Oops! Looks like you do not have any spending records!")
 
         bot.send_message(chat_id, "Hold on! Calculating...")
         # show the bot "typing" (max. 5 secs)
@@ -108,14 +111,17 @@ def display_total(message, bot):
 
         spending_text = ""
         if len(total_text) == 0:
-            spending_text = "You have no spendings for {}!".format(DayWeekMonth)
+            spending_text = "You have no spendings for {}!".format(
+                DayWeekMonth)
             bot.send_message(chat_id, spending_text)
         else:
             table = [["Category", "Amount"]]
-            spending_text = "Here are your total spendings {}".format(DayWeekMonth.lower())
+            spending_text = "Here are your total spendings {}".format(
+                DayWeekMonth.lower())
             for category, amount in total_dict.items():
                 table.append([str(category), "$ " + str(amount)])
-            spend_total_str="<pre>"+ tabulate(table, headers='firstrow')+"</pre>"
+            spend_total_str = "<pre>" + \
+                tabulate(table, headers='firstrow')+"</pre>"
             bot.send_message(chat_id, spending_text)
             bot.send_message(chat_id, spend_total_str, parse_mode="HTML")
             graphing.visualize(total_text, monthly_budget)
@@ -123,6 +129,7 @@ def display_total(message, bot):
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, str(e))
+
 
 def calculate_spendings(queryResult):
     """

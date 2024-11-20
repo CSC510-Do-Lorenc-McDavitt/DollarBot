@@ -1,19 +1,19 @@
-
 ![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
-![GitHub](https://img.shields.io/github/languages/top/tpanati/DollarBot?color=red&label=Python&logo=Python&logoColor=yellow)
+![GitHub](https://img.shields.io/github/languages/top/CSC510-Do-Lorenc-McDavitt/DollarBot?color=red&label=Python&logo=Python&logoColor=yellow)
 ![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
 [![DOI](https://zenodo.org/badge/715323572.svg)](https://zenodo.org/doi/10.5281/zenodo.10146708)
-![GitHub contributors](https://img.shields.io/github/contributors/tpanati/DollarBot)
+![GitHub contributors](https://img.shields.io/github/contributors/CSC510-Do-Lorenc-McDavitt/DollarBot)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-[![codecov](https://codecov.io/gh/tpanati/DollarBot/graph/badge.svg?token=23RW1XPB3P)](https://codecov.io/gh/tpanati/DollarBot)
-![Lines of code](https://tokei.rs/b1/github/tpanati/DollarBot)
-![Version](https://img.shields.io/github/v/release/tpanati/DollarBot?color=ff69b4&label=Version)
-![GitHub issues](https://img.shields.io/github/issues-raw/tpanati/DollarBot)
-![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/tpanati/DollarBot)
+[![codecov](https://codecov.io/gh/CSC510-Do-Lorenc-McDavitt/DollarBot/graph/badge.svg?token=23RW1XPB3P)](https://codecov.io/gh/CSC510-Do-Lorenc-McDavitt/DollarBot)
+![Lines of code](https://tokei.rs/b1/github/CSC510-Do-Lorenc-McDavitt/DollarBot)
+![Version](https://img.shields.io/github/v/release/CSC510-Do-Lorenc-McDavitt/DollarBot?color=ff69b4&label=Version)
+![GitHub issues](https://img.shields.io/github/issues-raw/CSC510-Do-Lorenc-McDavitt/DollarBot)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/CSC510-Do-Lorenc-McDavitt/DollarBot)
 [![Build Status](https://app.travis-ci.com/usmanwardag/dollar_bot.svg?branch=main)](https://app.travis-ci.com/usmanwardag/dollar_bot)
-[![Flake8](https://img.shields.io/badge/lint-flake8-blue)](https://github.com/KomachiZ/DollarBot/blob/project2/.github/workflows/python-app.yml)
-[![PyLint](https://img.shields.io/badge/pylint-9.5%2F10-orange)](https://github.com/KomachiZ/DollarBot/blob/project2/.github/workflows/python-app.yml)
-[![Bandit](https://img.shields.io/badge/bandit-passing-brightgreen)](https://github.com/KomachiZ/DollarBot/blob/project2/.github/workflows/python-app.yml)
+[![Flake8](https://img.shields.io/badge/lint-flake8-blue)](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/project2/.github/workflows/python-app.yml)
+[![autopep8](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/actions/workflows/autopep8.yml/badge.svg?branch=main)](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/actions/workflows/autopep8.yml)
+[![PyLint](https://img.shields.io/badge/pylint-9.5%2F10-orange)](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/project2/.github/workflows/python-app.yml)
+[![Bandit](https://img.shields.io/badge/bandit-passing-brightgreen)](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/project2/.github/workflows/python-app.yml)
 
 # 💰 Dollar Bot 💰
 
@@ -287,7 +287,7 @@ Here are some other features about currency:
 # :construction: Road Map
 
 Our implementation has been tracked in a project board which can be viewed here -
-[DollarBot Developer board](https://github.com/users/tpanati/projects/2)
+[DollarBot Developer board](https://github.com/users/CSC510-Do-Lorenc-McDavitt/projects/2)
 
 Some possible future enhancements are as follows:
 <!-- 
@@ -315,10 +315,15 @@ We would like to thank Dr. Timothy Menzies for helping us understand the process
 
 :page_facing_up: License
 ---
-This project is licensed under the terms of the MIT license. Please check [LICENSE](https://github.com/tpanati/DollarBot/blob/main/LICENSE) for more details.
+This project is licensed under the terms of the MIT license. Please check [LICENSE](https://github.com/CSC510-Do-Lorenc-McDavitt/DollarBot/blob/main/LICENSE) for more details.
 
 ## Contributors
 <table>
+  <tr>
+    <td align="center"><a href="https://github.com/Nlorenc2760"><img src="https://avatars.githubusercontent.com/u/99928198?s=400&u=cc7ab1019415d06c72c81840ed406675c4b0af2a&v=4" width="100px;" alt=""/><br /><sub><b>Nathan Lorenc</b></sub></a></td>
+    <td align="center"><a href="https://github.com/jfmcdavitt"><img src="https://avatars.githubusercontent.com/u/57042681?v=4" width="100px;" alt=""/><br /><sub><b>Jake McDavitt</b></sub></a></td>
+    <td align="center"><a href="https://github.com/Kethly"><img src="https://avatars.githubusercontent.com/u/57457270?v=4" width="100px;" alt=""/><br /><sub><b>Thien Do</b></sub></a></td>
+  </tr>
   <tr>
     <td align="center"><img src="https://avatars.githubusercontent.com/u/32158594?s=400&u=3f1cff6877bbb68b411e8854f2d482a36139d766&v=4" width="75px;" alt=""/><br /><sub><b>Haojie Zhou</b></sub></a></td>
     <td align="center"><img src="https://avatars.githubusercontent.com/u/35067896?v=4" width="75px;" alt=""/><br /><sub><b>Jiewen Liu</b></sub></a><br /></td>
