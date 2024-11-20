@@ -81,6 +81,8 @@ user_list = {}
 # === Documentation of code.py ===
 
 # Define listener for requests by user
+
+
 def listener(user_requests):
     """
     listener(user_requests): Takes 1 argument user_requests and logs all user
@@ -112,13 +114,17 @@ def listener(user_requests):
     except Exception:
         pass
 
+
 bot.set_update_listener(listener)
+
+
 @bot.message_handler(commands=["chat"])
 def command_chat(message):
     """
     Handles the /chat command
     """
     chat.run(message, bot)
+
 
 @bot.message_handler(commands=["help"])
 def show_help(m):
@@ -132,6 +138,7 @@ def show_help(m):
         message += "/" + c + ", "
     message += "\nUse /menu for detailed instructions about these commands."
     bot.send_message(chat_id, message)
+
 
 @bot.message_handler(commands=["faq"])
 def faq(m):
@@ -154,6 +161,8 @@ def faq(m):
     bot.send_message(chat_id, faq_message)
 
 # defines how the /start and /help commands have to be handled/processed
+
+
 @bot.message_handler(commands=["start", "menu"])
 def start_and_menu_command(m):
     """
@@ -171,7 +180,7 @@ def start_and_menu_command(m):
     )
 
     commands = helper.getCommands()
-    for c in commands:  
+    for c in commands:
         # generate help text out of the commands dictionary defined at the top
         text_intro += "/" + c + ": "
         text_intro += commands[c] + "\n\n"
@@ -179,6 +188,8 @@ def start_and_menu_command(m):
     return True
 
 # defines how the /add command has to be handled/processed
+
+
 @bot.message_handler(commands=["add"])
 def command_add(message):
     """
@@ -189,6 +200,8 @@ def command_add(message):
     add.run(message, bot)
 
 # handles group creation
+
+
 @bot.message_handler(commands=["group"])
 def command_group(message):
     """
@@ -198,6 +211,8 @@ def command_group(message):
     group.run(message, bot)
 
 # defines how the /weekly command has to be handled/processed
+
+
 @bot.message_handler(commands=["weekly"])
 def command_weekly(message):
     """
@@ -208,6 +223,8 @@ def command_weekly(message):
     weekly.run(message, bot)
 
 # defines how the /monthly command has to be handled/processed
+
+
 @bot.message_handler(commands=["monthly"])
 def command_monthly(message):
     """
@@ -217,12 +234,16 @@ def command_monthly(message):
     """
     monthly.run(message, bot)
 
-#handles add_recurring command
+# handles add_recurring command
+
+
 @bot.message_handler(commands=['add_recurring'])
 def command_add_recurring(message):
     add_recurring.run(message, bot)
 
 # handles pdf command
+
+
 @bot.message_handler(commands=["pdf"])
 def command_pdf(message):
     """
@@ -232,7 +253,9 @@ def command_pdf(message):
     """
     pdf.run(message, bot)
 
-#handles updateCategory command
+# handles updateCategory command
+
+
 @bot.message_handler(commands=["updateCategory"])
 def command_updateCategory(message):
     """
@@ -243,6 +266,8 @@ def command_updateCategory(message):
     updateCategory.run(message, bot)
 
 # function to fetch expenditure history of the user
+
+
 @bot.message_handler(commands=["history"])
 def command_history(message):
     """
@@ -253,6 +278,8 @@ def command_history(message):
     history.run(message, bot)
 
 # function to fetch expenditure history of the user
+
+
 @bot.message_handler(commands=["sendEmail"])
 def command_sendEmail(message):
     """
@@ -263,6 +290,8 @@ def command_sendEmail(message):
     sendEmail.run(message, bot)
 
 # function to edit date, category or cost of a transaction
+
+
 @bot.message_handler(commands=["edit"])
 def command_edit(message):
     """
@@ -273,6 +302,8 @@ def command_edit(message):
     edit.run(message, bot)
 
 # function to display total expenditure
+
+
 @bot.message_handler(commands=["display"])
 def command_display(message):
     """
@@ -283,6 +314,8 @@ def command_display(message):
     display.run(message, bot)
 
 # function to estimate future expenditure
+
+
 @bot.message_handler(commands=["estimate"])
 def command_estimate(message):
     """
@@ -293,6 +326,8 @@ def command_estimate(message):
     estimate.run(message, bot)
 
 # handles "/delete" command
+
+
 @bot.message_handler(commands=["delete"])
 def command_delete(message):
     """
@@ -301,6 +336,7 @@ def command_delete(message):
     Commands used to run this: commands=['display']
     """
     delete.run(message, bot)
+
 
 @bot.message_handler(commands=["delete"])
 def command_delete(message):
@@ -375,13 +411,14 @@ def command_delete_credit(message):
     credit_delete.run(message, bot)
 
 
-
 # handles budget command
 @bot.message_handler(commands=["budget"])
 def command_budget(message):
     budget.run(message, bot)
 
 # handles analytics command
+
+
 @bot.message_handler(commands=["analytics"])
 def command_analytics(message):
     """
@@ -391,6 +428,8 @@ def command_analytics(message):
     analytics.run(message, bot)
 
 # handles predict command
+
+
 @bot.message_handler(commands=["predict"])
 def command_predict(message):
     """
@@ -399,6 +438,7 @@ def command_predict(message):
     """
     predict.run(message, bot)
 
+
 @bot.message_handler(commands=['currency'])
 def show_supported_currencies(message):
     """
@@ -406,12 +446,14 @@ def show_supported_currencies(message):
     """
     chat_id = message.chat.id
     supported_currencies = get_supported_currencies()
-    
+
     if supported_currencies:
         currency_list = ", ".join(supported_currencies)
         bot.send_message(chat_id, f"Supported Currencies: {currency_list}")
     else:
-        bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
+        bot.send_message(
+            chat_id, "Failed to fetch supported currencies. Please try again later.")
+
 
 @bot.message_handler(commands=['convert'])
 def convert_currency(message):
@@ -423,21 +465,25 @@ def convert_currency(message):
         # Expect the message format to be like "/convert CNY to USD"
         text = message.text.split()
         if len(text) != 4 or text[1].upper() == 'USD' or text[3].upper() != 'USD':
-            bot.send_message(chat_id, "Usage: /convert <currency_code> to USD (e.g., /convert EUR to USD)")
+            bot.send_message(
+                chat_id, "Usage: /convert <currency_code> to USD (e.g., /convert EUR to USD)")
             return
-        
+
         base_currency = text[1].upper()
 
         # Fetch the conversion rate using the function from currency.py
         conversion_rate = get_conversion_rate(base_currency, 'USD')
 
         if conversion_rate:
-            bot.send_message(chat_id, f"1 {base_currency} = {conversion_rate} USD")
+            bot.send_message(
+                chat_id, f"1 {base_currency} = {conversion_rate} USD")
         else:
-            bot.send_message(chat_id, "Failed to fetch the conversion rate. Please ensure the currency code is valid.")
+            bot.send_message(
+                chat_id, "Failed to fetch the conversion rate. Please ensure the currency code is valid.")
     except Exception as e:
         print(f"Error processing conversion command: {e}")
         bot.send_message(chat_id, "An error occurred. Please try again.")
+
 
 @bot.message_handler(commands=['currencycalculator'])
 def start_currency_calculator(message):
@@ -446,23 +492,19 @@ def start_currency_calculator(message):
     """
     chat_id = message.chat.id
     supported_currencies = get_supported_currencies()
-    
+
     if supported_currencies:
         # Create a ReplyKeyboardMarkup to display currency options
-        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+        markup = types.ReplyKeyboardMarkup(
+            one_time_keyboard=True, resize_keyboard=True)
         for currency in supported_currencies:
             markup.add(currency)
-        msg = bot.reply_to(message, "Select the currency you want to convert from:", reply_markup=markup)
+        msg = bot.reply_to(
+            message, "Select the currency you want to convert from:", reply_markup=markup)
         bot.register_next_step_handler(msg, get_target_currency)
     else:
-        bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
-
-@bot.message_handler(commands=['portfolio'])
-def start_portfolio(message):
-    """
-    Initiates the portfolio service by asking the user to choose an action.
-    """
-    portfolio.run(message, bot)
+        bot.send_message(
+            chat_id, "Failed to fetch supported currencies. Please try again later.")
 
 
 @bot.message_handler(commands=['portfolio'])
@@ -471,6 +513,15 @@ def start_portfolio(message):
     Initiates the portfolio service by asking the user to choose an action.
     """
     portfolio.run(message, bot)
+
+
+@bot.message_handler(commands=['portfolio'])
+def start_portfolio(message):
+    """
+    Initiates the portfolio service by asking the user to choose an action.
+    """
+    portfolio.run(message, bot)
+
 
 @bot.message_handler(commands=['historicaltrends'])
 def currency_historical_trends(message):
@@ -480,11 +531,14 @@ def currency_historical_trends(message):
     chat_id = message.chat.id
     supported_currencies = get_supported_historical_currencies()
 
-    currencies = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    currencies = types.ReplyKeyboardMarkup(
+        one_time_keyboard=True, resize_keyboard=True)
     for currency in supported_currencies:
         currencies.add(currency)
-    msg = bot.reply_to(message, "Select the first currency you want to collect historical data from", reply_markup=currencies)
+    msg = bot.reply_to(
+        message, "Select the first currency you want to collect historical data from", reply_markup=currencies)
     bot.register_next_step_handler(msg, get_target_historical_currency)
+
 
 def get_target_currency(message):
     """
@@ -502,17 +556,21 @@ def get_target_currency(message):
 
     # Fetch supported currencies again to display the options for the target currency
     supported_currencies = get_supported_currencies()
-    
+
     if supported_currencies:
-        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+        markup = types.ReplyKeyboardMarkup(
+            one_time_keyboard=True, resize_keyboard=True)
         for currency in supported_currencies:
             # Ensure the target currency is not the same as the base currency
             if currency != base_currency:
                 markup.add(currency)
-        msg = bot.reply_to(message, "Select the currency you want to convert to:", reply_markup=markup)
+        msg = bot.reply_to(
+            message, "Select the currency you want to convert to:", reply_markup=markup)
         bot.register_next_step_handler(msg, get_amount_to_convert)
     else:
-        bot.send_message(chat_id, "Failed to fetch supported currencies. Please try again later.")
+        bot.send_message(
+            chat_id, "Failed to fetch supported currencies. Please try again later.")
+
 
 def get_target_historical_currency(message):
     """
@@ -530,15 +588,18 @@ def get_target_historical_currency(message):
 
     # Fetch supported currencies again to display the options for the target currency
     supported_currencies = get_supported_historical_currencies()
-    currencies = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    currencies = types.ReplyKeyboardMarkup(
+        one_time_keyboard=True, resize_keyboard=True)
     for currency in supported_currencies:
         # Ensure the target currency is not the same as the base currency
         if currency != selected_currency:
             currencies.add(currency)
 
-    msg = bot.reply_to(message, "Select the currency you want to compare to", reply_markup=currencies)
+    msg = bot.reply_to(
+        message, "Select the currency you want to compare to", reply_markup=currencies)
     bot.register_next_step_handler(msg, get_years_to_go_back)
-    
+
+
 def get_years_to_go_back(message):
     """
     Asks the user to input the amount of years to go back
@@ -550,11 +611,14 @@ def get_years_to_go_back(message):
     user_data = helper.read_json()
     user_data[str(chat_id)]['selected_currency_2'] = selected_currency
     helper.write_json(user_data)
-    years = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    years = types.ReplyKeyboardMarkup(
+        one_time_keyboard=True, resize_keyboard=True)
     for i in range(1, 11):
         years.add(str(i))
-    msg = bot.send_message(chat_id, "How many years would you like the data to go back: ", reply_markup=years)
+    msg = bot.send_message(
+        chat_id, "How many years would you like the data to go back: ", reply_markup=years)
     bot.register_next_step_handler(msg, create_historical_plots)
+
 
 def create_historical_plots(message):
     """
@@ -564,29 +628,31 @@ def create_historical_plots(message):
     chat_id = message.chat.id
     years = int(message.text)
     user_data = helper.read_json()
-    selected_currency_1 = user_data.get(str(chat_id), {}).get('selected_currency_1', None)
-    selected_currency_2 = user_data.get(str(chat_id), {}).get('selected_currency_2', None)
+    selected_currency_1 = user_data.get(
+        str(chat_id), {}).get('selected_currency_1', None)
+    selected_currency_2 = user_data.get(
+        str(chat_id), {}).get('selected_currency_2', None)
 
     if not selected_currency_1 or not selected_currency_2:
         bot.send_message(chat_id, "Error when creating plots")
         return
-    
+
     trend1 = get_historical_trend(selected_currency_1, years)
     trend2 = get_historical_trend(selected_currency_2, years)
 
     plt.plot(trend1, color='blue')
     plt.plot(trend2, color='green', linestyle="--")
-    plt.locator_params(axis='x', nbins=10) 
+    plt.locator_params(axis='x', nbins=10)
     plt.xlabel("Time")
     plt.ylabel("to 1 USD Exchange Rate")
     plt.legend([selected_currency_1, selected_currency_2])
-
 
     plt.savefig("plot.png")
     plt.close()
 
     with open('plot.png', 'rb') as photo:
         bot.send_photo(chat_id=chat_id, photo=photo)
+
 
 def get_amount_to_convert(message):
     """
@@ -601,8 +667,10 @@ def get_amount_to_convert(message):
     helper.write_json(user_data)
 
     # Ask the user to enter the amount
-    msg = bot.send_message(chat_id, f"Enter the amount in {user_data[str(chat_id)]['base_currency']} you want to convert to {target_currency}:")
+    msg = bot.send_message(
+        chat_id, f"Enter the amount in {user_data[str(chat_id)]['base_currency']} you want to convert to {target_currency}:")
     bot.register_next_step_handler(msg, perform_currency_conversion)
+
 
 def perform_currency_conversion(message):
     """
@@ -611,7 +679,8 @@ def perform_currency_conversion(message):
     chat_id = message.chat.id
     user_data = helper.read_json()
     base_currency = user_data.get(str(chat_id), {}).get('base_currency', 'USD')
-    target_currency = user_data.get(str(chat_id), {}).get('target_currency', 'USD')
+    target_currency = user_data.get(
+        str(chat_id), {}).get('target_currency', 'USD')
 
     try:
         amount = float(message.text)
@@ -621,14 +690,18 @@ def perform_currency_conversion(message):
 
         if conversion_rate:
             converted_amount = round(amount * conversion_rate, 2)
-            bot.send_message(chat_id, f"{amount} {base_currency} = {converted_amount} {target_currency}")
+            bot.send_message(
+                chat_id, f"{amount} {base_currency} = {converted_amount} {target_currency}")
         else:
-            bot.send_message(chat_id, "Failed to fetch the conversion rate. Please try again.")
+            bot.send_message(
+                chat_id, "Failed to fetch the conversion rate. Please try again.")
     except ValueError:
-        bot.send_message(chat_id, "Invalid input. Please enter a numeric value.")
+        bot.send_message(
+            chat_id, "Invalid input. Please enter a numeric value.")
     except Exception as e:
         print(f"Error during conversion: {e}")
         bot.send_message(chat_id, "An error occurred. Please try again.")
+
 
 def main():
     """
@@ -641,6 +714,7 @@ def main():
         logging.exception(str(e))
         time.sleep(3)
         print("Connection Timeout")
+
 
 if __name__ == "__main__":
     main()

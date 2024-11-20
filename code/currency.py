@@ -48,6 +48,7 @@ HISTORICAL_EXCHANGE_CODES = {
     "HKD": "EXHKUS"
 }
 
+
 def get_supported_currencies():
     """
     Fetches all the supported currencies from ExchangeRate-API.
@@ -68,11 +69,13 @@ def get_supported_currencies():
         print(f"Error fetching supported currencies: {e}")
     return None
 
+
 def get_supported_historical_currencies():
     """
     Returns the list of currencies supported for historical trends
     """
     return HISTORICAL_EXCHANGE_CODES.keys()
+
 
 def get_conversion_rate(base_currency, target_currency):
     """
@@ -96,6 +99,7 @@ def get_conversion_rate(base_currency, target_currency):
         print(f"Error fetching conversion rate: {e}")
     return None
 
+
 def get_historical_trend(base_currency, years=5, test_end=None):
     """
     Fetches the historical data from a specific currency types
@@ -106,13 +110,13 @@ def get_historical_trend(base_currency, years=5, test_end=None):
     """
     if not base_currency in HISTORICAL_EXCHANGE_CODES.keys():
         return None
-    
+
     if type(years) is not int:
         return None
-    
+
     if years < 1:
         return None
-    
+
     if years > 10:
         return None
 
@@ -124,8 +128,9 @@ def get_historical_trend(base_currency, years=5, test_end=None):
     start = datetime.date(end.year - years, end.month, 1)
 
     try:
-       historical_data = data.DataReader(HISTORICAL_EXCHANGE_CODES[base_currency], 'fred', start=start, end=end)
+        historical_data = data.DataReader(
+            HISTORICAL_EXCHANGE_CODES[base_currency], 'fred', start=start, end=end)
 
-       return historical_data
+        return historical_data
     except Exception as e:
         print(f"Error fetcching historical data: {e}")
