@@ -24,7 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
+import random
+import string
 import helper
 import logging
 from telebot import types
@@ -33,8 +34,14 @@ from datetime import datetime
 
 option = {}
 
+HASH_LENGTH = 16
+
+LETTERS_AND_DIGITS = string.ascii_letters + string.digits
 # === Documentation of add.py ===
 
+def generate_random_group_expense_hash():
+    """ Create a Random Key for Group Expenses """
+    return ''.join([random.choice(LETTERS_AND_DIGITS) for _ in range(HASH_LENGTH)])
 
 def run(message, bot):
     """
@@ -221,10 +228,14 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
 
         if group_name:  # Group flow
             groups = helper.load_group_data()
-
+            expense_hash = generate_random_group_expense_hash()
             # Convert amount_value to a float if it isn't already
-            expense_record = {"date": date_str,
-                              "category": category_str, "amount": amount_value}
+            expense_record = {
+                "date"      : date_str,
+                "category"  : category_str,
+                "amount"    : amount_value,
+                "hash"      : expense_hash
+            }
             groups[group_name]['expenses'].append(expense_record)
 
             # Make sure 'total_spent' is a float to allow addition
@@ -241,6 +252,12 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
                 chat_id, f"Expense of ${amount_value} for '{category_str}' added to group '{group_name}' on {date_str}.")
             bot.send_message(
                 chat_id, f"Each member now owes: ${per_member_share:.2f}")
+            helper.write_json(
+                add_user_record(
+                    chat_id, "{},{},{},{},{}".format(
+                        date_str, category_str, str( float(amount_str) / group_size), group_name, expense_hash), expense_hash
+                )
+            )
 
         else:  # Individual flow
             helper.write_json(
@@ -343,7 +360,7 @@ def credit_name_input(message, bot, record):
         bot.send_message(chat_id, "Oh no. " + str(e))
 
 
-def add_user_record(chat_id, record_to_be_added):
+def add_user_record(chat_id, record_to_be_added, grouphash=None):
     """
     Stores the expense record for the user.
     """
@@ -354,5 +371,10 @@ def add_user_record(chat_id, record_to_be_added):
     if str(chat_id) not in user_list:
         user_list[str(chat_id)] = helper.createNewUserRecord()
 
-    user_list[str(chat_id)]["data"].append(record_to_be_added)
+    if not grouphash:
+        user_list[str(chat_id)]["data"].append(record_to_be_added)
+    else:
+        if not user_list[str(chat_id)].get("groupdata", None):
+            user_list[str(chat_id)]["groupdata"] = []
+        user_list[str(chat_id)]["groupdata"].append(record_to_be_added)
     return user_list

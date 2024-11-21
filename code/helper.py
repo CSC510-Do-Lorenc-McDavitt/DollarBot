@@ -290,8 +290,12 @@ def getUserHistory(chat_id):
     getUserHistory(chat_id): Takes 1 argument chat_id and uses this to get the relevant user's historical data.
     """
     data = getUserData(chat_id)
+    
     if data is not None:
-        return data["data"]
+        return_data = []
+        return_data += data["data"] 
+        return_data += data.get("groupdata", [])
+        return return_data
     return None
 
 
@@ -431,6 +435,7 @@ def display_remaining_overall_budget(message, bot):
 def calculateRemainingOverallBudget(chat_id):
     budget = getOverallBudget(chat_id)
     history = getUserHistory(chat_id)
+    print(history)
     query = datetime.now().today().strftime(getMonthFormat())
     queryResult = [value for _, value in enumerate(
         history) if str(query) in value]
