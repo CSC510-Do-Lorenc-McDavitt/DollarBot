@@ -152,7 +152,10 @@ def show_help(m):
 
 @bot.message_handler(commands=["faq"])
 def faq(m):
-
+    """
+    Prints out the frequently asked questions for users to understand some common doubts. 
+    Commands used to run this: command=['faq']
+    """
     helper.read_json()
     chat_id = m.chat.id
 
@@ -437,6 +440,11 @@ def command_setup_credit_calendar(message):
 # handles budget command
 @bot.message_handler(commands=["budget"])
 def command_budget(message):
+    """
+    Takes 1 argument message which contains the message from the user 
+    along with the chat ID of the user chat. It then calls budget.py to 
+    execute the budget functionality. Commands used to run this: command=['budget']
+    """
     budget.run(message, bot)
 
 # handles analytics command
