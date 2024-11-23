@@ -81,7 +81,9 @@ run analytics. Commands to run this commands=["analytics"]</p></div>
 <span>def <span class="ident">command_budget</span></span>(<span>message)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Takes 1 argument message which contains the message from the user
+along with the chat ID of the user chat. It then calls budget.py to
+execute the budget functionality. Commands used to run this: command=['budget']</p></div>
 </dd>
 <dt id="code.code.command_chat"><code class="name flex">
 <span>def <span class="ident">command_chat</span></span>(<span>message)</span>
@@ -202,6 +204,15 @@ the sending an email of the expense history. Commands used to run this: commands
 along with the chat ID of the user chat. It then calls credit_setup.py to run to add a new credit account
 Commands used to run this: commands=['view_credit']</p></div>
 </dd>
+<dt id="code.code.command_setup_credit_calendar"><code class="name flex">
+<span>def <span class="ident">command_setup_credit_calendar</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>command_setup_credit_calendar(message): Takes 1 argument message which contains the message from the user
+along with the chat ID of the user chat. It then calls creddit_calendar.py to run to add a due date
+to a credit account for a users google calendar
+Commands used to run this: commands=['setup_credit_calendar']</p></div>
+</dd>
 <dt id="code.code.command_updateCategory"><code class="name flex">
 <span>def <span class="ident">command_updateCategory</span></span>(<span>message)</span>
 </code></dt>
@@ -249,7 +260,8 @@ and posts them to user</p></div>
 <span>def <span class="ident">faq</span></span>(<span>m)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Prints out the frequently asked questions for users to understand some common doubts.
+Commands used to run this: command=['faq']</p></div>
 </dd>
 <dt id="code.code.get_amount_to_convert"><code class="name flex">
 <span>def <span class="ident">get_amount_to_convert</span></span>(<span>message)</span>
@@ -275,6 +287,12 @@ and posts them to user</p></div>
 <dd>
 <div class="desc"><p>Asks the user to input the amount of years to go back</p></div>
 </dd>
+<dt id="code.code.home"><code class="name flex">
+<span>def <span class="ident">home</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The default message for the flask development server</p></div>
+</dd>
 <dt id="code.code.listener"><code class="name flex">
 <span>def <span class="ident">listener</span></span>(<span>user_requests)</span>
 </code></dt>
@@ -287,13 +305,29 @@ interaction with the bot including all bot commands run and any other issue logs
 </code></dt>
 <dd>
 <div class="desc"><p>main() The entire bot's execution begins here. It ensure the bot variable begins
-polling and actively listening for requests from telegram.</p></div>
+polling and actively listening for requests from telegram. It also sets up a
+flask server for the oauth</p></div>
+</dd>
+<dt id="code.code.oauth2callback"><code class="name flex">
+<span>def <span class="ident">oauth2callback</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Route for setting up the oauth token. Downloads it into
+oauth_record.json</p></div>
 </dd>
 <dt id="code.code.perform_currency_conversion"><code class="name flex">
 <span>def <span class="ident">perform_currency_conversion</span></span>(<span>message)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Performs the currency conversion between the selected base and target currencies.</p></div>
+</dd>
+<dt id="code.code.run_flask"><code class="name flex">
+<span>def <span class="ident">run_flask</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Runs the flask application for handling oauth and calendar setup.
+This allows for future implementations of google api items.
+This process is on an alternate thread</p></div>
 </dd>
 <dt id="code.code.show_help"><code class="name flex">
 <span>def <span class="ident">show_help</span></span>(<span>m)</span>
@@ -363,6 +397,7 @@ Commands used to run this: commands=['start', 'menu']</p></div>
 <li><code><a title="code.code.command_predict" href="#code.code.command_predict">command_predict</a></code></li>
 <li><code><a title="code.code.command_sendEmail" href="#code.code.command_sendEmail">command_sendEmail</a></code></li>
 <li><code><a title="code.code.command_setup_credit" href="#code.code.command_setup_credit">command_setup_credit</a></code></li>
+<li><code><a title="code.code.command_setup_credit_calendar" href="#code.code.command_setup_credit_calendar">command_setup_credit_calendar</a></code></li>
 <li><code><a title="code.code.command_updateCategory" href="#code.code.command_updateCategory">command_updateCategory</a></code></li>
 <li><code><a title="code.code.command_view_credit" href="#code.code.command_view_credit">command_view_credit</a></code></li>
 <li><code><a title="code.code.command_weekly" href="#code.code.command_weekly">command_weekly</a></code></li>
@@ -374,9 +409,12 @@ Commands used to run this: commands=['start', 'menu']</p></div>
 <li><code><a title="code.code.get_target_currency" href="#code.code.get_target_currency">get_target_currency</a></code></li>
 <li><code><a title="code.code.get_target_historical_currency" href="#code.code.get_target_historical_currency">get_target_historical_currency</a></code></li>
 <li><code><a title="code.code.get_years_to_go_back" href="#code.code.get_years_to_go_back">get_years_to_go_back</a></code></li>
+<li><code><a title="code.code.home" href="#code.code.home">home</a></code></li>
 <li><code><a title="code.code.listener" href="#code.code.listener">listener</a></code></li>
 <li><code><a title="code.code.main" href="#code.code.main">main</a></code></li>
+<li><code><a title="code.code.oauth2callback" href="#code.code.oauth2callback">oauth2callback</a></code></li>
 <li><code><a title="code.code.perform_currency_conversion" href="#code.code.perform_currency_conversion">perform_currency_conversion</a></code></li>
+<li><code><a title="code.code.run_flask" href="#code.code.run_flask">run_flask</a></code></li>
 <li><code><a title="code.code.show_help" href="#code.code.show_help">show_help</a></code></li>
 <li><code><a title="code.code.show_supported_currencies" href="#code.code.show_supported_currencies">show_supported_currencies</a></code></li>
 <li><code><a title="code.code.start_and_menu_command" href="#code.code.start_and_menu_command">start_and_menu_command</a></code></li>

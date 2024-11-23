@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>code.weekly API documentation</title>
-<meta name="description" content="File: weekly.py
-Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
-Date: October 01, 2023
-Description: File contains Telegram bot …">
+<title>code.credit_calendar API documentation</title>
+<meta name="description" content="File: credit_calendar.py
+Author: Thien Do
+Date: November 22, 2024
+Description: File contains functionality for setting
+up a calendar event for credit …">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -25,29 +26,14 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>code.weekly</code></h1>
+<h1 class="title">Module <code>code.credit_calendar</code></h1>
 </header>
 <section id="section-intro">
-<p>File: weekly.py
-Author: Vyshnavi Adusumelli, Tejaswini Panati, Harshavardhan Bandaru
-Date: October 01, 2023
-Description: File contains Telegram bot message handlers and their associated functions.</p>
-<p>Copyright (c) 2023</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</p>
+<p>File: credit_calendar.py
+Author: Thien Do
+Date: November 22, 2024
+Description: File contains functionality for setting
+up a calendar event for credit card payment due dates.</p>
 </section>
 <section>
 </section>
@@ -56,18 +42,25 @@ SOFTWARE.</p>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="code.weekly.create_chart_for_weekly_analysis"><code class="name flex">
-<span>def <span class="ident">create_chart_for_weekly_analysis</span></span>(<span>user_history, userid)</span>
+<dt id="code.credit_calendar.handle_account_name"><code class="name flex">
+<span>def <span class="ident">handle_account_name</span></span>(<span>message, bot)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Creates a chart for weekly analysis for the user's expenses</p></div>
+<div class="desc"><p>Handles the input of the group name for setting up a due date for a credit account</p></div>
 </dd>
-<dt id="code.weekly.run"><code class="name flex">
+<dt id="code.credit_calendar.handle_oauth"><code class="name flex">
+<span>def <span class="ident">handle_oauth</span></span>(<span>message, bot)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handles the using of the oauth token of the group name
+for setting up a due date for a credit account</p></div>
+</dd>
+<dt id="code.credit_calendar.run"><code class="name flex">
 <span>def <span class="ident">run</span></span>(<span>message, bot)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Displays Weekly user expenditure line chart with and without category wise grouping.
-:return: None (Sends image to bot)</p></div>
+<div class="desc"><p>run(message, bot): This is the main function used to implement the calendar
+due date credit feature</p></div>
 </dd>
 </dl>
 </section>
@@ -86,8 +79,9 @@ SOFTWARE.</p>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="code.weekly.create_chart_for_weekly_analysis" href="#code.weekly.create_chart_for_weekly_analysis">create_chart_for_weekly_analysis</a></code></li>
-<li><code><a title="code.weekly.run" href="#code.weekly.run">run</a></code></li>
+<li><code><a title="code.credit_calendar.handle_account_name" href="#code.credit_calendar.handle_account_name">handle_account_name</a></code></li>
+<li><code><a title="code.credit_calendar.handle_oauth" href="#code.credit_calendar.handle_oauth">handle_oauth</a></code></li>
+<li><code><a title="code.credit_calendar.run" href="#code.credit_calendar.run">run</a></code></li>
 </ul>
 </li>
 </ul>
