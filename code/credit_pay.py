@@ -1,3 +1,10 @@
+"""
+File: credit_pay.py
+Author: Thien Do
+Date: November 22, 2024
+Description: File contains functionality for paying 
+down the bill for a credit account.
+"""
 import helper
 from telebot import types
 

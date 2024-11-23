@@ -35,7 +35,9 @@ matplotlib.use("Agg")
 
 
 def viewBudget(data):
-
+    """
+    This function saves a pie chart with the cateogry-wise budget split
+    """
     sorted_data = {k: v for k, v in sorted(
         data.items(), key=lambda item: item[1])}
     # Convert values to float
@@ -120,6 +122,9 @@ def visualize(total_text, monthly_budget):
 
 
 def overall_split(category_budget):
+    """
+    This function is the updated version of viewBudget
+    """
     _, ax = plt.subplots()
     ax.pie(category_budget.values(),
            labels=category_budget.keys(), autopct='%1.1f%%')

@@ -1,3 +1,9 @@
+"""
+File: portfolio_sell.py
+Author: Nathan Lorenc
+Date: November 22, 2024
+Description: File contains functionality for selling stocks.
+"""
 import helper
 import logging
 import yfinance as yf

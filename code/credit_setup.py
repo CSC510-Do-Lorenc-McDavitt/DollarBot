@@ -1,3 +1,10 @@
+"""
+File: credit_setup.py
+Author: Thien Do
+Date: November 22, 2024
+Description: File contains functionality for adding 
+a credit account
+"""
 import helper
 
 # === Documentation of credit_setup.py ===
