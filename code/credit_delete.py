@@ -1,3 +1,10 @@
+"""
+File: credit_delete.py
+Author: Thien Do
+Date: November 22, 2024
+Description: File contains functionality for deleting 
+a credit card account.
+"""
 import helper
 from telebot import types
 

@@ -1,3 +1,10 @@
+"""
+File: credit_calendar.py
+Author: Thien Do
+Date: November 22, 2024
+Description: File contains functionality for setting 
+up a calendar event for credit card payment due dates.
+"""
 import helper
 from telebot import types
 from dotenv import load_dotenv
