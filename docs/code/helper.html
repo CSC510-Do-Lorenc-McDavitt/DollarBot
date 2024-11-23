@@ -218,6 +218,12 @@ SOFTWARE.</p>
 <dd>
 <div class="desc"></div>
 </dd>
+<dt id="code.helper.getPortfolioData"><code class="name flex">
+<span>def <span class="ident">getPortfolioData</span></span>(<span>chat_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a string output of the user's portfolio</p></div>
+</dd>
 <dt id="code.helper.getPortfolioOptions"><code class="name flex">
 <span>def <span class="ident">getPortfolioOptions</span></span>(<span>)</span>
 </code></dt>
@@ -324,7 +330,13 @@ SOFTWARE.</p>
 <span>def <span class="ident">read_category_json</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>read_json(): Function to load .json expense record data</p></div>
+<div class="desc"><p>read_category_json(): Function to load .json category data</p></div>
+</dd>
+<dt id="code.helper.read_credit_json"><code class="name flex">
+<span>def <span class="ident">read_credit_json</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>read_credit_json(): Function to load .json credit record data</p></div>
 </dd>
 <dt id="code.helper.read_json"><code class="name flex">
 <span>def <span class="ident">read_json</span></span>(<span>)</span>
@@ -373,7 +385,13 @@ It validates this amount's format to see if it has been correctly entered by the
 <span>def <span class="ident">write_category_json</span></span>(<span>category_list)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>write_json(category_list): Stores data into the datastore of the bot.</p></div>
+<div class="desc"><p>write_category_json(category_list): Stores data into the datastore of the bot.</p></div>
+</dd>
+<dt id="code.helper.write_credit_json"><code class="name flex">
+<span>def <span class="ident">write_credit_json</span></span>(<span>credit_list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>write_credit_json(credit_list): Stores credit data into the datastore of the bot.</p></div>
 </dd>
 <dt id="code.helper.write_json"><code class="name flex">
 <span>def <span class="ident">write_json</span></span>(<span>user_list)</span>
@@ -431,6 +449,7 @@ It validates this amount's format to see if it has been correctly entered by the
 <li><code><a title="code.helper.getFormattedPredictions" href="#code.helper.getFormattedPredictions">getFormattedPredictions</a></code></li>
 <li><code><a title="code.helper.getMonthFormat" href="#code.helper.getMonthFormat">getMonthFormat</a></code></li>
 <li><code><a title="code.helper.getOverallBudget" href="#code.helper.getOverallBudget">getOverallBudget</a></code></li>
+<li><code><a title="code.helper.getPortfolioData" href="#code.helper.getPortfolioData">getPortfolioData</a></code></li>
 <li><code><a title="code.helper.getPortfolioOptions" href="#code.helper.getPortfolioOptions">getPortfolioOptions</a></code></li>
 <li><code><a title="code.helper.getSpendCategories" href="#code.helper.getSpendCategories">getSpendCategories</a></code></li>
 <li><code><a title="code.helper.getSpendDisplayOptions" href="#code.helper.getSpendDisplayOptions">getSpendDisplayOptions</a></code></li>
@@ -449,6 +468,7 @@ It validates this amount's format to see if it has been correctly entered by the
 <li><code><a title="code.helper.isOverallBudgetAvailable" href="#code.helper.isOverallBudgetAvailable">isOverallBudgetAvailable</a></code></li>
 <li><code><a title="code.helper.load_group_data" href="#code.helper.load_group_data">load_group_data</a></code></li>
 <li><code><a title="code.helper.read_category_json" href="#code.helper.read_category_json">read_category_json</a></code></li>
+<li><code><a title="code.helper.read_credit_json" href="#code.helper.read_credit_json">read_credit_json</a></code></li>
 <li><code><a title="code.helper.read_json" href="#code.helper.read_json">read_json</a></code></li>
 <li><code><a title="code.helper.read_portfolio_json" href="#code.helper.read_portfolio_json">read_portfolio_json</a></code></li>
 <li><code><a title="code.helper.save_group_data" href="#code.helper.save_group_data">save_group_data</a></code></li>
@@ -457,6 +477,7 @@ It validates this amount's format to see if it has been correctly entered by the
 <li><code><a title="code.helper.validate_entered_amount" href="#code.helper.validate_entered_amount">validate_entered_amount</a></code></li>
 <li><code><a title="code.helper.validate_entered_duration" href="#code.helper.validate_entered_duration">validate_entered_duration</a></code></li>
 <li><code><a title="code.helper.write_category_json" href="#code.helper.write_category_json">write_category_json</a></code></li>
+<li><code><a title="code.helper.write_credit_json" href="#code.helper.write_credit_json">write_credit_json</a></code></li>
 <li><code><a title="code.helper.write_json" href="#code.helper.write_json">write_json</a></code></li>
 <li><code><a title="code.helper.write_portfolio_json" href="#code.helper.write_portfolio_json">write_portfolio_json</a></code></li>
 </ul>

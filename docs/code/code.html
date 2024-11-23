@@ -89,13 +89,31 @@ run analytics. Commands to run this commands=["analytics"]</p></div>
 <dd>
 <div class="desc"><p>Handles the /chat command</p></div>
 </dd>
+<dt id="code.code.command_clear_credit"><code class="name flex">
+<span>def <span class="ident">command_clear_credit</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>command_clear_credit(message): Takes 1 argument message which contains the message from the user
+along with the chat ID of the user chat. It then calls credit_clear.py to run to clear expenses
+for a credit account
+Commands used to run this: commands=['clear_credit']</p></div>
+</dd>
 <dt id="code.code.command_delete"><code class="name flex">
 <span>def <span class="ident">command_delete</span></span>(<span>message)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>command_delete(message): Takes 1 argument message which contains the message from the user
 along with the chat ID of the user chat. It then calls delete.py to run to execute the add functionality.
-Commands used to run this: commands=['display']</p></div>
+Commands used to run this: commands=['delete']</p></div>
+</dd>
+<dt id="code.code.command_delete_credit"><code class="name flex">
+<span>def <span class="ident">command_delete_credit</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>command_delete_credit(message): Takes 1 argument message which contains the message from the user
+along with the chat ID of the user chat. It then calls credit_delete.py to run to delete a credit
+account.
+Commands used to run this: commands=['delete_credit']</p></div>
 </dd>
 <dt id="code.code.command_display"><code class="name flex">
 <span>def <span class="ident">command_display</span></span>(<span>message)</span>
@@ -144,6 +162,15 @@ the add functionality. Commands used to run this: commands=['history']</p></div>
 the user along with the chat ID of the user chat. It then calls monthly.py to run to execute
 the monthly analysis functionality. Commands used to run this: commands=['monthly']</p></div>
 </dd>
+<dt id="code.code.command_pay_credit"><code class="name flex">
+<span>def <span class="ident">command_pay_credit</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>command_pay_credit(message): Takes 1 argument message which contains the message from the user
+along with the chat ID of the user chat. It then calls credit_pay.py to run to pay off a credit
+account
+Commands used to run this: commands=['pay_credit']</p></div>
+</dd>
 <dt id="code.code.command_pdf"><code class="name flex">
 <span>def <span class="ident">command_pdf</span></span>(<span>message)</span>
 </code></dt>
@@ -167,6 +194,14 @@ analyze budget and spending trends and suggest a future budget. Commands to run 
 the user along with the chat ID of the user chat. It then calls sendEmail.py to run to execute
 the sending an email of the expense history. Commands used to run this: commands=['sendEmail']</p></div>
 </dd>
+<dt id="code.code.command_setup_credit"><code class="name flex">
+<span>def <span class="ident">command_setup_credit</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>command_setup_credit(message): Takes 1 argument message which contains the message from the user
+along with the chat ID of the user chat. It then calls credit_setup.py to run to add a new credit account
+Commands used to run this: commands=['view_credit']</p></div>
+</dd>
 <dt id="code.code.command_updateCategory"><code class="name flex">
 <span>def <span class="ident">command_updateCategory</span></span>(<span>message)</span>
 </code></dt>
@@ -174,6 +209,14 @@ the sending an email of the expense history. Commands used to run this: commands
 <div class="desc"><p>command_updateCategory(message): Takes 1 argument message which contains the message from
 the user along with the chat ID of the user chat. It then calls updateCategory.py to run to execute
 the updateCategory functionality. Commands used to run this: commands=['updateCategory']</p></div>
+</dd>
+<dt id="code.code.command_view_credit"><code class="name flex">
+<span>def <span class="ident">command_view_credit</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>command_view_credit(message): Takes 1 argument message which contains the message from the user
+along with the chat ID of the user chat. It then calls credit_view.py to run to view the credit record
+Commands used to run this: commands=['view_credit']</p></div>
 </dd>
 <dt id="code.code.command_weekly"><code class="name flex">
 <span>def <span class="ident">command_weekly</span></span>(<span>message)</span>
@@ -188,6 +231,19 @@ the weekly analysis functionality. Commands used to run this: commands=['weekly'
 </code></dt>
 <dd>
 <div class="desc"><p>Converts the specified currency to USD when the user types /convert <currency>.</p></div>
+</dd>
+<dt id="code.code.create_historical_plots"><code class="name flex">
+<span>def <span class="ident">create_historical_plots</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates the historical plots from the two currencies selected
+and posts them to user</p></div>
+</dd>
+<dt id="code.code.currency_historical_trends"><code class="name flex">
+<span>def <span class="ident">currency_historical_trends</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Initiates the historical plots by asking users what currency they would like to use</p></div>
 </dd>
 <dt id="code.code.faq"><code class="name flex">
 <span>def <span class="ident">faq</span></span>(<span>m)</span>
@@ -206,6 +262,18 @@ the weekly analysis functionality. Commands used to run this: commands=['weekly'
 </code></dt>
 <dd>
 <div class="desc"><p>Asks the user to select the target currency for conversion.</p></div>
+</dd>
+<dt id="code.code.get_target_historical_currency"><code class="name flex">
+<span>def <span class="ident">get_target_historical_currency</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the type of currency user would like to use</p></div>
+</dd>
+<dt id="code.code.get_years_to_go_back"><code class="name flex">
+<span>def <span class="ident">get_years_to_go_back</span></span>(<span>message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Asks the user to input the amount of years to go back</p></div>
 </dd>
 <dt id="code.code.listener"><code class="name flex">
 <span>def <span class="ident">listener</span></span>(<span>user_requests)</span>
@@ -281,22 +349,31 @@ Commands used to run this: commands=['start', 'menu']</p></div>
 <li><code><a title="code.code.command_analytics" href="#code.code.command_analytics">command_analytics</a></code></li>
 <li><code><a title="code.code.command_budget" href="#code.code.command_budget">command_budget</a></code></li>
 <li><code><a title="code.code.command_chat" href="#code.code.command_chat">command_chat</a></code></li>
+<li><code><a title="code.code.command_clear_credit" href="#code.code.command_clear_credit">command_clear_credit</a></code></li>
 <li><code><a title="code.code.command_delete" href="#code.code.command_delete">command_delete</a></code></li>
+<li><code><a title="code.code.command_delete_credit" href="#code.code.command_delete_credit">command_delete_credit</a></code></li>
 <li><code><a title="code.code.command_display" href="#code.code.command_display">command_display</a></code></li>
 <li><code><a title="code.code.command_edit" href="#code.code.command_edit">command_edit</a></code></li>
 <li><code><a title="code.code.command_estimate" href="#code.code.command_estimate">command_estimate</a></code></li>
 <li><code><a title="code.code.command_group" href="#code.code.command_group">command_group</a></code></li>
 <li><code><a title="code.code.command_history" href="#code.code.command_history">command_history</a></code></li>
 <li><code><a title="code.code.command_monthly" href="#code.code.command_monthly">command_monthly</a></code></li>
+<li><code><a title="code.code.command_pay_credit" href="#code.code.command_pay_credit">command_pay_credit</a></code></li>
 <li><code><a title="code.code.command_pdf" href="#code.code.command_pdf">command_pdf</a></code></li>
 <li><code><a title="code.code.command_predict" href="#code.code.command_predict">command_predict</a></code></li>
 <li><code><a title="code.code.command_sendEmail" href="#code.code.command_sendEmail">command_sendEmail</a></code></li>
+<li><code><a title="code.code.command_setup_credit" href="#code.code.command_setup_credit">command_setup_credit</a></code></li>
 <li><code><a title="code.code.command_updateCategory" href="#code.code.command_updateCategory">command_updateCategory</a></code></li>
+<li><code><a title="code.code.command_view_credit" href="#code.code.command_view_credit">command_view_credit</a></code></li>
 <li><code><a title="code.code.command_weekly" href="#code.code.command_weekly">command_weekly</a></code></li>
 <li><code><a title="code.code.convert_currency" href="#code.code.convert_currency">convert_currency</a></code></li>
+<li><code><a title="code.code.create_historical_plots" href="#code.code.create_historical_plots">create_historical_plots</a></code></li>
+<li><code><a title="code.code.currency_historical_trends" href="#code.code.currency_historical_trends">currency_historical_trends</a></code></li>
 <li><code><a title="code.code.faq" href="#code.code.faq">faq</a></code></li>
 <li><code><a title="code.code.get_amount_to_convert" href="#code.code.get_amount_to_convert">get_amount_to_convert</a></code></li>
 <li><code><a title="code.code.get_target_currency" href="#code.code.get_target_currency">get_target_currency</a></code></li>
+<li><code><a title="code.code.get_target_historical_currency" href="#code.code.get_target_historical_currency">get_target_historical_currency</a></code></li>
+<li><code><a title="code.code.get_years_to_go_back" href="#code.code.get_years_to_go_back">get_years_to_go_back</a></code></li>
 <li><code><a title="code.code.listener" href="#code.code.listener">listener</a></code></li>
 <li><code><a title="code.code.main" href="#code.code.main">main</a></code></li>
 <li><code><a title="code.code.perform_currency_conversion" href="#code.code.perform_currency_conversion">perform_currency_conversion</a></code></li>
