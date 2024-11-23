@@ -435,7 +435,6 @@ def display_remaining_overall_budget(message, bot):
 def calculateRemainingOverallBudget(chat_id):
     budget = getOverallBudget(chat_id)
     history = getUserHistory(chat_id)
-    print(history)
     query = datetime.now().today().strftime(getMonthFormat())
     queryResult = [value for _, value in enumerate(
         history) if str(query) in value]
@@ -485,7 +484,6 @@ def calculate_total_spendings_for_category(queryResult, cat):
 def calculate_total_spendings_for_category_chat_id(chat_id, cat):
     history = getUserHistory(chat_id)
     query = datetime.now().today().strftime(getMonthFormat())
-    print(query)
     queryResult = [value for _, value in enumerate(
         history) if str(query) in value]
     return calculate_total_spendings_for_category(queryResult, cat)
