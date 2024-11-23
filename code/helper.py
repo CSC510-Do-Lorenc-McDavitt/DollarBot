@@ -173,7 +173,7 @@ def read_portfolio_json():
     read_json(): Function to load .json portfolio data
     """
     try:
-        if not os.path.exists("portfolio.json"):
+        if not os.path.exists("portfolio.json") or os.stat("portfolio.json").st_size == 0:
             with open("portfolio.json", "w", encoding="utf-8") as json_file:
                 json_file.write("{}")
             return json.dumps("{}")
