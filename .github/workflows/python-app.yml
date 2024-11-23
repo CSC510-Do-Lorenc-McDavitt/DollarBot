@@ -44,10 +44,12 @@ jobs:
       env:
         API_TOKEN: ${{ secrets.API_TOKEN }}
         OPENAI_TOKEN: ${{ secrets.OPENAI_KEY }}
+        CURRENCY_API: ${{ secrets.CURRENCY_API }}
       run: |
         pip install pytest
         echo api_token=$API_TOKEN >> user.properties
         echo openai_key=$OPENAI_TOKEN >> user.properties
+        echo CURRENCY_API=$CURRENCY_API >> .env
         pytest test/ --cov=. --cov-report=xml     
     - name: Upload coverage reports to Codecov
       if: always()
