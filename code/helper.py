@@ -95,7 +95,8 @@ commands = {
     "setup_credit": "Sets up a credit account for the user.",
     "pay_credit": "Pays off certain amount of the credit account the user has. Can be used to adjust what you owe for discrepancies.",
     "clear_credit": "Remove the expenses for an account",
-    "delete_credit": "Remove a credit account"
+    "delete_credit": "Remove a credit account",
+    "setup_credit_calendar": "Add a credit account due date onto your google calendar and make it recurring"
 
 }
 
@@ -222,6 +223,36 @@ def write_credit_json(credit_list):
     try:
         with open("credit_record.json", "w+", encoding="utf-8") as json_file:
             json.dump(credit_list, json_file, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        print("Sorry, the data file could not be found.")
+
+
+def read_oauth_json():
+    """
+    read_oauth_json(): Function to load .json oauth record data
+    """
+    try:
+        if not os.path.exists("oauth_record.json"):
+            with open("oauth_record.json", "w+", encoding="utf-8") as json_file:
+                json_file.write("{}")
+            return {}
+        elif os.stat("oauth_record.json").st_size != 0:
+            with open("oauth_record.json", encoding="utf-8") as oauth_record:
+                oauth_record_data = json.load(oauth_record)
+                return oauth_record_data if oauth_record_data else {}
+            return oauth_record_data
+
+    except FileNotFoundError:
+        print("---------NO OAUTH RECORDS FOUND---------")
+
+
+def write_oauth_json(oauth_record):
+    """
+    write_oauth_json(oauth_record): Stores credit data into the datastore of the bot.
+    """
+    try:
+        with open("oauth_record.json", "w+", encoding="utf-8") as json_file:
+            json.dump(oauth_record, json_file, ensure_ascii=False, indent=4)
     except FileNotFoundError:
         print("Sorry, the data file could not be found.")
 
