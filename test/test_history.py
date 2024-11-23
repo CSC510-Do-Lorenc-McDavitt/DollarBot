@@ -86,4 +86,4 @@ def test_run_with_None(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     history.run(MOCK_Message_data, mc)
-    assert mc.reply_to.called
+    assert mc.send_message.called
