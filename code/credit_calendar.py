@@ -9,6 +9,8 @@ import os
 # === Documentation of credit_calendar.py ===
 
 account_names = {}
+
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the calendar
@@ -52,9 +54,10 @@ def handle_account_name(message, bot):
     markup.row_width = 2
     markup.add("Done")
     markup.add("Cancel")
-    bot.send_message(chat_id, f"{oauth2_url}\nPlease enter \"done\" when you are finished setting it up.", 
+    bot.send_message(chat_id, f"{oauth2_url}\nPlease enter \"done\" when you are finished setting it up.",
                      reply_markup=markup)
     bot.register_next_step_handler(message, handle_oauth, bot)
+
 
 def handle_oauth(message, bot):
     """
@@ -80,19 +83,21 @@ def handle_oauth(message, bot):
 
         # Get the current date
         today = datetime.utcnow().date()
-        today = today.replace(day=credit_list[str(chat_id)][account_name]["due date"])
+        today = today.replace(
+            day=credit_list[str(chat_id)][account_name]["due date"])
         event = {
             "summary": "Pay Credit Account For: " + account_name,
             "description": "Pay off your credit card fees before it's too late!\
                 The account is for " + account_name,
             "start": {
-                "date": str(today.isoformat()),  
+                "date": str(today.isoformat()),
             },
             "end": {
                 "date": str((today + timedelta(days=1)).isoformat()),
             },
             "recurrence": [
-                "RRULE:FREQ=MONTHLY;BYMONTHDAY=" + str(credit_list[str(chat_id)][account_name]["due date"])
+                "RRULE:FREQ=MONTHLY;BYMONTHDAY=" +
+                str(credit_list[str(chat_id)][account_name]["due date"])
             ],
             "reminders": {
                 "useDefault": False,
@@ -104,17 +109,21 @@ def handle_oauth(message, bot):
         }
         oauth_record = helper.read_oauth_json()
         if str(chat_id) not in oauth_record:
-            bot.send_message(chat_id, "Your oauth2 token was not generated properly!")
+            bot.send_message(
+                chat_id, "Your oauth2 token was not generated properly!")
             return
         token = oauth_record[str(chat_id)]["access_token"]
         creds = Credentials(token)
         service = build("calendar", "v3", credentials=creds)
 
         # Insert the event into the primary calendar
-        created_event = service.events().insert(calendarId="primary", body=event).execute()
+        created_event = service.events().insert(
+            calendarId="primary", body=event).execute()
         credit_list[str(chat_id)][account_name]["calendar"] = True
         helper.write_credit_json(credit_list)
-        bot.send_message(chat_id, "Successfully added the calendar event for " + account_name)
+        bot.send_message(
+            chat_id, "Successfully added the calendar event for " + account_name)
     except Exception as e:
         print(str(e))
-        bot.send_message(chat_id, "Sorry, something went wrong. Try again later!")
+        bot.send_message(
+            chat_id, "Sorry, something went wrong. Try again later!")

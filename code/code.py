@@ -72,7 +72,6 @@ import os
 load_dotenv()
 
 
-
 configs = Properties()
 
 with open("user.properties", "rb") as read_prop:
@@ -734,6 +733,7 @@ def home():
     """
     return 'Flask is running!'
 
+
 @app.route('/oauth2callback')
 def oauth2callback():
     """
@@ -760,13 +760,15 @@ def oauth2callback():
         oauth_record = helper.read_oauth_json()
         oauth_record[chat_id] = {}
         oauth_record[chat_id]["access_token"] = token_info['access_token']
-        expiration_time = datetime.utcnow() + timedelta(seconds=token_info['expires_in'])
+        expiration_time = datetime.utcnow(
+        ) + timedelta(seconds=token_info['expires_in'])
         oauth_record[chat_id]["expires"] = expiration_time.timestamp()
         helper.write_oauth_json(oauth_record)
-        return jsonify({"message":"Successfully created your token, please return to the app."}), 200
+        return jsonify({"message": "Successfully created your token, please return to the app."}), 200
     except Exception as e:
         logging.exception(str(e))
-        return jsonify({"message":"something went wrong, try again later."}), 400
+        return jsonify({"message": "something went wrong, try again later."}), 400
+
 
 def run_flask():
     """
@@ -776,7 +778,10 @@ def run_flask():
     """
     app.run(debug=False, use_reloader=False, threaded=True)
 
+
 shutdown_event = threading.Event()
+
+
 def main():
     """
     main() The entire bot's execution begins here. It ensure the bot variable begins
