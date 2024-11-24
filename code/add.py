@@ -30,7 +30,11 @@ import logging
 from telebot import types
 from telegram_bot_calendar import DetailedTelegramCalendar, LSTEP
 from datetime import datetime
-
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 option = {}
 
 # === Documentation of add.py ===
@@ -64,7 +68,15 @@ def handle_group_check(message, bot):
     choice = message.text.lower()
 
     if choice == "group":
-        msg = bot.send_message(chat_id, "Enter the group name:")
+        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+        markup.row_width = 2
+        groups = helper.load_group_data()
+        if not groups:
+            bot.message_send("There are currently no groups. Add them with /group")
+            return
+        for key in groups.keys():
+            markup.add(key)
+        msg = bot.send_message(chat_id, "Enter the group name:", reply_markup=markup)
         bot.register_next_step_handler(msg, handle_group_name, bot)
     elif choice == "individual":
         msg = bot.send_message(chat_id, "Select date")
@@ -107,7 +119,7 @@ def handle_group_name(message, bot):
 
     groups = helper.load_group_data()
 
-    if group_name in groups:
+    if groups and group_name in groups:
         # Store the group name in the option dictionary for the current user
         # Track group name in option
         option[chat_id]['group_name'] = group_name
@@ -233,7 +245,8 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
             # Calculate the per-member share
             group_size = groups[group_name]['size']
             per_member_share = groups[group_name]['total_spent'] / group_size
-
+            split_amount = amount_value / group_size
+            group_emails = groups[group_name]["emails"]
             # Persist the updated group data
             helper.save_group_data(groups)
 
@@ -241,6 +254,15 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
                 chat_id, f"Expense of ${amount_value} for '{category_str}' added to group '{group_name}' on {date_str}.")
             bot.send_message(
                 chat_id, f"Each member now owes: ${per_member_share:.2f}")
+            if group_emails and len(group_emails) > 0:
+                markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+                markup.row_width = 2
+                markup.add("Yes")
+                markup.add("No")
+                msg = bot.send_message(chat_id, 
+                                       "Would you like to send an email to each member for this expense?", 
+                                       reply_markup=markup)
+                bot.register_next_step_handler(msg, handle_group_email, bot, group_emails, per_member_share, group_name, split_amount)
 
         else:  # Individual flow
             helper.write_json(
@@ -272,6 +294,51 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
         logging.exception(str(e))
         bot.send_message(chat_id, "Oh no. " + str(e))
 
+
+def handle_group_email(message, bot, group_emails, per_member_share, group_name, split_amount):
+    """
+    Handles the event of sending a group email regarding the expense split.
+    """
+    chat_id = message.chat.id
+    try:
+        if str(message.text).lower() == "yes":
+            mail_content = f'''Hello,
+                        This email is to inform you of a split expense cost. Be sure
+                        to pay it back soon!
+                        Current expense cost of group: {group_name}
+                        The recent expense generated: ${"{:.2f}".format(split_amount)}
+                        What you owe: ${"{:.2f}".format(per_member_share)}
+                        Thank you!
+                        '''
+            # The mail addresses and password
+            sender_address = 'secheaper@gmail.com'
+            # sender_pass = 'csc510se'
+            sender_pass = 'lrmd uazh dshu xcxi'
+            
+            # Setup the MIME
+            message = MIMEMultipart()
+            message['From'] = sender_address
+            message['Subject'] = 'Group Expense Added'
+            # The subject line
+            # The body and the attachments for the mail
+            message.attach(MIMEText(mail_content, 'plain'))
+            # Create SMTP session for sending the mail
+            # use gmail with port
+            session = smtplib.SMTP('smtp.gmail.com', 587)
+            session.starttls()  # enable security
+            # login with mail_id and password
+            session.login(sender_address, sender_pass)
+            text = message.as_string()
+            for email in group_emails:
+                receiver_address = email
+                message['To'] = receiver_address
+                session.sendmail(sender_address, receiver_address, text)
+            session.quit()
+            bot.send_message(chat_id, "Mail Sent")
+        else:
+            bot.send_message(chat_id, "Email was not generated.")
+    except Exception:
+        bot.send_message(chat_id, "Somethign went wrong")
 
 def credit_option(message, bot, record):
     """
