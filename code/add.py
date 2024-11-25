@@ -34,19 +34,30 @@ from datetime import datetime
 
 option = {}
 
+""" Length the Hash should be for group expenses """
 HASH_LENGTH = 16
 
+""" Collection of all ASCII letters and numbers """
 LETTERS_AND_DIGITS = string.ascii_letters + string.digits
 # === Documentation of add.py ===
 
 class Group_Name:
-
+    """ 
+    Class to store updates to the individual or group
+    that is being worked with
+    """
     def __init__(self):
+        """ initialize the class """
         self.group_name = False
     
     def update_group(self, new_group):
+        """ 
+        Update the group we are working with
+        (False) = individual
+        """
         self.group_name = new_group
 
+""" Class for the group """
 user_group = Group_Name()
 
 def generate_random_group_expense_hash():
