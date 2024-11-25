@@ -306,8 +306,8 @@ def handle_group_email(message, bot, group_emails, per_member_share, group_name,
                         This email is to inform you of a split expense cost. Be sure
                         to pay it back soon!
                         Current expense cost of group {group_name}:
-                        The recent expense generated: ${"{:.2f}".format(split_amount)}
-                        What you owe for the group: ${"{:.2f}".format(per_member_share)}
+                        The recent expense generated(your split): ${"{:.2f}".format(split_amount)}
+                        What you owe so far for the group in total: ${"{:.2f}".format(per_member_share)}
                         Thank you!
                         '''
             # The mail addresses and password
