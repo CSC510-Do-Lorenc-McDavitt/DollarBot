@@ -35,6 +35,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+from dotenv import load_dotenv
+import os
+load_dotenv()
 option = {}
 
 # === Documentation of add.py ===
@@ -311,9 +314,8 @@ def handle_group_email(message, bot, group_emails, per_member_share, group_name,
                         Thank you!
                         '''
             # The mail addresses and password
-            sender_address = 'secheaper@gmail.com'
-            # sender_pass = 'csc510se'
-            sender_pass = 'lrmd uazh dshu xcxi'
+            sender_address = os.getenv("EMAIL")
+            sender_pass = os.getenv("EMAIL_PASS")
             
             # Setup the MIME
             message = MIMEMultipart()
