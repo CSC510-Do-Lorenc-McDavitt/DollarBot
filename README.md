@@ -34,6 +34,23 @@ And the best part? DollarBot is your financial sidekick, available exclusively o
 </p>
 <hr>
 
+## Tech Stack/Third Party Dependencies
+![alt text](dependencies.png)
+### Required Dependencies
+
+`Google API: Latest (Security Purposes)` \
+<a href="https://developers.google.com/"> source </a> \
+<a href="https://developers.google.com/terms"> More info on license</a>\
+`ChatGPT: 4o-mini`\
+<a href="https://platform.openai.com/docs/models#gpt-4o-mini"> source </a> \
+<a href="https://openai.com/policies/terms-of-use/"> More info on license</a>\
+`Python: 3.11`\
+<a href="https://www.python.org/downloads/release/python-3110/"> source </a> \
+License: Python Software Foundation License 2.0\
+`Telegram App: Latest`\
+<a href="https://desktop.telegram.org/"> source </a> \
+<a href="https://github.com/DrKLO/Telegram/blob/master/LICENSE"> More info on license for some of its source code</a> (It is primarily proprietary)
+
 
 ## Demo Video
 
@@ -300,15 +317,13 @@ Remove a credit account using `/delete_credit`
 
 ## Setup Recurring Due Dates for a Credit Account
 Add a credit account due date onto your google calendar and make it recurring with `/setup_credit_calendar`
-    "delete_credit": "Remove a credit account",
-    "setup_credit_calendar": "Add a credit account due date onto your google calendar and make it recurring"
 
 
 
 # :construction: Road Map
 
 Our implementation has been tracked in a project board which can be viewed here -
-[DollarBot Developer board](https://github.com/users/CSC510-Do-Lorenc-McDavitt/projects/2)
+[DollarBot Developer board](https://github.com/orgs/CSC510-Do-Lorenc-McDavitt/projects/1/views/2)
 
 Some possible future enhancements are as follows:
 
