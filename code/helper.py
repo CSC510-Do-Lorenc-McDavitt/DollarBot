@@ -324,8 +324,20 @@ def getUserHistory(chat_id):
     getUserHistory(chat_id): Takes 1 argument chat_id and uses this to get the relevant user's historical data.
     """
     data = getUserData(chat_id)
+    
     if data is not None:
-        return data["data"]
+        return_data = []
+        return_data += data["data"]
+        group_data =  data.get("groupdata", [])
+        if group_data:
+            temp = []
+            for gd in group_data:
+                cols = gd.split(",")
+                temp_str = str(cols[0]) + "," + str(cols[1]) + "," + str(cols[2])
+                temp.append(temp_str)
+            group_data = temp
+        return_data += group_data
+        return return_data
     return None
 
 
@@ -589,7 +601,6 @@ def calculate_total_spendings_for_category_chat_id(chat_id, cat):
     """
     history = getUserHistory(chat_id)
     query = datetime.now().today().strftime(getMonthFormat())
-    print(query)
     queryResult = [value for _, value in enumerate(
         history) if str(query) in value]
     return calculate_total_spendings_for_category(queryResult, cat)
