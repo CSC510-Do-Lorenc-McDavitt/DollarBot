@@ -127,4 +127,6 @@ For answers to common questions about this code of conduct, see the FAQ at
 https://www.contributor-covenant.org/faq. Translations are available at
 https://www.contributor-covenant.org/translations.
 
+Any other questions could be directed to secheaper@gmail.com
+
 We hope to see all contributions to our repository strictly adhereing to our code of conduct detailed above, to make contributions to DollarBot safe and welcoming.

@@ -25,7 +25,7 @@ You wake up, brew a fresh cup of coffee, and start your day. You're excited beca
 
 And the best part? DollarBot is your financial sidekick, available exclusively on Telegram. That means no matter where you are, it's there to assist you in recording your expenses seamlessly.
 
-<a href="https://www.canva.com/design/DAFxwU4ABIg/LqMkLeGUBhC__JmWmdkFiQ/watch?utm_content=DAFxwU4ABIg&utm_campaign=designshare&utm_medium=link&utm_source=editor">Click here for a video overview!!</a>
+<a href="https://www.youtube.com/watch?v=SmoxlDoA9b8">Click here for a video overview!!</a>
 
 <hr>
 <p align="center">
@@ -37,11 +37,7 @@ And the best part? DollarBot is your financial sidekick, available exclusively o
 
 ## Demo Video
 
-<a href="https://youtu.be/bAio20DZ_-I">https://youtu.be/bAio20DZ_-I</a>
-
-## Our New Feature Demo
-<a href="https://youtu.be/bAio20DZ_-I">[https://www.youtube.com/watch?v=st0KOOYG-kc](https://www.youtube.com/watch?v=st0KOOYG-kc)</a>
-
+<a href="https://www.youtube.com/watch?v=WHt12znHf-c&t=28s">https://www.youtube.com/watch?v=WHt12znHf-c&t=28s</a>
 
 ## :money_with_wings: About DollarBot
 
@@ -290,23 +286,16 @@ Our implementation has been tracked in a project board which can be viewed here 
 [DollarBot Developer board](https://github.com/users/CSC510-Do-Lorenc-McDavitt/projects/2)
 
 Some possible future enhancements are as follows:
-<!-- 
-1.	**AI-Driven Financial Insights:** Integrate advanced generative AI algorithms to provide personalized financial insights and recommendations. Leverage machine learning to analyze spending patterns and offer proactive suggestions for optimizing expenses.
-2.	**Expense Sharing and Splitting:** Enable users to share expenses effortlessly with friends, family, or colleagues. Implement a feature that allows users to split bills and track shared expenses, making group financial management seamless.
-3.	**Cross-Platform Compatibility:** Develop setup scripts specifically for Windows users to ensure a smooth and hassle-free installation process on this platform. Expand DollarBot's accessibility to a broader user base by optimizing its performance on Windows operating systems.
-4.	**LLM Agent Integration:** Integrate more third-party tools to collaborate with the ChatGPT, constructing it into a life assistant agent that retrieves daily activities and billing information from Google Calendar and credit card systems for automatic statistical analysis.
-5.  **Integration with Financial APIs:** Integrate with popular financial APIs to fetch real-time transaction data from bank accounts and credit cards. This enhancement provides users with up-to-the-minute financial information, ensuring accuracy and completeness in their spending records.
-6.  **Multi-Currency Support:** Extend DollarBot's functionality to support multiple currencies, catering to users with diverse financial portfolios. This enhancement ensures accurate tracking and reporting for users dealing with expenses in different currencies.
-7.  **Smart Notifications and Alerts:** Implement intelligent notification features to alert users about budget limits, unusual spending patterns, or upcoming bills. These proactive notifications will empower users to make informed financial decisions in real-time.
-8.  **Secure Cloud Sync and Backup:** Implement a secure cloud sync and backup feature to ensure users' data is protected and accessible across devices. This enhancement provides users with peace of mind, knowing that their financial data is safely stored and can be easily recovered if needed.
--->
+
 1.	**LLM Agent Integration:** Integrate more third-party tools to collaborate with the ChatGPT, constructing it into a life assistant agent that retrieves daily activities and billing information from Google Calendar and credit card systems for automatic statistical analysis.
-2.	**Multi-Currency Support:** Currency DB with Investment Insights: Collect currency trends, provide investment advice based on fluctuations, and integrate NLP for user interaction.
-3.	**Expense Splitting - further:** Integrate group functionalities into other functionalities, for example, edit expenses, delete expenses, send emails to each person, etc.
+2.	**Improved Group Experience:** Integrate group functionalities into other functionalities, for example, edit expenses, delete expenses, etc. Allow users to share group experiences.
+3. **Improved email receipts:** Currently, the system allows for receipts to be sent to group members by email in basic plaintext. Future iterations could include an improved html design and interaction with the client.
 4.	**Cross-Platform Compatibility:** Develop setup scripts specifically for Windows users to ensure a smooth and hassle-free installation process on this platform. Expand DollarBot's accessibility to a broader user base by optimizing its performance on Windows operating systems.
 5.  **Integration with Financial APIs:** Integrate with popular financial APIs to fetch real-time transaction data from bank accounts and credit cards. This enhancement provides users with up-to-the-minute financial information, ensuring accuracy and completeness in their spending records.
 6.  **Smart Notifications and Alerts:** Implement intelligent notification features to alert users about budget limits, unusual spending patterns, or upcoming bills. These proactive notifications will empower users to make informed financial decisions in real-time.
 7.  **Secure Cloud Sync and Backup:** Implement a secure cloud sync and backup feature to ensure users' data is protected and accessible across devices. This enhancement provides users with peace of mind, knowing that their financial data is safely stored and can be easily recovered if needed.
+8. **Enhanced Integration of Google API:** Implement other Google API services in methods such as associating a telegram account with a google account.
+9. **Bank Account Connection:** Allow users to connect their bank accounts to the service to make it easier to work with tracking credit cards and paying off debt.
 
 :heart: Acknowledgements
 ---
@@ -333,4 +322,4 @@ This project is licensed under the terms of the MIT license. Please check [LICEN
 
 # :calling: Support
 
-For any support, email us at `jshen23@ncsu.edu`
+For any support, email us at `jshen23@ncsu.edu` or `secheaper@gmail.com`
