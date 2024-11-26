@@ -41,15 +41,17 @@ HASH_LENGTH = 16
 LETTERS_AND_DIGITS = string.ascii_letters + string.digits
 # === Documentation of add.py ===
 
+
 class Group_Name:
     """ 
     Class to store updates to the individual or group
     that is being worked with
     """
+
     def __init__(self):
         """ initialize the class """
         self.group_name = False
-    
+
     def update_group(self, new_group):
         """ 
         Update the group we are working with
@@ -57,12 +59,15 @@ class Group_Name:
         """
         self.group_name = new_group
 
+
 """ Class for the group """
 user_group = Group_Name()
+
 
 def generate_random_group_expense_hash():
     """ Create a Random Key for Group Expenses """
     return ''.join([random.choice(LETTERS_AND_DIGITS) for _ in range(HASH_LENGTH)])
+
 
 def run(message, bot):
     """
@@ -256,10 +261,10 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
             expense_hash = generate_random_group_expense_hash()
             # Convert amount_value to a float if it isn't already
             expense_record = {
-                "date"      : date_str,
-                "category"  : category_str,
-                "amount"    : amount_value,
-                "hash"      : expense_hash
+                "date": date_str,
+                "category": category_str,
+                "amount": amount_value,
+                "hash": expense_hash
             }
             groups[name_for_group]['expenses'].append(expense_record)
 
@@ -280,10 +285,9 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
             helper.write_json(
                 add_user_record(
                     chat_id, "{},{},{},{},{}".format(
-                        date_str, category_str, str( float(amount_str) / group_size), name_for_group, expense_hash), expense_hash
+                        date_str, category_str, str(float(amount_str) / group_size), name_for_group, expense_hash), expense_hash
                 )
             )
-            
 
         else:  # Individual flow
             helper.write_json(
