@@ -94,9 +94,6 @@ With simple commands, this bot allows you to:
 
 💳 **Credit Card Tracking** Track credit card expenses and due dates!
 
-
-
-
 Are you a developer? <a href="https://github.com/tpanati/DollarBot/blob/main/README.md">Click here: For Developers and Future Contributors</a>
 
 # :rocket: Installation and Setup
