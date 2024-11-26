@@ -108,11 +108,13 @@ def handle_group_check(message, bot):
         markup.row_width = 2
         groups = helper.load_group_data()
         if not groups:
-            bot.message_send("There are currently no groups. Add them with /group")
+            bot.message_send(
+                "There are currently no groups. Add them with /group")
             return
         for key in groups.keys():
             markup.add(key)
-        msg = bot.send_message(chat_id, "Enter the group name:", reply_markup=markup)
+        msg = bot.send_message(
+            chat_id, "Enter the group name:", reply_markup=markup)
         bot.register_next_step_handler(msg, handle_group_name, bot)
     elif choice == "individual":
         user_group.update_group(False)
@@ -303,10 +305,11 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
                 markup.row_width = 2
                 markup.add("Yes")
                 markup.add("No")
-                msg = bot.send_message(chat_id, 
-                                       "Would you like to send an email to each member for this expense?", 
+                msg = bot.send_message(chat_id,
+                                       "Would you like to send an email to each member for this expense?",
                                        reply_markup=markup)
-                bot.register_next_step_handler(msg, handle_group_email, bot, group_emails, per_member_share, name_for_group, split_amount)
+                bot.register_next_step_handler(
+                    msg, handle_group_email, bot, group_emails, per_member_share, name_for_group, split_amount)
             helper.write_json(
                 add_user_record(
                     chat_id, "{},{},{},{},{}".format(
@@ -363,7 +366,7 @@ def handle_group_email(message, bot, group_emails, per_member_share, group_name,
             # The mail addresses and password
             sender_address = os.getenv("EMAIL")
             sender_pass = os.getenv("EMAIL_PASS")
-            
+
             # Setup the MIME
             message = MIMEMultipart()
             message['From'] = sender_address
@@ -388,6 +391,7 @@ def handle_group_email(message, bot, group_emails, per_member_share, group_name,
             bot.send_message(chat_id, "Email was not generated.")
     except Exception:
         bot.send_message(chat_id, "Somethign went wrong")
+
 
 def credit_option(message, bot, record):
     """

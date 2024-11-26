@@ -40,6 +40,7 @@ load_dotenv()
 
 # === Documentation of sendEmail.py ===
 
+
 def run(message, bot):
     """
     run(message, bot): This is the main function used to implement the sendEmail feature.

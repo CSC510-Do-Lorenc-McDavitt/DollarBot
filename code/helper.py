@@ -41,7 +41,8 @@ update_options = {"continue": "Continue", "exit": "Exit"}
 budget_options = {"update": "Add/Update", "view": "View", "delete": "Delete"}
 budget_types = {"overall": "Overall Budget",
                 "category": "Category-Wise Budget"}
-data_format = {"data": [], "budget": {"overall": "0", "category": None}, "groupdata": []}
+data_format = {"data": [], "budget": {
+    "overall": "0", "category": None}, "groupdata": []}
 analytics_options = {"overall": "Overall budget split by Category", "spend": "Split of current month expenditure",
                      "remaining": "Remaining value", "history": "Time series graph of spend history"}
 portfolio_options = {"buy": "Buy a Stock",

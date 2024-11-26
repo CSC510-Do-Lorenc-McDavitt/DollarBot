@@ -32,6 +32,7 @@ import re
 groups = helper.load_group_data()  # Load group data from persistent storage
 group_emails = {}
 
+
 def run(message, bot):
     """
     Main function to handle group-related actions: view, create, or delete a group.
@@ -84,7 +85,9 @@ def handle_group_name(message, bot):
         msg = bot.send_message(
             chat_id, "Do you want to add group member emails to this group?",
             reply_markup=markup)
-        bot.register_next_step_handler(msg, handle_group_email_question, bot, group_name)
+        bot.register_next_step_handler(
+            msg, handle_group_email_question, bot, group_name)
+
 
 def handle_group_email_question(message, bot, group_name):
     """
@@ -93,8 +96,10 @@ def handle_group_email_question(message, bot, group_name):
     """
     chat_id = message.chat.id
     if str(message.text).lower() == "yes":
-        msg = bot.send_message(chat_id, "Please type each email you want to add and submit one at a time. Type done when you are finished.")
-        bot.register_next_step_handler(msg, handle_group_email, bot, group_name)
+        msg = bot.send_message(
+            chat_id, "Please type each email you want to add and submit one at a time. Type done when you are finished.")
+        bot.register_next_step_handler(
+            msg, handle_group_email, bot, group_name)
     else:
         bot.send_message(chat_id, "Skipping the group email process...")
         msg = bot.send_message(
@@ -115,12 +120,16 @@ def handle_group_email(message, bot, group_name):
         return
     if is_valid_email(str(message.text)):
         group_emails[chat_id].append(str(message.text))
-        msg = bot.send_message(chat_id, "Next email please, or type done if you are finished")
-        bot.register_next_step_handler(msg, handle_group_email, bot, group_name)
+        msg = bot.send_message(
+            chat_id, "Next email please, or type done if you are finished")
+        bot.register_next_step_handler(
+            msg, handle_group_email, bot, group_name)
     else:
-        msg = bot.send_message(chat_id, "That is not a valid email, please try again!")
-        bot.register_next_step_handler(msg, handle_group_email, bot, group_name)
-    
+        msg = bot.send_message(
+            chat_id, "That is not a valid email, please try again!")
+        bot.register_next_step_handler(
+            msg, handle_group_email, bot, group_name)
+
 
 def create_group(message, bot, group_name):
     """
@@ -132,7 +141,7 @@ def create_group(message, bot, group_name):
 
         # Create a new group entry with an empty 'expenses' list
         groups[group_name] = {"size": group_size,
-                              "total_spent": 0, "expenses": [], 
+                              "total_spent": 0, "expenses": [],
                               "emails": group_emails[chat_id]}
 
         # Persist the new group data
@@ -155,14 +164,14 @@ def view_all_groups(chat_id, bot):
     Displays all the existing groups.
     """
     if groups:
-        group_list = "\n".join([str(key) + "\n  " + 
-                                ("\n  ".join(groups[key]["emails"]) 
+        group_list = "\n".join([str(key) + "\n  " +
+                                ("\n  ".join(groups[key]["emails"])
                                  if groups[key]["emails"] and
                                  len(groups[key]["emails"]) > 0
                                  else
                                  "No emails"
                                  )
-                                for key in groups.keys()] )
+                                for key in groups.keys()])
         bot.send_message(chat_id, f"Here are all the groups:\n{group_list}")
     else:
         bot.send_message(
