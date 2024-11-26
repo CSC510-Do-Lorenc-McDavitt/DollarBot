@@ -78,13 +78,21 @@ With simple commands, this bot allows you to:
 
 📈 **Predict future expenses:** Predict your next month's budget based on your current expenditure
 
-# :star: What's New?
-
-🤖 **NLP Functionality:** Integrated with the ChatGPT API, allowing the dollarbot to respond to casual conversations based on your private data.
-
 👥 **Group Expense:** Integrated a group functionality, users can create (and delete) groups, and are able to add expenses as either individual costs or group costs. 
 
 💲 **Multi-Currency support:** Implemented a currency exchange functionality to allow users to view their cost in currencies other than USD.
+
+# :star: What's New? 
+
+🤖 **Improved NLP Functionality:** Integrated with the ChatGPT API, allowing the dollarbot to respond to casual conversations based on your private data. Private data was improved based off of user information sent to it directly
+
+💸 **Improved Groups** Group users can now send out an expense email to other users! Split group expenses can be tracked individually.
+
+📈 **Stock Portfolio:** Manage and track stocks through the chatbot!
+
+💰 **Currency Exchange Tracking:** Compare how two currency rates have changed over time in reference to the USD
+
+💳 **Credit Card Tracking** Track credit card expenses and due dates!
 
 Are you a developer? <a href="https://github.com/tpanati/DollarBot/blob/main/README.md">Click here: For Developers and Future Contributors</a>
 
