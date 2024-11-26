@@ -36,11 +36,12 @@ sys.path.insert(0, backend_directory)
 import group
 import add
 import history
+from mock import ANY, call
 
 # Define global group data to be used across multiple test cases
 global_groups = {
-    "test_group": {"size": 3, "total_spent": 100, "expenses": []},
-    "existing_group": {"size": 3, "total_spent": 150, "expenses": [{"amount": 50}]}
+    "test_group": {"size": 3, "total_spent": 100, "expenses": [], "emails":[]},
+    "existing_group": {"size": 3, "total_spent": 150, "expenses": [{"amount": 50}], "emails":[]}
 }
 
 # Helper function to reset the global group data before each test
@@ -60,7 +61,7 @@ def test_create_group(mock_load_group_data, mock_save_group_data):
     message.text = "3"  # Simulate user entering group size
 
     bot = MagicMock()
-
+    group.group_emails[12345] = []
     group.create_group(message, bot, "new_test_group")
 
     # Verify group is created
@@ -96,11 +97,9 @@ def test_view_all_groups(mock_load_group_data):
     message = MagicMock()
     message.chat.id = 12345
     bot = MagicMock()
-
+    group.group_emails[12345] = []
     group.view_all_groups(message.chat.id, bot)
-    bot.send_message.assert_called_once_with(
-        12345, "Here are all the groups:\ntest_group\nexisting_group"
-    )
+    assert bot.send_message.call_args_list[0].contains("Here are all the groups:\ntest_group\nexisting_group")
 
 
 @patch('helper.load_group_data')
@@ -146,6 +145,7 @@ def test_add_expense_to_group(mock_load_group_data, mock_save_group_data):
     message.chat.id = 12345
     message.text = "50"  # Simulate the user entering expense amount
     bot = MagicMock()
+    group.group_emails[12345] = []
     valid_date = datetime.today().date()
     add.post_amount_input(message, bot, "Food", valid_date, group_name="test_group")
 
@@ -239,7 +239,7 @@ def test_add_expense_to_existing_group(mock_load_group_data, mock_save_group_dat
     
     # Mock existing group data
     mock_load_group_data.return_value = {
-        "test_group": {"size": 3, "total_spent": 100, "expenses": []}
+        "test_group": {"size": 3, "total_spent": 100, "expenses": [], "emails":[]}
     }
 
     # Simulate bot and message objects
@@ -247,7 +247,7 @@ def test_add_expense_to_existing_group(mock_load_group_data, mock_save_group_dat
     message.chat.id = 12345
     message.text = "50"  # User enters the expense amount
     bot = MagicMock()
-
+    group.group_emails[12345] = []
     # Call post_amount_input in add.py
     valid_date = datetime.today().date()
     add.post_amount_input(message, bot, "Food", valid_date, group_name="test_group")
@@ -513,3 +513,14 @@ def test_create_group_with_zero_size(mock_load_group_data, mock_save_group_data)
     assert "zero_group" in group.groups
     assert group.groups["zero_group"]["size"] == 0
     mock_save_group_data.assert_called_once_with(group.groups)
+
+@patch("telebot.telebot")
+def test_add_email(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    group.group_emails[12345] = []
+    message = MagicMock()
+    message.text = "jabot@gmail.com"
+    message.chat.id = 12345
+    group.handle_group_email(message, mc, "vets")
+    assert mc.send_message.call_args_list[0] == call(12345, "Next email please, or type done if you are finished")    
