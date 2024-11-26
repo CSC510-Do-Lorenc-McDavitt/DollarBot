@@ -274,7 +274,7 @@ def test_throw_exception(mock_telebot, mocker):
 
 def test_createNewUserRecord():
     data_format_call = helper.createNewUserRecord()
-    data_format = {"data": [], "budget": {"overall": None, "category": None}}
+    data_format = {"data": [], "budget": {"overall": None, "category": None}, "groupdata": []}
     assert sorted(data_format_call) == sorted(data_format)
 
 
