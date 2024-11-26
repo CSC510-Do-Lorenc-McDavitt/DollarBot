@@ -95,7 +95,8 @@ commands = {
     "setup_credit": "Sets up a credit account for the user.",
     "pay_credit": "Pays off certain amount of the credit account the user has. Can be used to adjust what you owe for discrepancies.",
     "clear_credit": "Remove the expenses for an account",
-    "delete_credit": "Remove a credit account"
+    "delete_credit": "Remove a credit account",
+    "setup_credit_calendar": "Add a credit account due date onto your google calendar and make it recurring"
 
 }
 
@@ -172,7 +173,7 @@ def read_portfolio_json():
     read_json(): Function to load .json portfolio data
     """
     try:
-        if not os.path.exists("portfolio.json"):
+        if not os.path.exists("portfolio.json") or os.stat("portfolio.json").st_size == 0:
             with open("portfolio.json", "w", encoding="utf-8") as json_file:
                 json_file.write("{}")
             return json.dumps("{}")
@@ -226,6 +227,36 @@ def write_credit_json(credit_list):
         print("Sorry, the data file could not be found.")
 
 
+def read_oauth_json():
+    """
+    read_oauth_json(): Function to load .json oauth record data
+    """
+    try:
+        if not os.path.exists("oauth_record.json"):
+            with open("oauth_record.json", "w+", encoding="utf-8") as json_file:
+                json_file.write("{}")
+            return {}
+        elif os.stat("oauth_record.json").st_size != 0:
+            with open("oauth_record.json", encoding="utf-8") as oauth_record:
+                oauth_record_data = json.load(oauth_record)
+                return oauth_record_data if oauth_record_data else {}
+            return oauth_record_data
+
+    except FileNotFoundError:
+        print("---------NO OAUTH RECORDS FOUND---------")
+
+
+def write_oauth_json(oauth_record):
+    """
+    write_oauth_json(oauth_record): Stores credit data into the datastore of the bot.
+    """
+    try:
+        with open("oauth_record.json", "w+", encoding="utf-8") as json_file:
+            json.dump(oauth_record, json_file, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        print("Sorry, the data file could not be found.")
+
+
 def validate_entered_amount(amount_entered):
     """
     validate_entered_amount(amount_entered): Takes 1 argument, amount_entered.
@@ -243,6 +274,9 @@ def validate_entered_amount(amount_entered):
 
 
 def validate_entered_duration(duration_entered):
+    """
+    Validates the entered duration from the user to see if its valid
+    """
     if duration_entered is None:
         return 0
     if re.match("^[1-9][0-9]{0,14}", duration_entered):
@@ -290,12 +324,29 @@ def getUserHistory(chat_id):
     getUserHistory(chat_id): Takes 1 argument chat_id and uses this to get the relevant user's historical data.
     """
     data = getUserData(chat_id)
+
     if data is not None:
-        return data["data"]
+        return_data = []
+        return_data += data["data"]
+        group_data = data.get("groupdata", [])
+        if group_data:
+            temp = []
+            for gd in group_data:
+                cols = gd.split(",")
+                temp_str = str(cols[0]) + "," + \
+                    str(cols[1]) + "," + str(cols[2])
+                temp.append(temp_str)
+            group_data = temp
+        return_data += group_data
+        return return_data
     return None
 
 
 def getUserHistoryByCategory(chat_id, category):
+    """
+    Takes 2 arguments chat_id and category and returns 
+    the expenses from a specific category for a given chat id.
+    """
     data = getUserHistory(chat_id)
     previous_expenses = []
     for record in data:
@@ -305,6 +356,9 @@ def getUserHistoryByCategory(chat_id, category):
 
 
 def getUserHistoryByDate(chat_id, date):
+    """
+    Returns the expenses from a specific date for a given chat id
+    """
     data = getUserHistory(chat_id)
     previous_expenses = []
     for record in data:
@@ -314,6 +368,9 @@ def getUserHistoryByDate(chat_id, date):
 
 
 def getUserHistoryDateExpense(chat_id):
+    """
+    Returns the expenses for a user
+    """
     data = getUserHistory(chat_id)
     cat_spend_dict = {}
     for record in data:
@@ -323,6 +380,10 @@ def getUserHistoryDateExpense(chat_id):
 
 
 def getUserData(chat_id):
+    """
+    This function gives all the data related to a 
+    user from the chat_id. Includes budgets and expenses.
+    """
     user_list = read_json()
     if user_list is None:
         return None
@@ -332,19 +393,32 @@ def getUserData(chat_id):
 
 
 def throw_exception(e, message, bot, logging):
+    """
+    Used for error handling in bot code. Throws 
+    exception if any is thrown by another part of code.
+    """
     logging.exception(str(e))
     bot.reply_to(message, "Oh no! " + str(e))
 
 
 def createNewUserRecord():
+    """
+    Creates a new record for a newly registered user
+    """
     return data_format
 
 
 def createNewPortfolioUserRecord():
+    """
+    Creates a new portfolio record for a newly registered user
+    """
     return portfolio_format
 
 
 def getOverallBudget(chatId):
+    """
+    Returns overall budget value for given user
+    """
     data = getUserData(chatId)
     if data is None or data == {}:
         return None
@@ -352,6 +426,9 @@ def getOverallBudget(chatId):
 
 
 def getCategoryBudget(chatId):
+    """
+    Returns category-wise budget split for given user
+    """
     data = getUserData(chatId)
     if data is None:
         return None
@@ -359,6 +436,9 @@ def getCategoryBudget(chatId):
 
 
 def getCategoryBudgetByCategory(chatId, cat):
+    """
+    Returns specific category's budget allocation
+    """
     if not isCategoryBudgetByCategoryAvailable(chatId, cat):
         return None
     data = getCategoryBudget(chatId)
@@ -366,12 +446,18 @@ def getCategoryBudgetByCategory(chatId, cat):
 
 
 def canAddBudget(chatId):
+    """
+    Returns whether a user can add to their budget
+    """
     overall_budget = getOverallBudget(chatId)
     category_budget = getCategoryBudget(chatId)
     return (overall_budget is None and overall_budget != '0') and (category_budget is None and category_budget != {})
 
 
 def isOverallBudgetAvailable(chatId):
+    """
+    Checks whether overall budget is initialized or not
+    """
     overall_budget = getOverallBudget(chatId)
     if overall_budget is not None and overall_budget != '0':
         return True
@@ -379,6 +465,9 @@ def isOverallBudgetAvailable(chatId):
 
 
 def isCategoryBudgetAvailable(chatId):
+    """
+    Checks whether category wise budget is initialized or not
+    """
     category_budget = getCategoryBudget(chatId)
     if category_budget is not None and category_budget != {}:
         return True
@@ -386,6 +475,9 @@ def isCategoryBudgetAvailable(chatId):
 
 
 def isCategoryBudgetByCategoryAvailable(chatId, cat):
+    """
+    Checks whether specified category's budget is initialized or not
+    """
     data = getCategoryBudget(chatId)
     if data is None or data == {} or data == '0':
         return False
@@ -393,6 +485,9 @@ def isCategoryBudgetByCategoryAvailable(chatId, cat):
 
 
 def isCategoryBudgetByCategoryNotZero(chatId):
+    """
+    Checks whether the budget for categories is non-zero
+    """
     for cat in spend_categories:
         if getCategoryBudgetByCategory(chatId, cat) == '0':
             return False
@@ -400,6 +495,9 @@ def isCategoryBudgetByCategoryNotZero(chatId):
 
 
 def get_uncategorized_amount(chatId, amount):
+    """
+    Calculates the portion of the budget that is not assigned to any specific category
+    """
     overall_budget = float(amount)
     category_budget_data = getCategoryBudget(chatId)
     if category_budget_data is None or category_budget_data == {}:
@@ -412,10 +510,16 @@ def get_uncategorized_amount(chatId, amount):
 
 
 def display_remaining_budget(message, bot):
+    """
+    Displays remaining budget
+    """
     display_remaining_overall_budget(message, bot)
 
 
 def display_remaining_overall_budget(message, bot):
+    """
+    Displays overall budget after recorded expenses
+    """
     chat_id = message.chat.id
     remaining_budget = calculateRemainingOverallBudget(chat_id)
     if remaining_budget >= 0:
@@ -429,6 +533,9 @@ def display_remaining_overall_budget(message, bot):
 
 
 def calculateRemainingOverallBudget(chat_id):
+    """
+    Calculate remaining overall budget after recorded expenses
+    """
     budget = getOverallBudget(chat_id)
     history = getUserHistory(chat_id)
     query = datetime.now().today().strftime(getMonthFormat())
@@ -440,6 +547,9 @@ def calculateRemainingOverallBudget(chat_id):
 
 
 def calculate_total_spendings(queryResult):
+    """
+    Calculate total spendings of the user
+    """
     total = 0
     for row in queryResult:
         s = row.split(",")
@@ -448,6 +558,9 @@ def calculate_total_spendings(queryResult):
 
 
 def calculateRemainingCategoryBudget(chat_id, cat):
+    """
+    Calculate remaining category budget after recorded expenses in the specific category
+    """
     budget = getCategoryBudgetByCategory(chat_id, cat)
     history = getUserHistory(chat_id)
     query = datetime.now().today().strftime(getMonthFormat())
@@ -457,6 +570,9 @@ def calculateRemainingCategoryBudget(chat_id, cat):
 
 
 def calculateRemainingCategoryBudgetPercent(chat_id, cat):
+    """
+    Calculate percentage of spent money on a particular category against its budget.
+    """
     budget = getCategoryBudgetByCategory(chat_id, cat)
     history = getUserHistory(chat_id)
     query = datetime.now().today().strftime(getMonthFormat())
@@ -469,6 +585,9 @@ def calculateRemainingCategoryBudgetPercent(chat_id, cat):
 
 
 def calculate_total_spendings_for_category(queryResult, cat):
+    """
+    Calculate total spending of the user within a specific category
+    """
     total = 0
     for row in queryResult:
         s = row.split(",")
@@ -478,27 +597,38 @@ def calculate_total_spendings_for_category(queryResult, cat):
 
 
 def calculate_total_spendings_for_category_chat_id(chat_id, cat):
+    """
+    Calculate total spending of the user within a specific category
+    """
     history = getUserHistory(chat_id)
     query = datetime.now().today().strftime(getMonthFormat())
-    print(query)
     queryResult = [value for _, value in enumerate(
         history) if str(query) in value]
     return calculate_total_spendings_for_category(queryResult, cat)
 
 
 def updateBudgetCategory(chatId, category):
+    """
+    Initializes the specific budget category
+    """
     user_list = read_json()
     user_list[str(chatId)]["budget"]["category"][category] = str(0)
     write_json(user_list)
 
 
 def deleteBudgetCategory(chatId, category):
+    """
+    Deletes the specified budget category
+    """
     user_list = read_json()
     user_list[str(chatId)]["budget"]["category"].pop(category, None)
     write_json(user_list)
 
 
 def getAvailableCategories(history):
+    """
+    Get available categories from history data
+    """
     available_categories = set()
     for record in history:
         available_categories.add(record.split(',')[1])
@@ -506,6 +636,9 @@ def getAvailableCategories(history):
 
 
 def getCategoryWiseSpendings(available_categories, history):
+    """
+    Get category wise spending details
+    """
     category_wise_history = {}
     for cat in available_categories:
         for record in history:
@@ -518,6 +651,10 @@ def getCategoryWiseSpendings(available_categories, history):
 
 
 def getFormattedPredictions(category_predictions):
+    """
+    Format predictions into readable format from dictionary into 
+    string in order to send message to the user.
+    """
     category_budgets = ""
     for key, value in category_predictions.items():
         if type(value) == float:
@@ -545,6 +682,9 @@ def getSpendCategories():
 
 
 def deleteSpendCategories(category):
+    """
+    Deletes the spending category
+    """
     category_list = read_category_json()
     if category_list is None:
         return None
@@ -557,6 +697,9 @@ def deleteSpendCategories(category):
 
 
 def addSpendCategories(category):
+    """
+    Adds a spending category
+    """
     category_list = read_category_json()
     if category_list is None:
         return None
@@ -577,6 +720,9 @@ def getSpendDisplayOptions():
 
 
 def getSpendEstimateOptions():
+    """
+    Gets spend estimate options
+    """
     return spend_estimate_option
 
 
@@ -609,35 +755,63 @@ def getMonthFormat():
 
 
 def getChoices():
+    """
+    Gets choices
+    """
     return choices
 
 
 def getBudgetOptions():
+    """
+    This function returns the budget options used by the bot. 
+    These are defined in the same file.
+    """
     return budget_options
 
 
 def getBudgetTypes():
+    """
+    This function returns the types of budgets that can be set up by users. 
+    These are defined in the same file.
+    """
     return budget_types
 
 
 def getUpdateOptions():
+    """
+    This function returns the update options used by the bot. 
+    These are defined in the same file.
+    """
     return update_options
 
 
 def getAnalyticsOptions():
+    """
+    This function returns the analytics options used by the bot. 
+    These are defined in the same file.
+    """
     return analytics_options
 
 
 def getPortfolioOptions():
+    """
+    This function returns the options for working with your portfolio.
+    """
     return portfolio_options
 
 
 def save_group_data(groups):
+    """
+    Saves group data
+    """
     with open("groups.json", "w") as file:
         json.dump(groups, file, indent=4)
 
 
 def load_group_data():
+    """
+    Loads group data
+    """
     try:
         with open("groups.json", "r") as file:
             return json.load(file)

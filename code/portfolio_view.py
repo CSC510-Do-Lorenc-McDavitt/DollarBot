@@ -1,3 +1,9 @@
+"""
+File: portfolio_view.py
+Author: Nathan Lorenc
+Date: November 22, 2024
+Description: File contains functionality for viewing one's portfolio.
+"""
 import helper
 import yfinance as yf
 from tabulate import tabulate

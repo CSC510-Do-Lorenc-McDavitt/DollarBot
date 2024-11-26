@@ -25,12 +25,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import os
 import requests
 import datetime
+from dotenv import load_dotenv
 from pandas_datareader import data
 
+load_dotenv()
+
 API_URL = "https://v6.exchangerate-api.com/v6"
-API_KEY = "6b3e6f09c28d0a24ba44ac29"
+API_KEY = os.getenv("CURRENCY_API")
 
 """
 Exchange codes for historical data from: 

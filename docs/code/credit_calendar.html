@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>code.currency API documentation</title>
-<meta name="description" content="File: currency.py
-Author: Jiewen Liu
-Date: October, 2024
-Description: File contains Telegram bot message handlers and their associated functions …">
+<title>code.credit_calendar API documentation</title>
+<meta name="description" content="File: credit_calendar.py
+Author: Thien Do
+Date: November 22, 2024
+Description: File contains functionality for setting
+up a calendar event for credit …">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -25,77 +26,41 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>code.currency</code></h1>
+<h1 class="title">Module <code>code.credit_calendar</code></h1>
 </header>
 <section id="section-intro">
-<p>File: currency.py
-Author: Jiewen Liu
-Date: October, 2024
-Description: File contains Telegram bot message handlers and their associated functions.</p>
-<p>Copyright (c) 2023</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</p>
+<p>File: credit_calendar.py
+Author: Thien Do
+Date: November 22, 2024
+Description: File contains functionality for setting
+up a calendar event for credit card payment due dates.</p>
 </section>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-variables">Global variables</h2>
-<dl>
-<dt id="code.currency.API_KEY"><code class="name">var <span class="ident">API_KEY</span></code></dt>
-<dd>
-<div class="desc"><p>Exchange codes for historical data from:
-<a href="https://fred.stlouisfed.org/categories/95">https://fred.stlouisfed.org/categories/95</a>
-Here we are looking for currencies they provide
-that convert into USD</p></div>
-</dd>
-</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="code.currency.get_conversion_rate"><code class="name flex">
-<span>def <span class="ident">get_conversion_rate</span></span>(<span>base_currency, target_currency)</span>
+<dt id="code.credit_calendar.handle_account_name"><code class="name flex">
+<span>def <span class="ident">handle_account_name</span></span>(<span>message, bot)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Fetches the conversion rate from base_currency to target_currency.</p>
-<p>:param base_currency: The currency code you want to convert from (e.g., 'USD')
-:param target_currency: The currency code you want to convert to (e.g., 'EUR')
-:return: The conversion rate or None if the API call fails</p></div>
+<div class="desc"><p>Handles the input of the group name for setting up a due date for a credit account</p></div>
 </dd>
-<dt id="code.currency.get_historical_trend"><code class="name flex">
-<span>def <span class="ident">get_historical_trend</span></span>(<span>base_currency, years=5, test_end=None)</span>
+<dt id="code.credit_calendar.handle_oauth"><code class="name flex">
+<span>def <span class="ident">handle_oauth</span></span>(<span>message, bot)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Fetches the historical data from a specific currency types
-conversion rate compared to the USD</p>
-<p>:param base_currency: The currency code you want to get data
-:return: List of values over the past 10 years</p></div>
+<div class="desc"><p>Handles the using of the oauth token of the group name
+for setting up a due date for a credit account</p></div>
 </dd>
-<dt id="code.currency.get_supported_currencies"><code class="name flex">
-<span>def <span class="ident">get_supported_currencies</span></span>(<span>)</span>
+<dt id="code.credit_calendar.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>message, bot)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Fetches all the supported currencies from ExchangeRate-API.</p>
-<p>:return: A list of supported currency codes or None if the API call fails.</p></div>
-</dd>
-<dt id="code.currency.get_supported_historical_currencies"><code class="name flex">
-<span>def <span class="ident">get_supported_historical_currencies</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the list of currencies supported for historical trends</p></div>
+<div class="desc"><p>run(message, bot): This is the main function used to implement the calendar
+due date credit feature</p></div>
 </dd>
 </dl>
 </section>
@@ -112,17 +77,11 @@ conversion rate compared to the USD</p>
 <li><code><a title="code" href="index.html">code</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-variables">Global variables</a></h3>
-<ul class="">
-<li><code><a title="code.currency.API_KEY" href="#code.currency.API_KEY">API_KEY</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="code.currency.get_conversion_rate" href="#code.currency.get_conversion_rate">get_conversion_rate</a></code></li>
-<li><code><a title="code.currency.get_historical_trend" href="#code.currency.get_historical_trend">get_historical_trend</a></code></li>
-<li><code><a title="code.currency.get_supported_currencies" href="#code.currency.get_supported_currencies">get_supported_currencies</a></code></li>
-<li><code><a title="code.currency.get_supported_historical_currencies" href="#code.currency.get_supported_historical_currencies">get_supported_historical_currencies</a></code></li>
+<li><code><a title="code.credit_calendar.handle_account_name" href="#code.credit_calendar.handle_account_name">handle_account_name</a></code></li>
+<li><code><a title="code.credit_calendar.handle_oauth" href="#code.credit_calendar.handle_oauth">handle_oauth</a></code></li>
+<li><code><a title="code.credit_calendar.run" href="#code.credit_calendar.run">run</a></code></li>
 </ul>
 </li>
 </ul>

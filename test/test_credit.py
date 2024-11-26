@@ -7,6 +7,7 @@ import credit_delete
 import credit_pay
 import credit_view
 import credit_setup
+import credit_calendar
 
 from mock import ANY, call
 from datetime import datetime
@@ -52,7 +53,7 @@ def test_view_credit(mock_telebot, mocker):
     message = create_message("sample")
     message.chat.id = 12345
     credit_view.run(message, mc)
-    assert mc.send_message.call_args_list[0] == call(12345, "Showing Accounts and Credit Expenses:\n------------------------------------------------------\naccount 1\n  Expenses\n    21-Aug-2024,Food,200.0\n    17-Nov-2024,Food,10.0\n    17-Dec-2024,Food,10.0\n    17-Jan-2025,Food,10.0\n    17-Feb-2025,Food,10.0\n    17-Mar-2025,Food,10.0\n    16-Jul-2024,Groceries,40.0\n  Monthly Due Date: 5\n  Currently Owing: 900.0\n  No calendar currently set up\n------------------------------------------------------")
+    assert mc.send_message.call_args_list[0] == call(12345, "Showing Accounts and Credit Expenses:\n------------------------------------------------------\naccount 1\n  Expenses\n    21-Aug-2024,Food,200.0\n    17-Nov-2024,Food,10.0\n    17-Dec-2024,Food,10.0\n    17-Jan-2025,Food,10.0\n    17-Feb-2025,Food,10.0\n    17-Mar-2025,Food,10.0\n    16-Jul-2024,Groceries,40.0\n  Monthly Due Date: 5\n  Currently Owing: $900.00\n  No calendar currently set up\n------------------------------------------------------")
 
 @patch("telebot.telebot")
 def test_view_credit_no_records(mock_telebot, mocker):
@@ -232,7 +233,38 @@ def test_clear_credit(mock_telebot, mocker):
     message.text = "account 1"
     message.chat.id = 12345
     credit_clear.handle_account_name(message, mc)
-    assert mc.send_message.call_args_list[0] == call(12345, "Account expenses cleared!")    
+    assert mc.send_message.call_args_list[0] == call(12345, "Account expenses cleared!")
+
+@patch("telebot.telebot")
+def test_credit_calendar_no_account_name(mock_telebot, mocker):
+    setUp()
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(credit_calendar, "helper")
+    credit_calendar.helper.read_credit_json.return_value = sample_data
+    credit_calendar.helper.read_oauth_json.return_value = {}
+    message = create_message("sample")
+    message.text = "Done"
+    message.chat.id = 12345
+    credit_calendar.handle_oauth(message, mc)
+    assert mc.send_message.call_args_list[0] == call(12345, "Sorry, something went wrong. Try again later!") 
+
+
+@patch("telebot.telebot")
+def test_credit_calendar_no_oauth(mock_telebot, mocker):
+    setUp()
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(credit_calendar, "helper")
+    credit_calendar.helper.read_credit_json.return_value = sample_data
+    credit_calendar.helper.read_oauth_json.return_value = {}
+    credit_calendar.account_names = {12345:"account 1"}
+    message = create_message("sample")
+    message.text = "Done"
+    message.chat.id = 12345
+    credit_calendar.handle_oauth(message, mc)
+    assert mc.send_message.call_args_list[0] == call(12345, "Your oauth2 token was not generated properly!") 
+
 
 def create_message(text):
     params = {"messagebody": text}

@@ -1,3 +1,10 @@
+"""
+File: credit_view.py
+Author: Thien Do
+Date: November 22, 2024
+Description: File contains functionality for viewing 
+credit accounts.
+"""
 import helper
 
 # === Documentation of credit_view.py ===

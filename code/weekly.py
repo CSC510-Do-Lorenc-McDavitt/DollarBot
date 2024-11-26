@@ -57,6 +57,9 @@ def run(message, bot):
 
 
 def create_chart_for_weekly_analysis(user_history, userid):
+    """
+    Creates a chart for weekly analysis for the user's expenses
+    """
     result = []
 
     user_history_split = [item.split(',') for item in user_history]

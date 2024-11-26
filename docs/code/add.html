@@ -69,6 +69,20 @@ SOFTWARE.</p>
 <div class="desc"><p>Handles the selection of expense categories for both individuals and groups.
 If group_name is None, it's an individual expense.</p></div>
 </dd>
+<dt id="code.add.credit_name_input"><code class="name flex">
+<span>def <span class="ident">credit_name_input</span></span>(<span>message, bot, record)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This function handles putting the expense
+under the credit account depending on the name.</p></div>
+</dd>
+<dt id="code.add.credit_option"><code class="name flex">
+<span>def <span class="ident">credit_option</span></span>(<span>message, bot, record)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This function handles if the user wants to put the
+expense under their credit account to track it</p></div>
+</dd>
 <dt id="code.add.handle_group_check"><code class="name flex">
 <span>def <span class="ident">handle_group_check</span></span>(<span>message, bot)</span>
 </code></dt>
@@ -122,6 +136,8 @@ It prompts the user to decide whether to add the expense to a group or a categor
 <ul class="">
 <li><code><a title="code.add.add_user_record" href="#code.add.add_user_record">add_user_record</a></code></li>
 <li><code><a title="code.add.category_selection" href="#code.add.category_selection">category_selection</a></code></li>
+<li><code><a title="code.add.credit_name_input" href="#code.add.credit_name_input">credit_name_input</a></code></li>
+<li><code><a title="code.add.credit_option" href="#code.add.credit_option">credit_option</a></code></li>
 <li><code><a title="code.add.handle_group_check" href="#code.add.handle_group_check">handle_group_check</a></code></li>
 <li><code><a title="code.add.handle_group_name" href="#code.add.handle_group_name">handle_group_name</a></code></li>
 <li><code><a title="code.add.post_amount_input" href="#code.add.post_amount_input">post_amount_input</a></code></li>

@@ -56,12 +56,20 @@ import credit_setup
 import credit_pay
 import credit_clear
 import credit_delete
-from datetime import datetime
+import credit_calendar
+import threading
+import requests
+from datetime import datetime, timedelta
 from jproperties import Properties
 from currency import get_supported_currencies, get_supported_historical_currencies, get_conversion_rate, get_historical_trend
 from telebot import types
 from tabulate import tabulate
 from history import run as history_run
+from flask import Flask, jsonify, request
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 configs = Properties()
@@ -77,6 +85,8 @@ telebot.logger.setLevel(logging.INFO)
 
 option = {}
 user_list = {}
+
+app = Flask(__name__)
 
 # === Documentation of code.py ===
 
@@ -142,7 +152,10 @@ def show_help(m):
 
 @bot.message_handler(commands=["faq"])
 def faq(m):
-
+    """
+    Prints out the frequently asked questions for users to understand some common doubts. 
+    Commands used to run this: command=['faq']
+    """
     helper.read_json()
     chat_id = m.chat.id
 
@@ -413,9 +426,25 @@ def command_delete_credit(message):
     credit_delete.run(message, bot)
 
 
+@bot.message_handler(commands=["setup_credit_calendar"])
+def command_setup_credit_calendar(message):
+    """
+    command_setup_credit_calendar(message): Takes 1 argument message which contains the message from the user
+    along with the chat ID of the user chat. It then calls creddit_calendar.py to run to add a due date
+    to a credit account for a users google calendar
+    Commands used to run this: commands=['setup_credit_calendar']
+    """
+    credit_calendar.run(message, bot)
+
+
 # handles budget command
 @bot.message_handler(commands=["budget"])
 def command_budget(message):
+    """
+    Takes 1 argument message which contains the message from the user 
+    along with the chat ID of the user chat. It then calls budget.py to 
+    execute the budget functionality. Commands used to run this: command=['budget']
+    """
     budget.run(message, bot)
 
 # handles analytics command
@@ -705,17 +734,83 @@ def perform_currency_conversion(message):
         bot.send_message(chat_id, "An error occurred. Please try again.")
 
 
+@app.route('/')
+def home():
+    """
+    The default message for the flask development server
+    """
+    return 'Flask is running!'
+
+
+@app.route('/oauth2callback')
+def oauth2callback():
+    """
+    Route for setting up the oauth token. Downloads it into
+    oauth_record.json
+    """
+    # Extract the authorization code and chat_id
+    try:
+        auth_code = request.args.get('code')
+        chat_id = request.args.get('state')
+        CLIENT_ID = os.getenv("CLIENT_ID", "")
+        CLIENT_SECRET = os.getenv("CLIENT_SECRET", "")
+        # Exchange the authorization code for an access token
+        token_url = "https://oauth2.googleapis.com/token"
+        token_data = {
+            'code': auth_code,
+            'client_id': CLIENT_ID,
+            'client_secret': CLIENT_SECRET,
+            'grant_type': 'authorization_code',
+            'redirect_uri': 'http://localhost:5000/oauth2callback'
+        }
+        token_response = requests.post(token_url, data=token_data)
+        token_info = token_response.json()
+        oauth_record = helper.read_oauth_json()
+        oauth_record[chat_id] = {}
+        oauth_record[chat_id]["access_token"] = token_info['access_token']
+        expiration_time = datetime.utcnow(
+        ) + timedelta(seconds=token_info['expires_in'])
+        oauth_record[chat_id]["expires"] = expiration_time.timestamp()
+        helper.write_oauth_json(oauth_record)
+        return jsonify({"message": "Successfully created your token, please return to the app."}), 200
+    except Exception as e:
+        logging.exception(str(e))
+        return jsonify({"message": "something went wrong, try again later."}), 400
+
+
+def run_flask():
+    """
+    Runs the flask application for handling oauth and calendar setup.
+    This allows for future implementations of google api items.
+    This process is on an alternate thread
+    """
+    app.run(debug=False, use_reloader=False, threaded=True)
+
+
+shutdown_event = threading.Event()
+
+
 def main():
     """
     main() The entire bot's execution begins here. It ensure the bot variable begins
-    polling and actively listening for requests from telegram.
+    polling and actively listening for requests from telegram. It also sets up a 
+    flask server for the oauth
     """
     try:
+        flask_thread = threading.Thread(target=run_flask, daemon=True)
+        flask_thread.start()
         bot.polling(none_stop=True)
+    except KeyboardInterrupt:
+        logging.info("Shutdown requested. Stopping threads...")
+        shutdown_event.set()
     except Exception as e:
         logging.exception(str(e))
         time.sleep(3)
         print("Connection Timeout")
+    finally:
+        # Ensure Flask thread stops when the bot exits
+        flask_thread.join(timeout=1)
+        logging.info("Flask app stopped.")
 
 
 if __name__ == "__main__":

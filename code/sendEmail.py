@@ -66,6 +66,9 @@ def run(message, bot):
 
 
 def acceptEmailId(message, bot):
+    """
+    This function sends an email to the provided email address
+    """
     email = message.text
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     if (re.fullmatch(regex, email)):

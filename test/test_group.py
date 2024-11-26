@@ -251,6 +251,7 @@ def test_add_expense_to_existing_group(mock_load_group_data, mock_save_group_dat
     # Call post_amount_input in add.py
     valid_date = datetime.today().date()
     add.post_amount_input(message, bot, "Food", valid_date, group_name="test_group")
+    
 
     # Verify that the expense was added and total spent updated
     assert group.groups["test_group"]["total_spent"] == 150, "Total spent should be updated to 150"

@@ -24,7 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
+import random
+import string
 import helper
 import logging
 from telebot import types
@@ -40,7 +41,39 @@ import os
 load_dotenv()
 option = {}
 
+""" Length the Hash should be for group expenses """
+HASH_LENGTH = 16
+
+""" Collection of all ASCII letters and numbers """
+LETTERS_AND_DIGITS = string.ascii_letters + string.digits
 # === Documentation of add.py ===
+
+
+class Group_Name:
+    """ 
+    Class to store updates to the individual or group
+    that is being worked with
+    """
+
+    def __init__(self):
+        """ initialize the class """
+        self.group_name = False
+
+    def update_group(self, new_group):
+        """ 
+        Update the group we are working with
+        (False) = individual
+        """
+        self.group_name = new_group
+
+
+""" Class for the group """
+user_group = Group_Name()
+
+
+def generate_random_group_expense_hash():
+    """ Create a Random Key for Group Expenses """
+    return ''.join([random.choice(LETTERS_AND_DIGITS) for _ in range(HASH_LENGTH)])
 
 
 def run(message, bot):
@@ -82,6 +115,7 @@ def handle_group_check(message, bot):
         msg = bot.send_message(chat_id, "Enter the group name:", reply_markup=markup)
         bot.register_next_step_handler(msg, handle_group_name, bot)
     elif choice == "individual":
+        user_group.update_group(False)
         msg = bot.send_message(chat_id, "Select date")
         calendar, step = DetailedTelegramCalendar().build()
         bot.send_message(
@@ -106,7 +140,7 @@ def handle_group_check(message, bot):
                         chat_id, "Cannot select future dates. Please try /add command again with correct dates.")
                 else:
                     # group_name=None means individual flow
-                    category_selection(message, bot, result, group_name=None)
+                    category_selection(message, bot, result)
     else:
         bot.send_message(
             chat_id, "Invalid choice. Please choose from the buttons.")
@@ -119,6 +153,7 @@ def handle_group_name(message, bot):
     """
     chat_id = message.chat.id
     group_name = message.text
+    user_group.update_group(message.text)
 
     groups = helper.load_group_data()
 
@@ -205,7 +240,7 @@ def post_category_selection(message, bot, date, group_name=None):
                 str(option[chat_id]['category'])),
         )
         bot.register_next_step_handler(
-            msg, post_amount_input, bot, selected_category, date, group_name)
+            msg, post_amount_input, bot, selected_category, date)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, "Oh no! " + str(e))
@@ -216,6 +251,8 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
     Handles the input of the expense amount and stores it.
     Works for both individual and group expenses.
     """
+    name_for_group = group_name if group_name else user_group.group_name
+    print(name_for_group)
     try:
         chat_id = message.chat.id
         amount_entered = message.text
@@ -234,27 +271,31 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
             str(amount_value),
         )
 
-        if group_name:  # Group flow
+        if name_for_group:  # Group flow
             groups = helper.load_group_data()
-
+            expense_hash = generate_random_group_expense_hash()
             # Convert amount_value to a float if it isn't already
-            expense_record = {"date": date_str,
-                              "category": category_str, "amount": amount_value}
-            groups[group_name]['expenses'].append(expense_record)
+            expense_record = {
+                "date": date_str,
+                "category": category_str,
+                "amount": amount_value,
+                "hash": expense_hash
+            }
+            groups[name_for_group]['expenses'].append(expense_record)
 
             # Make sure 'total_spent' is a float to allow addition
-            groups[group_name]['total_spent'] += amount_value
+            groups[name_for_group]['total_spent'] += amount_value
 
             # Calculate the per-member share
-            group_size = groups[group_name]['size']
-            per_member_share = groups[group_name]['total_spent'] / group_size
+            group_size = groups[name_for_group]['size']
+            per_member_share = groups[name_for_group]['total_spent'] / group_size
             split_amount = amount_value / group_size
-            group_emails = groups[group_name]["emails"]
+            group_emails = groups[name_for_group]["emails"]
             # Persist the updated group data
             helper.save_group_data(groups)
 
             bot.send_message(
-                chat_id, f"Expense of ${amount_value} for '{category_str}' added to group '{group_name}' on {date_str}.")
+                chat_id, f"Expense of ${amount_value} for '{category_str}' added to group '{name_for_group}' on {date_str}.")
             bot.send_message(
                 chat_id, f"Each member now owes: ${per_member_share:.2f}")
             if group_emails and len(group_emails) > 0:
@@ -265,7 +306,13 @@ def post_amount_input(message, bot, selected_category, date, group_name=None):
                 msg = bot.send_message(chat_id, 
                                        "Would you like to send an email to each member for this expense?", 
                                        reply_markup=markup)
-                bot.register_next_step_handler(msg, handle_group_email, bot, group_emails, per_member_share, group_name, split_amount)
+                bot.register_next_step_handler(msg, handle_group_email, bot, group_emails, per_member_share, name_for_group, split_amount)
+            helper.write_json(
+                add_user_record(
+                    chat_id, "{},{},{},{},{}".format(
+                        date_str, category_str, str(float(amount_str) / group_size), name_for_group, expense_hash), expense_hash
+                )
+            )
 
         else:  # Individual flow
             helper.write_json(
@@ -412,7 +459,7 @@ def credit_name_input(message, bot, record):
         bot.send_message(chat_id, "Oh no. " + str(e))
 
 
-def add_user_record(chat_id, record_to_be_added):
+def add_user_record(chat_id, record_to_be_added, grouphash=None):
     """
     Stores the expense record for the user.
     """
@@ -423,5 +470,10 @@ def add_user_record(chat_id, record_to_be_added):
     if str(chat_id) not in user_list:
         user_list[str(chat_id)] = helper.createNewUserRecord()
 
-    user_list[str(chat_id)]["data"].append(record_to_be_added)
+    if not grouphash:
+        user_list[str(chat_id)]["data"].append(record_to_be_added)
+    else:
+        if not user_list[str(chat_id)].get("groupdata", None):
+            user_list[str(chat_id)]["groupdata"] = []
+        user_list[str(chat_id)]["groupdata"].append(record_to_be_added)
     return user_list
