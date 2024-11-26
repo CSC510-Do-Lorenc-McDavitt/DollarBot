@@ -277,6 +277,31 @@ Here are some other features about currency:
 
 3. /currencycalculator: Guides users through a step-by-step currency conversion process, allowing selection of base and target currencies.
 
+## Portfolio
+You can now buy/sell stocks and view your portfolio by using the `/portfolio` command
+
+## Historical Trends
+Guides users to select two types of currency and shows a comparative historical trend between the two using the `/historicaltrends` command
+
+## Viewing Credit Accounts
+Lists the credit accounts the user has with corresponding expenses and due dates with `/view_credit`
+
+## Setting up a Credit Account
+Sets up a credit account for the user using `/setup_credit`
+
+## Pay off your Credit Account
+Pays off certain amount of the credit account the user has. Can be used to adjust what you owe for discrepancies using `/pay_credit`
+
+## Clear Expenses off of your Credit Account
+Remove the expenses for an account using `/clear_credit`
+
+## Delete a Credit Account
+Remove a credit account using `/delete_credit`
+
+## Setup Recurring Due Dates for a Credit Account
+Add a credit account due date onto your google calendar and make it recurring with `/setup_credit_calendar`
+    "delete_credit": "Remove a credit account",
+    "setup_credit_calendar": "Add a credit account due date onto your google calendar and make it recurring"
 
 
 
